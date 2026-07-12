@@ -965,13 +965,13 @@
             document.getElementById('submitBtn').textContent = t.btnSubmit;
             document.getElementById('langRu').classList.toggle('active', lang === 'ru');
             document.getElementById('langEn').classList.toggle('active', lang === 'en');
-            // Обновляем текст выбранных звёзд при смене языка
             updateRatingDisplay(selectedRating);
         }
 
         document.getElementById('langRu').addEventListener('click', () => setLanguage('ru'));
         document.getElementById('langEn').addEventListener('click', () => setLanguage('en'));
 
+        // ===== ЗВЁЗДЫ — ПРАВИЛЬНАЯ ЛОГИКА =====
         const starsContainer = document.getElementById('starsContainer');
         const starElements = starsContainer.querySelectorAll('.star');
         let selectedRating = 0;
@@ -980,17 +980,33 @@
             star.addEventListener('click', function() {
                 const value = parseInt(this.dataset.value);
                 selectedRating = value;
-                starElements.forEach(s => { s.classList.toggle('active', parseInt(s.dataset.value) <= value); });
+                starElements.forEach(s => {
+                    const val = parseInt(s.dataset.value);
+                    if (val <= value) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
                 updateRatingDisplay(value);
             });
+
             star.addEventListener('mouseenter', function() {
                 const value = parseInt(this.dataset.value);
-                starElements.forEach(s => { s.style.color = parseInt(s.dataset.value) <= value ? '#fbbf24' :
-                        'rgba(255,255,255,0.06)'; });
+                starElements.forEach(s => {
+                    const val = parseInt(s.dataset.value);
+                    s.style.color = val <= value ? '#fbbf24' : 'rgba(255,255,255,0.06)';
+                });
             });
+
             star.addEventListener('mouseleave', function() {
-                starElements.forEach(s => { s.style.color = s.classList.contains('active') ? '#fbbf24' :
-                        'rgba(255,255,255,0.06)'; });
+                starElements.forEach(s => {
+                    if (s.classList.contains('active')) {
+                        s.style.color = '#fbbf24';
+                    } else {
+                        s.style.color = 'rgba(255,255,255,0.06)';
+                    }
+                });
             });
         });
 
