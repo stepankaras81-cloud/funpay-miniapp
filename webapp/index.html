@@ -343,27 +343,49 @@
             'Homemade Cake', 'Liberty Figure', 'Swag Bag', 'Big Year'
         ];
 
-        // ===== КОРОТКИЕ ОТЗЫВЫ (85%) =====
+        // ===== КОРОТКИЕ ОТЗЫВЫ (1-2 слова) - 50% =====
         const SHORT_TEXTS = [
-            'норм все быстро', 'четка', 'быстрооо', 'top', 'fast',
-            '10/10', 'советую', 'помогли все вывели', '5', 'кайфы',
-            'топчик', 'крутак', 'имбуличка', 'лучшие', 'ИМБА',
-            '<3', 'хорошо', 'отлично', 'супер', 'круто',
-            'норм', 'ок', '+rep', '+реп', 'топ'
+            'норм', 'топ', 'быстро', '10/10', 'советую',
+            'fast', 'кайфы', 'топчик', 'крутак', 'имбуличка',
+            'лучшие', 'ИМБА', '<3', 'хорошо', 'отлично',
+            'супер', 'круто', 'ок', '+rep', '+реп',
+            'всё ок', 'четко', 'быстрооо', 'респект'
         ];
 
-        // ===== БОЛЬШИЕ ОТЗЫВЫ (15%) =====
+        // ===== СРЕДНИЕ/ДЛИННЫЕ ОТЗЫВЫ (все УНИКАЛЬНЫЕ) =====
         const LONG_TEXTS = [
-            'все прошло хорошо, советую',
+            'продавец оплатил, я передал подарок менеджеру, деньги пришли',
+            'все прошло хорошо',
             'быстро и качественно, спасибо',
             'помогли вывести деньги, все четко',
-            'лучший сервис, рекомендую всем',
+            'лучший сервис',
             'быстро закрыли, доволен',
             'все супер, буду еще пользоваться',
-            'отличный сервис, всем советую',
+            'отличный сервис',
             'сначала переживал, но все прошло отлично',
             'крутой бот, все четко работает',
-            'рекомендую, проверено временем'
+            'проверено временем',
+            'оплатил без вопросов, передал подарок, деньги пришли',
+            'продавец зашёл, оплатил, я передал, всё ок',
+            'доволен сделкой, все прошло гладко',
+            'быстро, надежно, спасибо менеджеру',
+            'все честно, оплата пришла',
+            'сначала думал скам, но все четко',
+            'продавец супер, все четко',
+            'оплата на карту пришла быстро',
+            'доволен, буду еще брать',
+            'лучший маркет',
+            'сделка чистая, рекамендую',
+            'зашли, оплатили, передали, деньги на карте',
+            'всё четко, без кидка',
+            'рекомендую всем',
+            'отличная сделка',
+            'всё прошло супер',
+            'быстро и надежно',
+            'спасибо за сделку',
+            'все ок, рекомендую',
+            'качественный сервис',
+            'все понравилось'
         ];
 
         // ===== ГЕНЕРАЦИЯ УНИКАЛЬНЫХ ОТЗЫВОВ =====
@@ -371,17 +393,20 @@
             const reviews = [];
             const usedCombos = new Set();
             
-            for (let i = 0; i < UNIQUE_NICKS.length; i++) {
-                const nick = UNIQUE_NICKS[i];
+            // Перемешиваем ники для разнообразия
+            const shuffledNicks = [...UNIQUE_NICKS].sort(() => 0.5 - Math.random());
+            
+            for (let i = 0; i < shuffledNicks.length; i++) {
+                const nick = shuffledNicks[i];
                 const giftIndex = i % GIFTS.length;
                 const gift = GIFTS[giftIndex];
                 
-                // Выбираем текст: 85% короткий, 15% длинный
+                // 50% коротких, 50% длинных
                 let text;
-                if (i % 10 === 0 && i > 0) { // примерно 1 из 10 длинный
-                    text = LONG_TEXTS[i % LONG_TEXTS.length];
-                } else {
+                if (i % 2 === 0) {
                     text = SHORT_TEXTS[i % SHORT_TEXTS.length];
+                } else {
+                    text = LONG_TEXTS[i % LONG_TEXTS.length];
                 }
                 
                 const key = `${nick}|${gift}|${text}`;
@@ -405,15 +430,16 @@
             }
             
             // Добираем до 1200+ уникальных отзывов
+            let counter = 0;
             while (reviews.length < 1200) {
-                const nick = UNIQUE_NICKS[reviews.length % UNIQUE_NICKS.length] + '_' + reviews.length;
-                const gift = GIFTS[reviews.length % GIFTS.length];
+                const nick = UNIQUE_NICKS[counter % UNIQUE_NICKS.length] + '_' + counter;
+                const gift = GIFTS[counter % GIFTS.length];
                 
                 let text;
-                if (reviews.length % 10 === 0) {
-                    text = LONG_TEXTS[reviews.length % LONG_TEXTS.length];
+                if (counter % 2 === 0) {
+                    text = SHORT_TEXTS[counter % SHORT_TEXTS.length];
                 } else {
-                    text = SHORT_TEXTS[reviews.length % SHORT_TEXTS.length];
+                    text = LONG_TEXTS[counter % LONG_TEXTS.length];
                 }
                 
                 const key = `${nick}|${gift}|${text}`;
@@ -433,6 +459,7 @@
                         rating: rating
                     });
                 }
+                counter++;
             }
             
             return reviews;
@@ -634,7 +661,7 @@
         // ===== ЗАПУСК =====
         totalDisplay.textContent = TOTAL_REVIEWS;
         renderPage(0);
-        console.log('FunPay WebApp loaded!');
+        console.log('FunPay WebApp loaded! Unique reviews: ' + allReviews.length);
     </script>
 </body>
 </html>
