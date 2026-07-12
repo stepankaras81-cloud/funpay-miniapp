@@ -293,7 +293,6 @@
 
         // ===== СПИСКИ ПОДАРКОВ (БЕЗ Durov's Cap, Plush Pepe, Signet Ring) =====
 
-        // ДЕШЁВЫЕ (до 3 GRAM) — 85%
         const cheapGifts = [
             'Vice Cream', 'Chill Flame', 'Xmas Stocking', 'Lunar Snake',
             'Candy Cane', 'Snake Box', 'Instant Ramen', 'Whip Cupcake',
@@ -313,7 +312,6 @@
             'Spiced Wine', 'Precious Peach'
         ];
 
-        // СРЕДНИЕ (3-5 GRAM) — 10%
         const mediumGifts = [
             'Genie Lamp', 'Flying Broom', 'Sharp Tongue', 'Trapped Heart',
             'Eternal Rose', 'Gem Signet', 'Astral Shard', 'Berry Box + Genie Lamp',
@@ -324,7 +322,6 @@
             'Genie Lamp + Trapped Heart', 'Flying Broom + Hypno Lollipop'
         ];
 
-        // ДОРОГИЕ (5+ GRAM) — 5%
         const expensiveGifts = [
             'Sharp Tongue + Gem Signet',
             'Astral Shard + Eternal Rose',
@@ -334,7 +331,6 @@
             'Genie Lamp + Crystal Ball'
         ];
 
-        // ИМЕНА
         const nicknames = [
             'Аринка', 'skywer', 'doner', 'Лиза', 'emma', 'эля', 'Вера',
             'глистый', 'maonic', 'Ssss', 'zahra', 'ZETIK', 'Lili Alvirovna',
@@ -360,7 +356,6 @@
             'Winter Fairy', 'Jester King', 'Pet Lover', 'Star Gazer'
         ];
 
-        // ТЕКСТЫ ОТЗЫВОВ (ВСЕ @Lolz_Relayer ЗАМЕНЕНЫ НА @FunPayToGift)
         const reviewTexts = [
             'сделали сделку топ, закинули рубли, звезды пришли через 7м',
             'продавец оплатил моментально, скинул менеджеру, оплата на карте через минуту',
@@ -444,7 +439,7 @@
             'продавец зашёл в сделку оплатил я передал подарок @FunPayToGift рубли упали сразу всё ок рекомендую'
         ];
 
-        // ===== ГЕНЕРАЦИЯ 44 739 ОТЗЫВОВ =====
+        // ===== ГЕНЕРАЦИЯ ОТЗЫВОВ =====
         function generateAllReviews(total) {
             const reviews = [];
             const used = new Set();
@@ -499,18 +494,65 @@
             return reviews;
         }
 
-        // ===== ПАГИНАЦИЯ =====
+        // ===== ПАГИНАЦИЯ С СОХРАНЕНИЕМ В LOCALSTORAGE =====
         const TOTAL_REVIEWS = 44739;
         const PER_PAGE = 50;
+        const STORAGE_KEY = 'funpay_reviews_data';
+
         let currentPage = 0;
         let allReviews = [];
         const container = document.getElementById('reviewsContainer');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const totalDisplay = document.getElementById('totalReviewsDisplay');
 
-        allReviews = generateAllReviews(TOTAL_REVIEWS);
+        // Пытаемся загрузить из localStorage
+        function loadFromStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data && data.reviews && data.reviews.length === TOTAL_REVIEWS) {
+                        allReviews = data.reviews;
+                        currentPage = data.currentPage || 0;
+                        // Восстанавливаем уже отрисованные отзывы
+                        const savedHtml = data.renderedHtml || '';
+                        if (savedHtml) {
+                            container.innerHTML = savedHtml;
+                            // Обновляем счётчик
+                            const end = Math.min((currentPage + 1) * PER_PAGE, allReviews.length);
+                            const remaining = allReviews.length - end;
+                            totalDisplay.textContent = remaining > 0 ? remaining : 0;
+                            // Прячем кнопку если всё загружено
+                            if (end >= allReviews.length) {
+                                loadMoreBtn.classList.add('hidden');
+                            } else {
+                                loadMoreBtn.classList.remove('hidden');
+                                loadMoreBtn.textContent = `Загрузить еще (${Math.min(remaining, PER_PAGE)})`;
+                            }
+                            return true;
+                        }
+                    }
+                }
+            } catch (e) {
+                console.log('Ошибка загрузки из localStorage');
+            }
+            return false;
+        }
 
-        function renderPage(page) {
+        function saveToStorage(html) {
+            try {
+                const data = {
+                    reviews: allReviews,
+                    currentPage: currentPage,
+                    renderedHtml: html || container.innerHTML
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                console.log('Ошибка сохранения в localStorage');
+            }
+        }
+
+        function renderPage(page, save = true) {
             const start = page * PER_PAGE;
             const end = Math.min(start + PER_PAGE, allReviews.length);
             const pageReviews = allReviews.slice(start, end);
@@ -527,7 +569,12 @@
                 </div>
             `).join('');
 
-            container.innerHTML += html;
+            // Если это первая страница — заменяем, иначе добавляем
+            if (page === 0 && container.innerHTML === '') {
+                container.innerHTML = html;
+            } else {
+                container.innerHTML += html;
+            }
 
             const remaining = allReviews.length - end;
             totalDisplay.textContent = remaining > 0 ? remaining : 0;
@@ -536,9 +583,11 @@
                 loadMoreBtn.classList.add('hidden');
             } else {
                 loadMoreBtn.classList.remove('hidden');
-                const lang = currentLang || 'ru';
-                const t = translations[lang];
-                loadMoreBtn.textContent = `${t.loadMore} (${Math.min(remaining, PER_PAGE)})`;
+                loadMoreBtn.textContent = `Загрузить еще (${Math.min(remaining, PER_PAGE)})`;
+            }
+
+            if (save) {
+                saveToStorage();
             }
         }
 
@@ -546,6 +595,15 @@
             currentPage++;
             renderPage(currentPage);
         });
+
+        // ===== ЗАГРУЗКА ПРИ СТАРТЕ =====
+        const loaded = loadFromStorage();
+
+        if (!loaded) {
+            // Если нет сохранённых данных — генерируем
+            allReviews = generateAllReviews(TOTAL_REVIEWS);
+            renderPage(0);
+        }
 
         // ===== ПЕРЕВОД =====
         const translations = {
@@ -701,9 +759,7 @@
             tg.expand();
         });
 
-        // ===== ЗАПУСК =====
-        renderPage(0);
-        console.log('FunPay WebApp loaded! 44,739 reviews ready.');
+        console.log('FunPay WebApp loaded! Reviews saved in localStorage.');
     </script>
 </body>
 </html>
