@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FunPayMarket - Отзывы</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0f0f12;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 16px 16px 30px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            background: #1a1a1e;
+            border-radius: 16px;
+            border: 1px solid #2a2a30;
+        }
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .header-info { flex: 1; }
+        .header-info .name { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.2; }
+        .header-info .sub { font-size: 13px; color: #888; margin-top: 2px; }
+        .header-info .sub span { color: #6c5ce7; }
+        .rating-card {
+            background: linear-gradient(135deg, #1a1a1e, #22222a);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a30;
+            text-align: center;
+        }
+        .rating-card .label { font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .rating-main { display: flex; align-items: center; justify-content: center; gap: 12px; }
+        .rating-number { font-size: 48px; font-weight: 800; color: #fff; line-height: 1; }
+        .rating-stars { font-size: 28px; line-height: 1; color: #fbbf24; letter-spacing: 2px; }
+        .rating-count { font-size: 15px; color: #888; margin-top: 6px; }
+        .rating-count span { color: #6c5ce7; font-weight: 600; }
+        .section-title { font-size: 14px; font-weight: 600; color: #aaa; margin-bottom: 4px; }
+        .section-sub { font-size: 13px; color: #666; margin-bottom: 16px; }
+        .section-sub a { color: #6c5ce7; text-decoration: none; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #ccc; margin-bottom: 6px; }
+        .stars-input { display: flex; gap: 8px; font-size: 32px; cursor: pointer; user-select: none; padding: 8px 0; }
+        .stars-input .star { color: #333; transition: color 0.15s; cursor: pointer; }
+        .stars-input .star.active { color: #fbbf24; }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1a1a1e;
+            border: 1px solid #2a2a30;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus { border-color: #6c5ce7; }
+        .form-control::placeholder { color: #555; }
+        textarea.form-control { resize: vertical; min-height: 80px; font-family: inherit; }
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s, opacity 0.15s;
+            margin-top: 8px;
+        }
+        .btn-submit:active { transform: scale(0.97); opacity: 0.8; }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a1e;
+            border: 1px solid #2a2a30;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-size: 14px;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            white-space: nowrap;
+            z-index: 999;
+        }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="avatar"><img id="avatarImg" src="https://i.postimg.cc/Bj4QzQYD/photo-5228734607275007909-y.jpg" alt="Avatar"></div>
+        <div class="header-info">
+            <div class="name">FunPayMarket</div>
+            <div class="sub">мини-приложение · <span>отзывы</span></div>
+        </div>
+    </div>
+    <div class="rating-card">
+        <div class="label">Отзывы о сделках маркета</div>
+        <div class="rating-main">
+            <span class="rating-number" id="ratingValue">4.9</span>
+            <span class="rating-stars" id="ratingStars">★★★★★</span>
+        </div>
+        <div class="rating-count"><span id="reviewCount">2 276</span> отзывов</div>
+    </div>
+    <div class="section-title">Ваш отзыв</div>
+    <div class="section-sub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift">@FunPayToGift</a></div>
+    <div class="form-group">
+        <label>ОЦЕНКА</label>
+        <div class="stars-input" id="starsContainer">
+            <span class="star" data-value="1">⭐</span>
+            <span class="star" data-value="2">⭐</span>
+            <span class="star" data-value="3">⭐</span>
+            <span class="star" data-value="4">⭐</span>
+            <span class="star" data-value="5">⭐</span>
+            <span class="star" data-value="6">⭐</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>НИК</label>
+        <input class="form-control" id="nickInput" placeholder="Ваш никнейм" maxlength="30">
+    </div>
+    <div class="form-group">
+        <label>ПОДАРОК</label>
+        <input class="form-control" id="giftInput" placeholder="название подарка" maxlength="50">
+    </div>
+    <div class="form-group">
+        <label>ТЕКСТ</label>
+        <textarea class="form-control" id="textInput" placeholder="как прошла передача подарка" maxlength="500"></textarea>
+    </div>
+    <button class="btn-submit" id="submitBtn">📤 Отправить отзыв</button>
+    <div class="toast" id="toast">✅ Отзыв отправлен!</div>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.setBackgroundColor('#0f0f12');
+        tg.setHeaderColor('#0f0f12');
+        const starsContainer = document.getElementById('starsContainer');
+        const nickInput = document.getElementById('nickInput');
+        const giftInput = document.getElementById('giftInput');
+        const textInput = document.getElementById('textInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const toast = document.getElementById('toast');
+        let selectedRating = 0;
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            if (user.username) {
+                nickInput.value = '@' + user.username;
+            } else if (user.first_name) {
+                nickInput.value = user.first_name;
+            }
+        }
+        const starElements = starsContainer.querySelectorAll('.star');
+        starElements.forEach(star => {
+            star.addEventListener('click', function() {
+                const val = parseInt(this.dataset.value);
+                selectedRating = val;
+                starElements.forEach(s => {
+                    s.classList.toggle('active', parseInt(s.dataset.value) <= val);
+                });
+            });
+            star.addEventListener('mouseenter', function() {
+                const val = parseInt(this.dataset.value);
+                starElements.forEach(s => {
+                    s.style.color = parseInt(s.dataset.value) <= val ? '#fbbf24' : '#333';
+                });
+            });
+            star.addEventListener('mouseleave', function() {
+                starElements.forEach(s => {
+                    s.style.color = s.classList.contains('active') ? '#fbbf24' : '#333';
+                });
+            });
+        });
+        submitBtn.addEventListener('click', function() {
+            const rating = selectedRating;
+            const nick = nickInput.value.trim();
+            const gift = giftInput.value.trim();
+            const text = textInput.value.trim();
+            if (rating === 0) {
+                showToast('⚠️ Выберите оценку (1-6)');
+                return;
+            }
+            if (!nick) {
+                showToast('⚠️ Введите ник');
+                return;
+            }
+            if (!gift) {
+                showToast('⚠️ Введите название подарка');
+                return;
+            }
+            if (!text) {
+                showToast('⚠️ Напишите текст отзыва');
+                return;
+            }
+            const reviewData = { rating: rating, nick: nick, gift: gift, text: text };
+            tg.sendData(JSON.stringify(reviewData));
+            showToast('✅ Отзыв отправлен!');
+            selectedRating = 0;
+            starElements.forEach(s => s.classList.remove('active'));
+            giftInput.value = '';
+            textInput.value = '';
+        });
+        let toastTimeout;
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+        tg.onEvent('viewportChanged', function() {
+            tg.expand();
+        });
+        console.log('FunPayMarket WebApp loaded!');
+    </script>
+</body>
+</html>
