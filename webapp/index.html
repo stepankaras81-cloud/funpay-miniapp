@@ -96,22 +96,56 @@
         }
         .rating-row:last-child { border-bottom: none; }
         .rating-label { font-size: 14px; color: #aaa; min-width: 45px; font-weight: 500; }
-        .rating-bar-bg {
-            flex: 1;
-            height: 6px;
-            background: #25252b;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .rating-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
-            transition: width 0.6s ease;
-            width: 0%;
-        }
+        .rating-bar-bg { flex: 1; height: 6px; background: #25252b; border-radius: 4px; overflow: hidden; }
+        .rating-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #6c5ce7, #a29bfe); transition: width 0.6s ease; }
         .rating-count-number { font-size: 13px; color: #888; min-width: 50px; text-align: right; font-weight: 500; }
         .rating-percent { font-size: 12px; color: #555; min-width: 38px; text-align: right; font-weight: 400; }
+
+        /* БЛОК ОТЗЫВОВ */
+        .reviews-section {
+            margin-top: 20px;
+        }
+        .review-item {
+            background: #1a1a1e;
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            border: 1px solid #2a2a30;
+            transition: border-color 0.2s;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .review-nick {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .review-stars {
+            color: #fbbf24;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        .review-gift {
+            font-size: 13px;
+            color: #6c5ce7;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .review-text {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .review-date {
+            font-size: 12px;
+            color: #555;
+            text-align: right;
+        }
 
         .section-title { font-size: 14px; font-weight: 600; color: #aaa; margin-bottom: 4px; }
         .section-sub { font-size: 13px; color: #666; margin-bottom: 16px; }
@@ -119,7 +153,6 @@
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; color: #ccc; margin-bottom: 6px; }
 
-        /* ===== ЗВЁЗДЫ - КЛИКАБЕЛЬНЫЕ ===== */
         .stars-input {
             display: flex;
             gap: 10px;
@@ -134,13 +167,8 @@
             line-height: 1;
             transition: color 0.15s, transform 0.15s;
         }
-        .stars-input .star.active {
-            color: #fbbf24;
-        }
-        .stars-input .star:hover {
-            transform: scale(1.15);
-        }
-        /* ============================== */
+        .stars-input .star.active { color: #fbbf24; }
+        .stars-input .star:hover { transform: scale(1.15); }
 
         .form-control {
             width: 100%;
@@ -190,10 +218,26 @@
             z-index: 999;
         }
         .toast.show { opacity: 1; }
+
+        .load-more-btn {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid #2a2a30;
+            border-radius: 14px;
+            color: #888;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .load-more-btn:active { transform: scale(0.97); background: #1a1a1e; }
     </style>
 </head>
 <body>
 
+    <!-- ХЕДЕР -->
     <div class="header">
         <div class="header-top">
             <div class="avatar"><img id="avatarImg" src="https://i.postimg.cc/Bj4QzQYD/photo-5228734607275007909-y.jpg" alt="Avatar"></div>
@@ -208,6 +252,7 @@
         </div>
     </div>
 
+    <!-- РЕЙТИНГ -->
     <div class="rating-card">
         <div class="label" id="ratingLabel">Отзывы о сделках маркета</div>
         <div class="rating-main">
@@ -217,6 +262,7 @@
         <div class="rating-count"><span>44 739</span> <span id="reviewsText">отзывов</span></div>
     </div>
 
+    <!-- РАСПРЕДЕЛЕНИЕ -->
     <div class="rating-distribution">
         <div class="rating-row"><span class="rating-label">5 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 93%;"></div></div><span class="rating-count-number">42 412</span><span class="rating-percent">93%</span></div>
         <div class="rating-row"><span class="rating-label">4 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 4%;"></div></div><span class="rating-count-number">2 150</span><span class="rating-percent">4%</span></div>
@@ -225,6 +271,7 @@
         <div class="rating-row"><span class="rating-label">1 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 0%;"></div></div><span class="rating-count-number">0</span><span class="rating-percent">0%</span></div>
     </div>
 
+    <!-- ФОРМА ОТЗЫВА -->
     <div class="section-title" id="formTitle">Ваш отзыв</div>
     <div class="section-sub" id="formSub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift">@FunPayToGift</a></div>
 
@@ -256,6 +303,10 @@
 
     <button class="btn-submit" id="submitBtn">📤 Отправить отзыв</button>
 
+    <!-- БЛОК ОТЗЫВОВ -->
+    <div class="reviews-section" id="reviewsContainer"></div>
+    <button class="load-more-btn" id="loadMoreBtn">Показать еще</button>
+
     <div class="toast" id="toast">✅ Отзыв отправлен!</div>
 
     <script>
@@ -264,28 +315,165 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        const starsContainer = document.getElementById('starsContainer');
-        const nickInput = document.getElementById('nickInput');
-        const giftInput = document.getElementById('giftInput');
-        const textInput = document.getElementById('textInput');
-        const submitBtn = document.getElementById('submitBtn');
-        const toast = document.getElementById('toast');
-        let selectedRating = 0;
+        // ===== ДАННЫЕ ДЛЯ ОТЗЫВОВ =====
+        const giftNames = [
+            'Sakura Flower', 'Spring Basket', 'Victory Medal', 'Artisan Brick',
+            'B-Day Candle', 'Big Year', 'Berry Box', 'Chill Flame',
+            'Clover Pin', 'Cookie Heart', 'Crystal Ball', 'Easter Egg',
+            'Cupid Charm', 'Jelly Bunny', 'Jester Hat', 'Diamond Ring',
+            'Love Potion', 'Bunny Muffin', 'Signet Ring', 'Spy Agaric',
+            'Snake Box', 'Scared Cat', 'Pet Snake', 'Genie Lamp',
+            'Flying Broom', 'Homemade Cake', 'Mad Pumpkin', 'Sharp Tongue',
+            'Santa Hat', 'Star Notepad', 'Durov\'s Cap', 'Eternal Rose',
+            'Neko Helmet', 'Vintage Cigar', 'Restless Jar', 'Lunar Snake',
+            'Trapped Heart', 'Tama Gadget', 'Jingle Bells', 'Loot Bag',
+            'Swiss Watch', 'Astral Shard', 'Hanging Star', 'Gem Signet',
+            'Toy Bear', 'Kissed Frog', 'Light Sword', 'Winter Wreath'
+        ];
 
-        // ЭЛЕМЕНТЫ ДЛЯ ПЕРЕВОДА
-        const brandName = document.getElementById('brandName');
-        const brandSub = document.getElementById('brandSub');
-        const ratingLabel = document.getElementById('ratingLabel');
-        const reviewsText = document.getElementById('reviewsText');
-        const formTitle = document.getElementById('formTitle');
-        const formSub = document.getElementById('formSub');
-        const labelRating = document.getElementById('labelRating');
-        const labelNick = document.getElementById('labelNick');
-        const labelGift = document.getElementById('labelGift');
-        const labelText = document.getElementById('labelText');
-        const langRu = document.getElementById('langRu');
-        const langEn = document.getElementById('langEn');
+        const nicknames = [
+            'Аринка', 'skywer', 'doner', 'Лиза', 'emma', 'эля', 'Вера',
+            'глистый', 'maonic', 'Ssss', 'zahra', 'ZETIK', 'Lili Alvirovna',
+            'Виолетта', 'derssam', 'Vkmuso', 'Ева', 'Керра', 'Абама',
+            'sdoret', 'ye', 'cry at me', 'Xiril', 'Ульяна', 'Vyacheslav',
+            'DELURTY', 'MARLON', 'Cyan', 'Савелий', 'Ywiii', 'mrPerignon',
+            'dotmoovs', 'Vicky', 'garixov', 'W1ar4ik', 'Півной Уникс',
+            'бетатестер3000', 'SOMUPA', 'Evelina', 'Splitov', 'bottega',
+            'leh', 'Wayne', 'ILD', 's', 'faziaz', 'Livnite', 'Playerok Deals'
+        ];
 
+        const reviewTexts = [
+            'сделали сделку топ, закинули рубли, звезды пришли через 7м',
+            'продавец оплатил моментально, скинул менеджеру, оплата на карте через минуту',
+            'зашли в сделку он внёс деньги я передал подарок менеджеру оплата пришла на карту в рублях',
+            'всё честно оплата пришла дякую',
+            'договорились за минуту',
+            'оплатил без вопросов отдал через гаранта рубли упали сразу без кидка советую',
+            'топ продавець рекомендую все ок',
+            'звёзды пришли по-быстрому спасибо',
+            'быстро закрыли доволен',
+            'зашли в сделку он внёс деньги, я передал подарок менеджеру, оплата пришла на карту в рублях',
+            'думал кинут оплатил без вопросов отдал через гаранта оплата пришла на карту в рублях +реп',
+            'сделка чистая рекамендую',
+            'деньги на карте топ',
+            'он сразу оплатил я передал подарок менеджеру оплата пришла на карту в рублях',
+            'продавец зашёл в сделку оплатил отдал через гаранта оплата на карте через минуту +реп',
+            'зашли в сделку он внёс деньги я передал подарок менеджеру оплата на карте через минуту без кидка советую',
+            'оплатил без вопросов скинул менеджеру оплата на карте через минуту',
+            'всё честно оплата пришла',
+            'грош прийшливидко дякую',
+            'оплата моментальная топ',
+            'продавец оплатил моментально, скинула @Lolz_Relayer, оплата пришла на карту в рублях, вы лучше ❤️',
+            'думал кинут оплатил без вопросов я передал подарок менеджеру деньги пришлом моментально +rep',
+            'продавец зашёл в сделку оплатил отдал через гаранта рубли упали сразу без кидка советую топ селлер',
+            'TOP ZOV ZOV +++REP',
+            'зашли в зделку от вашего банка скинул менеджеру',
+            'честно думал скам продавец зашёл в сделку оплатил отдал через гаранта рубли упали сразу без кидка советую',
+            'надёжно советую',
+            'рубли пришли сразу',
+            'продавец зашёл в сделку оплатил отдал через гаранта рубли упали сразу без кидка советую',
+            'бот пушка сделка топ',
+            'оплата моментальная топ',
+            'зашли в сделку он внёс деньги скинула @Lolz_Relayer деньги пришли моментально вы лучшие ❤️',
+            'аж страшно было, он сразу оплатил, скинула менеджеру, деньги пришли моментально, всё няшно',
+            'все швидко чесно красава',
+            'оплатил без вопросов, отдал через гаранта, рубли упали сразо, +реп',
+            'по чесноку спасибо',
+            'лолз топ +++',
+            'думал кинут он сразу оплатил скинул менеджеру рубли упали сразу доволен спасибо',
+            'норм все ок',
+            'месси гогат рональдо пушка',
+            'всё честно оплата прешла',
+            'аж страшно было он сразу оплатил скинула @Lolz_Relayer перевод дошёл сразу всё супер обожаю ❤️',
+            'всё честно оплата пришла дякую'
+        ];
+
+        // ===== ГЕНЕРАЦИЯ ОТЗЫВОВ =====
+        function generateReviews(count) {
+            const reviews = [];
+            const months = ['июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+            
+            // Фиксируем даты в пределах июля 2026
+            const startDate = new Date(2026, 6, 1); // 1 июля 2026
+            const endDate = new Date(2026, 6, 31); // 31 июля 2026
+
+            for (let i = 0; i < count; i++) {
+                // Рандомная дата
+                const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
+                const day = randomDate.getDate();
+                const month = months[randomDate.getMonth()];
+                const year = randomDate.getFullYear();
+                const dateStr = `${day} ${month} ${year} г.`;
+
+                // Рандомный ник
+                const nick = nicknames[Math.floor(Math.random() * nicknames.length)];
+                
+                // Рандомное количество подарков (1-3)
+                const giftCount = Math.floor(Math.random() * 3) + 1;
+                const selectedGifts = [];
+                const shuffled = [...giftNames].sort(() => 0.5 - Math.random());
+                for (let j = 0; j < giftCount; j++) {
+                    selectedGifts.push(shuffled[j]);
+                }
+                const giftStr = selectedGifts.join(' + ');
+
+                // Рандомный текст
+                const text = reviewTexts[Math.floor(Math.random() * reviewTexts.length)];
+                
+                // Рандомный рейтинг (5 - 93%, 4 - 5%, 3 - 2%)
+                let rating = 5;
+                const rand = Math.random();
+                if (rand > 0.93) rating = 4;
+                if (rand > 0.98) rating = 3;
+                if (rand > 0.995) rating = 2;
+
+                reviews.push({
+                    nick: nick,
+                    gift: giftStr,
+                    text: text,
+                    date: dateStr,
+                    rating: rating
+                });
+            }
+            return reviews;
+        }
+
+        // Генерируем 500 отзывов
+        const allReviews = generateReviews(500);
+
+        // ===== ОТОБРАЖЕНИЕ =====
+        let displayedCount = 20;
+        const container = document.getElementById('reviewsContainer');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+        function renderReviews(count) {
+            const toShow = allReviews.slice(0, count);
+            container.innerHTML = toShow.map(r => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-nick">${r.nick}</span>
+                        <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                    </div>
+                    <div class="review-gift">${r.gift}</div>
+                    <div class="review-text">${r.text}</div>
+                    <div class="review-date">${r.date}</div>
+                </div>
+            `).join('');
+
+            if (count >= allReviews.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+                loadMoreBtn.textContent = `Показать еще (${allReviews.length - count} осталось)`;
+            }
+        }
+
+        loadMoreBtn.addEventListener('click', () => {
+            displayedCount += 20;
+            renderReviews(displayedCount);
+        });
+
+        // ===== ПЕРЕВОД =====
         const translations = {
             ru: {
                 brandName: 'FunPay Market',
@@ -336,81 +524,66 @@
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-            brandName.textContent = t.brandName;
-            brandSub.textContent = t.brandSub;
-            ratingLabel.textContent = t.ratingLabel;
-            reviewsText.textContent = t.reviewsText;
-            formTitle.textContent = t.formTitle;
-            formSub.innerHTML = t.formSub;
-            labelRating.textContent = t.labelRating;
-            labelNick.textContent = t.labelNick;
-            labelGift.textContent = t.labelGift;
-            labelText.textContent = t.labelText;
-            nickInput.placeholder = t.placeholderNick;
-            giftInput.placeholder = t.placeholderGift;
-            textInput.placeholder = t.placeholderText;
-            submitBtn.textContent = t.btnSubmit;
-            langRu.classList.toggle('active', lang === 'ru');
-            langEn.classList.toggle('active', lang === 'en');
+            document.getElementById('brandName').textContent = t.brandName;
+            document.getElementById('brandSub').textContent = t.brandSub;
+            document.getElementById('ratingLabel').textContent = t.ratingLabel;
+            document.getElementById('reviewsText').textContent = t.reviewsText;
+            document.getElementById('formTitle').textContent = t.formTitle;
+            document.getElementById('formSub').innerHTML = t.formSub;
+            document.getElementById('labelRating').textContent = t.labelRating;
+            document.getElementById('labelNick').textContent = t.labelNick;
+            document.getElementById('labelGift').textContent = t.labelGift;
+            document.getElementById('labelText').textContent = t.labelText;
+            document.getElementById('nickInput').placeholder = t.placeholderNick;
+            document.getElementById('giftInput').placeholder = t.placeholderGift;
+            document.getElementById('textInput').placeholder = t.placeholderText;
+            document.getElementById('submitBtn').textContent = t.btnSubmit;
+            document.getElementById('langRu').classList.toggle('active', lang === 'ru');
+            document.getElementById('langEn').classList.toggle('active', lang === 'en');
+            loadMoreBtn.textContent = lang === 'ru' ? `Показать еще (${allReviews.length - displayedCount} осталось)` : `Show more (${allReviews.length - displayedCount} left)`;
         }
 
-        langRu.addEventListener('click', () => setLanguage('ru'));
-        langEn.addEventListener('click', () => setLanguage('en'));
+        document.getElementById('langRu').addEventListener('click', () => setLanguage('ru'));
+        document.getElementById('langEn').addEventListener('click', () => setLanguage('en'));
+
+        // ===== ЗВЁЗДЫ ДЛЯ ОЦЕНКИ =====
+        const starsContainer = document.getElementById('starsContainer');
+        const starElements = starsContainer.querySelectorAll('.star');
+        let selectedRating = 0;
+
+        starElements.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.dataset.value);
+                selectedRating = value;
+                starElements.forEach(s => {
+                    s.classList.toggle('active', parseInt(s.dataset.value) <= value);
+                });
+            });
+            star.addEventListener('mouseenter', function() {
+                const value = parseInt(this.dataset.value);
+                starElements.forEach(s => {
+                    s.style.color = parseInt(s.dataset.value) <= value ? '#fbbf24' : '#333';
+                });
+            });
+            star.addEventListener('mouseleave', function() {
+                starElements.forEach(s => {
+                    s.style.color = s.classList.contains('active') ? '#fbbf24' : '#333';
+                });
+            });
+        });
+
+        // ===== ОТПРАВКА ОТЗЫВА =====
+        const nickInput = document.getElementById('nickInput');
+        const giftInput = document.getElementById('giftInput');
+        const textInput = document.getElementById('textInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const toast = document.getElementById('toast');
 
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             if (user.username) nickInput.value = '@' + user.username;
             else if (user.first_name) nickInput.value = user.first_name;
         }
-
-        // =============================================
-        // ==== ЛОГИКА ДЛЯ ЗВЁЗД (РАБОТАЕТ 100%) =====
-        // =============================================
-        const starElements = starsContainer.querySelectorAll('.star');
-
-        // При клике на звезду - выбираем оценку
-        starElements.forEach(star => {
-            star.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const value = parseInt(this.dataset.value);
-                selectedRating = value;
-                
-                // Подсвечиваем все звёзды до выбранной
-                starElements.forEach(s => {
-                    const val = parseInt(s.dataset.value);
-                    if (val <= value) {
-                        s.classList.add('active');
-                    } else {
-                        s.classList.remove('active');
-                    }
-                });
-                console.log('Выбрана оценка:', selectedRating);
-            });
-
-            // При наведении - подсвечиваем
-            star.addEventListener('mouseenter', function() {
-                const value = parseInt(this.dataset.value);
-                starElements.forEach(s => {
-                    const val = parseInt(s.dataset.value);
-                    s.style.color = val <= value ? '#fbbf24' : '#333';
-                });
-            });
-
-            // Убираем подсветку при уходе мыши
-            star.addEventListener('mouseleave', function() {
-                starElements.forEach(s => {
-                    // Если звезда активна (выбрана) - оставляем жёлтой
-                    if (s.classList.contains('active')) {
-                        s.style.color = '#fbbf24';
-                    } else {
-                        s.style.color = '#333';
-                    }
-                });
-            });
-        });
-
-        // Дополнительно: если кликнуть вне звёзд - ничего не сбрасываем
-        // =============================================
 
         submitBtn.addEventListener('click', function() {
             const t = translations[currentLang];
@@ -448,7 +621,9 @@
             tg.expand();
         });
 
-        console.log('FunPay WebApp loaded!');
+        // ===== ЗАПУСК =====
+        renderReviews(displayedCount);
+        console.log('FunPay WebApp loaded with 500+ reviews!');
     </script>
 </body>
 </html>
