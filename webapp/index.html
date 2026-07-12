@@ -42,11 +42,13 @@
         .header-info { flex: 1; }
         .header-info .name { font-size: 20px; font-weight: 700; color: #fff; line-height: 1.2; }
         .header-info .sub { display: none; }
+
+        /* Рейтинг */
         .rating-card {
             background: linear-gradient(135deg, #1a1a1e, #22222a);
             border-radius: 20px;
             padding: 24px 20px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             border: 1px solid #2a2a30;
             text-align: center;
         }
@@ -56,14 +58,83 @@
         .rating-stars { font-size: 28px; line-height: 1; color: #fbbf24; letter-spacing: 2px; }
         .rating-count { font-size: 15px; color: #888; margin-top: 6px; }
         .rating-count span { color: #6c5ce7; font-weight: 600; }
+
+        /* ТАБЛИЦА РАСПРЕДЕЛЕНИЯ (КАК НА ФОТО) */
+        .rating-distribution {
+            background: #1a1a1e;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a30;
+        }
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 0;
+            border-bottom: 1px solid #25252b;
+        }
+        .rating-row:last-child {
+            border-bottom: none;
+        }
+        .rating-label {
+            font-size: 14px;
+            color: #aaa;
+            min-width: 45px;
+            font-weight: 500;
+        }
+        .rating-bar-bg {
+            flex: 1;
+            height: 6px;
+            background: #25252b;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .rating-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+            transition: width 0.6s ease;
+            width: 0%;
+        }
+        .rating-count-number {
+            font-size: 13px;
+            color: #888;
+            min-width: 50px;
+            text-align: right;
+            font-weight: 500;
+        }
+        .rating-percent {
+            font-size: 12px;
+            color: #555;
+            min-width: 38px;
+            text-align: right;
+            font-weight: 400;
+        }
+
         .section-title { font-size: 14px; font-weight: 600; color: #aaa; margin-bottom: 4px; }
         .section-sub { font-size: 13px; color: #666; margin-bottom: 16px; }
         .section-sub a { color: #6c5ce7; text-decoration: none; }
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; color: #ccc; margin-bottom: 6px; }
-        .stars-input { display: flex; gap: 8px; font-size: 32px; cursor: pointer; user-select: none; padding: 8px 0; }
-        .stars-input .star { color: #333; transition: color 0.15s; cursor: pointer; }
+        .stars-input {
+            display: flex;
+            gap: 8px;
+            font-size: 36px;
+            cursor: pointer;
+            user-select: none;
+            padding: 8px 0;
+        }
+        .stars-input .star {
+            color: #333;
+            transition: color 0.15s, transform 0.15s;
+            cursor: pointer;
+            font-size: 36px;
+            line-height: 1;
+        }
         .stars-input .star.active { color: #fbbf24; }
+        .stars-input .star:hover { transform: scale(1.1); }
         .form-control {
             width: 100%;
             padding: 12px 16px;
@@ -122,16 +193,65 @@
             <div class="sub"></div>
         </div>
     </div>
+
+    <!-- Рейтинг -->
     <div class="rating-card">
         <div class="label">Отзывы о сделках маркета</div>
         <div class="rating-main">
-            <span class="rating-number" id="ratingValue">4.9</span>
-            <span class="rating-stars" id="ratingStars">★★★★★</span>
+            <span class="rating-number">4.9</span>
+            <span class="rating-stars">★★★★★</span>
         </div>
-        <div class="rating-count"><span id="reviewCount">44 739</span> отзывов</div>
+        <div class="rating-count"><span>44 739</span> отзывов</div>
     </div>
+
+    <!-- ТАБЛИЦА РАСПРЕДЕЛЕНИЯ -->
+    <div class="rating-distribution">
+        <div class="rating-row">
+            <span class="rating-label">5 ★</span>
+            <div class="rating-bar-bg">
+                <div class="rating-bar-fill" style="width: 93%;"></div>
+            </div>
+            <span class="rating-count-number">42 412</span>
+            <span class="rating-percent">93%</span>
+        </div>
+        <div class="rating-row">
+            <span class="rating-label">4 ★</span>
+            <div class="rating-bar-bg">
+                <div class="rating-bar-fill" style="width: 4%;"></div>
+            </div>
+            <span class="rating-count-number">2 150</span>
+            <span class="rating-percent">4%</span>
+        </div>
+        <div class="rating-row">
+            <span class="rating-label">3 ★</span>
+            <div class="rating-bar-bg">
+                <div class="rating-bar-fill" style="width: 2%;"></div>
+            </div>
+            <span class="rating-count-number">195</span>
+            <span class="rating-percent">2%</span>
+        </div>
+        <div class="rating-row">
+            <span class="rating-label">2 ★</span>
+            <div class="rating-bar-bg">
+                <div class="rating-bar-fill" style="width: 1%;"></div>
+            </div>
+            <span class="rating-count-number">2</span>
+            <span class="rating-percent">1%</span>
+        </div>
+        <div class="rating-row">
+            <span class="rating-label">1 ★</span>
+            <div class="rating-bar-bg">
+                <div class="rating-bar-fill" style="width: 0%;"></div>
+            </div>
+            <span class="rating-count-number">0</span>
+            <span class="rating-percent">0%</span>
+        </div>
+    </div>
+
+    <!-- Форма отзыва -->
     <div class="section-title">Ваш отзыв</div>
     <div class="section-sub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift">@FunPayToGift</a></div>
+
     <div class="form-group">
         <label>ОЦЕНКА</label>
         <div class="stars-input" id="starsContainer">
@@ -142,25 +262,32 @@
             <span class="star" data-value="5">⭐</span>
         </div>
     </div>
+
     <div class="form-group">
         <label>НИК</label>
         <input class="form-control" id="nickInput" placeholder="Ваш никнейм" maxlength="30">
     </div>
+
     <div class="form-group">
         <label>ПОДАРОК</label>
         <input class="form-control" id="giftInput" placeholder="название подарка" maxlength="50">
     </div>
+
     <div class="form-group">
         <label>ТЕКСТ</label>
         <textarea class="form-control" id="textInput" placeholder="как прошла передача подарка" maxlength="500"></textarea>
     </div>
+
     <button class="btn-submit" id="submitBtn">📤 Отправить отзыв</button>
+
     <div class="toast" id="toast">✅ Отзыв отправлен!</div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
+
         const starsContainer = document.getElementById('starsContainer');
         const nickInput = document.getElementById('nickInput');
         const giftInput = document.getElementById('giftInput');
@@ -168,6 +295,7 @@
         const submitBtn = document.getElementById('submitBtn');
         const toast = document.getElementById('toast');
         let selectedRating = 0;
+
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             if (user.username) {
@@ -176,6 +304,7 @@
                 nickInput.value = user.first_name;
             }
         }
+
         const starElements = starsContainer.querySelectorAll('.star');
         starElements.forEach(star => {
             star.addEventListener('click', function() {
@@ -197,11 +326,13 @@
                 });
             });
         });
+
         submitBtn.addEventListener('click', function() {
             const rating = selectedRating;
             const nick = nickInput.value.trim();
             const gift = giftInput.value.trim();
             const text = textInput.value.trim();
+
             if (rating === 0) {
                 showToast('⚠️ Выберите оценку (1-5)');
                 return;
@@ -218,14 +349,17 @@
                 showToast('⚠️ Напишите текст отзыва');
                 return;
             }
-            const reviewData = { rating: rating, nick: nick, gift: gift, text: text };
+
+            const reviewData = { rating, nick, gift, text };
             tg.sendData(JSON.stringify(reviewData));
             showToast('✅ Отзыв отправлен!');
+
             selectedRating = 0;
             starElements.forEach(s => s.classList.remove('active'));
             giftInput.value = '';
             textInput.value = '';
         });
+
         let toastTimeout;
         function showToast(msg) {
             toast.textContent = msg;
@@ -235,9 +369,11 @@
                 toast.classList.remove('show');
             }, 2500);
         }
+
         tg.onEvent('viewportChanged', function() {
             tg.expand();
         });
+
         console.log('FunPay WebApp loaded!');
     </script>
 </body>
