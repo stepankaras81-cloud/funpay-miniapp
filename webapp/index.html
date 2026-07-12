@@ -15,21 +15,13 @@
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(3deg); }
         }
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
         }
 
         body {
@@ -42,7 +34,6 @@
             position: relative;
         }
 
-        /* ✨ PARTICLE STARS */
         .stars-container {
             position: fixed;
             top: 0;
@@ -60,7 +51,6 @@
             animation: twinkle 3s ease-in-out infinite;
         }
 
-        /* GLOW ORBS */
         .glow-orb {
             position: fixed;
             border-radius: 50%;
@@ -72,14 +62,14 @@
         .glow-orb.purple {
             width: 400px;
             height: 400px;
-            background: rgba(108, 92, 231, 0.15);
+            background: rgba(108, 92, 231, 0.12);
             top: -100px;
             right: -100px;
         }
         .glow-orb.pink {
             width: 350px;
             height: 350px;
-            background: rgba(236, 72, 153, 0.08);
+            background: rgba(236, 72, 153, 0.06);
             bottom: -80px;
             left: -80px;
             animation-delay: 2s;
@@ -87,7 +77,7 @@
         .glow-orb.blue {
             width: 300px;
             height: 300px;
-            background: rgba(56, 189, 248, 0.08);
+            background: rgba(56, 189, 248, 0.06);
             top: 40%;
             left: -120px;
             animation-delay: 4s;
@@ -100,7 +90,6 @@
             margin: 0 auto;
         }
 
-        /* HEADER — premium glass */
         .header {
             background: rgba(255,255,255,0.03);
             backdrop-filter: blur(30px);
@@ -121,9 +110,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe, #f472b6);
-            background-size: 200% 200%;
-            animation: shimmer 4s ease infinite;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -132,7 +119,7 @@
             color: #fff;
             flex-shrink: 0;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(108, 92, 231, 0.3);
+            box-shadow: 0 0 40px rgba(108, 92, 231, 0.2);
             transition: transform 0.3s ease;
         }
         .avatar:hover { transform: scale(1.05) rotate(-3deg); }
@@ -141,9 +128,7 @@
         .header-center .name {
             font-size: 20px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff 30%, #a29bfe 70%, #f472b6);
-            background-size: 200% 200%;
-            animation: shimmer 4s ease infinite;
+            background: linear-gradient(135deg, #fff 40%, #a29bfe 70%, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.2;
@@ -156,7 +141,7 @@
             font-weight: 400;
             letter-spacing: 0.5px;
         }
-        .header-center .sub span { 
+        .header-center .sub span {
             background: linear-gradient(135deg, #a29bfe, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -183,11 +168,10 @@
             background: linear-gradient(135deg, #6c5ce7, #a29bfe);
             border-color: rgba(108, 92, 231, 0.5);
             color: #fff;
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.2);
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.15);
         }
         .lang-btn:active { transform: scale(0.92); }
 
-        /* RATING CARD — glass + glow */
         .rating-card {
             background: rgba(255,255,255,0.03);
             backdrop-filter: blur(30px);
@@ -210,8 +194,8 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(108,92,231,0.05), transparent, rgba(236,72,153,0.05), transparent);
-            animation: spin 10s linear infinite;
+            background: conic-gradient(from 0deg, transparent, rgba(108,92,231,0.04), transparent, rgba(236,72,153,0.04), transparent);
+            animation: spin 15s linear infinite;
             pointer-events: none;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -242,19 +226,16 @@
             font-size: 62px;
             font-weight: 800;
             line-height: 1;
-            background: linear-gradient(135deg, #fff 20%, #a29bfe 50%, #f472b6 80%);
-            background-size: 200% 200%;
-            animation: shimmer 3s ease infinite;
+            background: linear-gradient(135deg, #fff 30%, #a29bfe 60%, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: none;
         }
         .rating-stars {
             font-size: 30px;
             line-height: 1;
             color: #fbbf24;
             letter-spacing: 5px;
-            text-shadow: 0 0 40px rgba(251, 191, 36, 0.15);
+            text-shadow: 0 0 40px rgba(251, 191, 36, 0.12);
         }
         .rating-count {
             font-size: 15px;
@@ -271,7 +252,6 @@
             font-weight: 700;
         }
 
-        /* DISTRIBUTION */
         .rating-distribution {
             background: rgba(255,255,255,0.03);
             backdrop-filter: blur(30px);
@@ -310,8 +290,6 @@
             height: 100%;
             border-radius: 4px;
             background: linear-gradient(90deg, #6c5ce7, #a29bfe, #f472b6);
-            background-size: 200% 100%;
-            animation: shimmer 3s ease infinite;
             transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             width: 0%;
         }
@@ -330,7 +308,6 @@
             font-weight: 400;
         }
 
-        /* FORM */
         .section-title {
             font-size: 15px;
             font-weight: 700;
@@ -379,7 +356,7 @@
         }
         .stars-input .star.active {
             color: #fbbf24;
-            text-shadow: 0 0 40px rgba(251, 191, 36, 0.25);
+            text-shadow: 0 0 40px rgba(251, 191, 36, 0.2);
             transform: scale(1.1);
         }
         .stars-input .star:hover {
@@ -413,9 +390,7 @@
         .btn-submit {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe, #f472b6);
-            background-size: 200% 200%;
-            animation: shimmer 3s ease infinite;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
             border: none;
             border-radius: 18px;
             color: #fff;
@@ -423,20 +398,19 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 30px rgba(108, 92, 231, 0.25);
+            box-shadow: 0 4px 30px rgba(108, 92, 231, 0.2);
             font-family: 'Inter', sans-serif;
             letter-spacing: 0.3px;
         }
         .btn-submit:active {
             transform: scale(0.96);
-            box-shadow: 0 2px 15px rgba(108, 92, 231, 0.15);
+            box-shadow: 0 2px 15px rgba(108, 92, 231, 0.12);
         }
         .btn-submit:hover {
-            box-shadow: 0 8px 45px rgba(108, 92, 231, 0.35);
+            box-shadow: 0 8px 45px rgba(108, 92, 231, 0.3);
             transform: translateY(-2px);
         }
 
-        /* REVIEWS */
         .reviews-section { margin-top: 20px; }
         .review-item {
             background: rgba(255,255,255,0.03);
@@ -472,7 +446,7 @@
             color: #fbbf24;
             font-size: 14px;
             letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(251, 191, 36, 0.08);
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.06);
         }
         .review-gift {
             font-size: 13px;
@@ -535,7 +509,6 @@
         .load-more-btn:active { transform: scale(0.96); }
         .load-more-btn.hidden { display: none; }
 
-        /* TOAST */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -564,17 +537,14 @@
 </head>
 <body>
 
-    <!-- ✨ ЗВЁЗДЫ НА ФОНЕ -->
     <div class="stars-container" id="starsContainer"></div>
 
-    <!-- GLOW ORBS -->
     <div class="glow-orb purple"></div>
     <div class="glow-orb pink"></div>
     <div class="glow-orb blue"></div>
 
     <div class="container">
 
-        <!-- HEADER -->
         <div class="header">
             <div class="header-top">
                 <div class="avatar"><img id="avatarImg" src="https://i.postimg.cc/Bj4QzQYD/photo-5228734607275007909-y.jpg" alt="Avatar"></div>
@@ -589,7 +559,6 @@
             </div>
         </div>
 
-        <!-- RATING -->
         <div class="rating-card">
             <div class="label" id="ratingLabel">Отзывы о сделках маркета</div>
             <div class="rating-main">
@@ -599,7 +568,6 @@
             <div class="rating-count"><span id="totalReviewsDisplay">44 759</span> <span id="reviewsText">отзывов</span></div>
         </div>
 
-        <!-- DISTRIBUTION -->
         <div class="rating-distribution">
             <div class="rating-row"><span class="rating-label">5 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 93%;"></div></div><span class="rating-count-number">42 412</span><span class="rating-percent">93%</span></div>
             <div class="rating-row"><span class="rating-label">4 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 4%;"></div></div><span class="rating-count-number">2 150</span><span class="rating-percent">4%</span></div>
@@ -608,7 +576,6 @@
             <div class="rating-row"><span class="rating-label">1 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 0%;"></div></div><span class="rating-count-number">0</span><span class="rating-percent">0%</span></div>
         </div>
 
-        <!-- FORM -->
         <div class="section-title" id="formTitle">Ваш отзыв</div>
         <div class="section-sub" id="formSub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift">@FunPayToGift</a></div>
 
@@ -630,17 +597,16 @@
 
         <div class="form-group">
             <label id="labelGift">ПОДАРОК</label>
-            <input class="form-control" id="giftInput" placeholder="название подарка" maxlength="50">
+            <input class="form-control" id="giftInput" placeholder="Название подарка" maxlength="50">
         </div>
 
         <div class="form-group">
             <label id="labelText">ТЕКСТ</label>
-            <textarea class="form-control" id="textInput" placeholder="как прошла передача подарка" maxlength="500"></textarea>
+            <textarea class="form-control" id="textInput" placeholder="Опишите сделку" maxlength="500"></textarea>
         </div>
 
         <button class="btn-submit" id="submitBtn">📤 Отправить отзыв</button>
 
-        <!-- REVIEWS -->
         <div class="reviews-section" id="reviewsContainer"></div>
         <button class="load-more-btn" id="loadMoreBtn">Загрузить еще 50 отзывов</button>
 
@@ -648,7 +614,6 @@
     </div>
 
     <script>
-        // ===== ЗВЁЗДЫ НА ФОНЕ =====
         (function createStars() {
             const container = document.getElementById('starsContainer');
             for (let i = 0; i < 60; i++) {
@@ -670,7 +635,6 @@
         tg.setBackgroundColor('#0a0a0f');
         tg.setHeaderColor('#0a0a0f');
 
-        // ===== ВСЯ ЛОГИКА ОТЗЫВОВ (ПОЛНОСТЬЮ ИЗ ПРОШЛОЙ ВЕРСИИ) =====
         const BASE_TOTAL = 44759;
         const STORAGE_KEY = 'funpay_user_review';
         const STORAGE_TOTAL_KEY = 'funpay_total_reviews';
@@ -759,7 +723,8 @@
         function generateUniqueReviews() {
             const reviews = [];
             const usedCombos = new Set();
-            let longIndex = 0, shortIndex = 0;
+            let longIndex = 0,
+                shortIndex = 0;
             const shuffledNicks = [...UNIQUE_NICKS].sort(() => 0.5 - Math.random());
             for (let i = 0; i < shuffledNicks.length; i++) {
                 const nick = shuffledNicks[i];
@@ -779,7 +744,8 @@
                 }
             }
             let counter = 0;
-            let longIndex2 = 0, shortIndex2 = 0;
+            let longIndex2 = 0,
+                shortIndex2 = 0;
             while (reviews.length < 1000) {
                 const nick = UNIQUE_NICKS[counter % UNIQUE_NICKS.length] + '_' + counter;
                 const gift = GIFTS[counter % GIFTS.length];
@@ -840,8 +806,8 @@
             totalDisplay.textContent = currentTotal;
             const remaining = allReviews.length - end;
             if (end >= allReviews.length && !userReview) { loadMoreBtn.classList.add('hidden'); } else if (end >= allReviews
-                .length && userReview) { if (page === 0) { loadMoreBtn.classList.add('hidden'); } else { loadMoreBtn.classList
-                    .add('hidden'); } } else { loadMoreBtn.classList.remove('hidden');
+                    .length && userReview) { if (page === 0) { loadMoreBtn.classList.add('hidden'); } else { loadMoreBtn
+                        .classList.add('hidden'); } } else { loadMoreBtn.classList.remove('hidden');
                 loadMoreBtn.textContent = `Загрузить еще (${Math.min(remaining, PER_PAGE)})`; }
         }
 
@@ -902,8 +868,8 @@
                 labelGift: 'ПОДАРОК',
                 labelText: 'ТЕКСТ',
                 placeholderNick: 'Ваш никнейм',
-                placeholderGift: 'название подарка',
-                placeholderText: 'как прошла передача подарка',
+                placeholderGift: 'Название подарка',
+                placeholderText: 'Опишите сделку',
                 toast: '✅ Ваш отзыв добавлен!',
                 toastError: '⚠️ Выберите оценку (1-5)',
                 toastErrorNick: '⚠️ Введите ник',
@@ -924,8 +890,8 @@
                 labelGift: 'GIFT',
                 labelText: 'TEXT',
                 placeholderNick: 'Your nickname',
-                placeholderGift: 'gift name',
-                placeholderText: 'how was the gift transfer',
+                placeholderGift: 'Gift name',
+                placeholderText: 'Describe the deal',
                 toast: '✅ Your review has been added!',
                 toastError: '⚠️ Please select a rating (1-5)',
                 toastErrorNick: '⚠️ Enter your nickname',
