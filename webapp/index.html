@@ -305,8 +305,50 @@
         tg.setHeaderColor('#0f0f12');
 
         const BASE_TOTAL = 44759;
-        let currentTotal = BASE_TOTAL;
-        let userReviewAdded = false;
+        const STORAGE_KEY = 'funpay_user_review';
+        const STORAGE_TOTAL_KEY = 'funpay_total_reviews';
+
+        // ===== ЗАГРУЗКА СОХРАНЁННОГО ОТЗЫВА =====
+        function loadUserReview() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    return data;
+                }
+            } catch (e) {
+                console.log('Ошибка загрузки отзыва');
+            }
+            return null;
+        }
+
+        function loadTotalReviews() {
+            try {
+                const saved = localStorage.getItem(STORAGE_TOTAL_KEY);
+                if (saved) {
+                    return parseInt(saved);
+                }
+            } catch (e) {
+                console.log('Ошибка загрузки количества');
+            }
+            return BASE_TOTAL;
+        }
+
+        function saveUserReview(review) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(review));
+            } catch (e) {
+                console.log('Ошибка сохранения отзыва');
+            }
+        }
+
+        function saveTotalReviews(total) {
+            try {
+                localStorage.setItem(STORAGE_TOTAL_KEY, String(total));
+            } catch (e) {
+                console.log('Ошибка сохранения количества');
+            }
+        }
 
         // ===== УНИКАЛЬНЫЕ НИКИ =====
         const UNIQUE_NICKS = [
@@ -396,7 +438,13 @@
             'продавец оплатил моментально передал подарок и получил деньги спасибо'
         ];
 
-        // ===== ГЕНЕРАЦИЯ УНИКАЛЬНЫХ ОТЗЫВОВ =====
+        // ===== ГЕНЕРАЦИЯ ДАТЫ =====
+        function getRandomDate() {
+            const day = Math.floor(Math.random() * 28) + 1;
+            return `${day} июля 2026 г.`;
+        }
+
+        // ===== ГЕНЕРАЦИЯ ОТЗЫВОВ =====
         function generateUniqueReviews() {
             const reviews = [];
             const usedCombos = new Set();
@@ -423,10 +471,7 @@
                 
                 if (!usedCombos.has(key)) {
                     usedCombos.add(key);
-                    
-                    const day = Math.floor(Math.random() * 28) + 1;
-                    const month = ['июня', 'июля', 'августа', 'сентября'][Math.floor(Math.random() * 4)];
-                    const date = `${day} ${month} 2026 г.`;
+                    const date = getRandomDate();
                     const rating = Math.random() > 0.1 ? 5 : 4;
                     
                     reviews.push({
@@ -459,9 +504,7 @@
                 
                 if (!usedCombos.has(key)) {
                     usedCombos.add(key);
-                    const day = Math.floor(Math.random() * 28) + 1;
-                    const month = ['июня', 'июля', 'августа', 'сентября'][Math.floor(Math.random() * 4)];
-                    const date = `${day} ${month} 2026 г.`;
+                    const date = getRandomDate();
                     const rating = Math.random() > 0.1 ? 5 : 4;
                     
                     reviews.push({
@@ -483,9 +526,14 @@
         let currentPage = 0;
         let allReviews = [];
         let userReview = null;
+        let currentTotal = BASE_TOTAL;
         const container = document.getElementById('reviewsContainer');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const totalDisplay = document.getElementById('totalReviewsDisplay');
+
+        // Загружаем сохранённые данные
+        userReview = loadUserReview();
+        currentTotal = loadTotalReviews();
 
         allReviews = generateUniqueReviews();
 
@@ -494,7 +542,6 @@
             const end = Math.min(start + PER_PAGE, allReviews.length);
             let pageReviews = allReviews.slice(start, end);
             
-            // Если есть отзыв пользователя и это первая страница — добавляем его в начало
             let reviewsToShow = [...pageReviews];
             if (showUserReview && userReview && page === 0) {
                 reviewsToShow = [userReview, ...reviewsToShow];
@@ -515,25 +562,18 @@
                 `;
             }).join('');
 
-            // Если первая страница и есть отзыв пользователя — показываем его сверху
-            if (page === 0 && showUserReview && userReview) {
-                container.innerHTML = html;
-            } else if (page === 0) {
+            if (page === 0) {
                 container.innerHTML = html;
             } else {
                 container.innerHTML += html;
             }
 
-            // Обновляем счётчик
-            let total = BASE_TOTAL;
-            if (userReview) total = BASE_TOTAL + 1;
-            totalDisplay.textContent = total;
+            totalDisplay.textContent = currentTotal;
 
             const remaining = allReviews.length - end;
             if (end >= allReviews.length && !userReview) {
                 loadMoreBtn.classList.add('hidden');
             } else if (end >= allReviews.length && userReview) {
-                // Если есть отзыв пользователя, показываем кнопку с 1 оставшимся (сам отзыв уже показан)
                 if (page === 0) {
                     loadMoreBtn.classList.add('hidden');
                 } else {
@@ -574,7 +614,6 @@
             if (rating === 0) { showToast(t.toastError); return; }
             if (!text) { showToast(t.toastErrorText); return; }
 
-            // Создаём отзыв пользователя
             const now = new Date();
             const day = now.getDate();
             const month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'][now.getMonth()];
@@ -590,18 +629,16 @@
                 isUser: true
             };
 
-            // Обновляем счётчик
-            currentTotal = BASE_TOTAL + 1;
-            totalDisplay.textContent = currentTotal;
+            currentTotal = currentTotal + 1;
+            saveUserReview(userReview);
+            saveTotalReviews(currentTotal);
 
-            // Перерисовываем первую страницу с отзывом пользователя
             currentPage = 0;
             container.innerHTML = '';
             renderPage(0, true);
 
             showToast(t.toast);
 
-            // Очищаем форму
             selectedRating = 0;
             starElements.forEach(s => s.classList.remove('active'));
             giftInput.value = '';
@@ -624,7 +661,7 @@
                 placeholderNick: 'Ваш никнейм',
                 placeholderGift: 'название подарка',
                 placeholderText: 'как прошла передача подарка',
-                toast: '✅ Ваш отзыв добавлен! (виден только вам)',
+                toast: '✅ Ваш отзыв добавлен!',
                 toastError: '⚠️ Выберите оценку (1-5)',
                 toastErrorNick: '⚠️ Введите ник',
                 toastErrorGift: '⚠️ Введите название подарка',
@@ -646,7 +683,7 @@
                 placeholderNick: 'Your nickname',
                 placeholderGift: 'gift name',
                 placeholderText: 'how was the gift transfer',
-                toast: '✅ Your review has been added! (visible only to you)',
+                toast: '✅ Your review has been added!',
                 toastError: '⚠️ Please select a rating (1-5)',
                 toastErrorNick: '⚠️ Enter your nickname',
                 toastErrorGift: '⚠️ Enter the gift name',
@@ -723,9 +760,9 @@
         });
 
         // ===== ЗАПУСК =====
-        totalDisplay.textContent = BASE_TOTAL;
-        renderPage(0, false);
-        console.log('FunPay WebApp loaded!');
+        totalDisplay.textContent = currentTotal;
+        renderPage(0, userReview !== null);
+        console.log('FunPay WebApp loaded! Total: ' + currentTotal);
     </script>
 </body>
 </html>
