@@ -14,36 +14,85 @@
             min-height: 100vh;
             padding: 16px 16px 30px;
         }
+
+        /* ХЕДЕР С ЦЕНТРИРОВАНИЕМ */
         .header {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 14px;
             margin-bottom: 20px;
             padding: 12px 16px;
             background: #1a1a1e;
             border-radius: 16px;
             border: 1px solid #2a2a30;
         }
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 4px;
+        }
         .avatar {
-            width: 52px;
-            height: 52px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: linear-gradient(135deg, #6c5ce7, #a29bfe);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #fff;
             flex-shrink: 0;
             overflow: hidden;
         }
         .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .header-info { flex: 1; }
-        .header-info .name { font-size: 20px; font-weight: 700; color: #fff; line-height: 1.2; }
-        .header-info .sub { display: none; }
+        .header-center {
+            text-align: center;
+            flex: 1;
+        }
+        .header-center .name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+        .header-center .sub {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+        }
+        .header-center .sub span {
+            color: #6c5ce7;
+        }
 
-        /* Рейтинг */
+        /* КНОПКИ ЯЗЫКА */
+        .lang-buttons {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .lang-btn {
+            background: transparent;
+            border: 1px solid #2a2a30;
+            border-radius: 8px;
+            padding: 4px 12px;
+            color: #666;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background: #6c5ce7;
+            border-color: #6c5ce7;
+            color: #fff;
+        }
+        .lang-btn:active {
+            transform: scale(0.95);
+        }
+
         .rating-card {
             background: linear-gradient(135deg, #1a1a1e, #22222a);
             border-radius: 20px;
@@ -59,7 +108,6 @@
         .rating-count { font-size: 15px; color: #888; margin-top: 6px; }
         .rating-count span { color: #6c5ce7; font-weight: 600; }
 
-        /* ТАБЛИЦА РАСПРЕДЕЛЕНИЯ (КАК НА ФОТО) */
         .rating-distribution {
             background: #1a1a1e;
             border-radius: 16px;
@@ -74,9 +122,7 @@
             padding: 6px 0;
             border-bottom: 1px solid #25252b;
         }
-        .rating-row:last-child {
-            border-bottom: none;
-        }
+        .rating-row:last-child { border-bottom: none; }
         .rating-label {
             font-size: 14px;
             color: #aaa;
@@ -89,7 +135,6 @@
             background: #25252b;
             border-radius: 4px;
             overflow: hidden;
-            position: relative;
         }
         .rating-bar-fill {
             height: 100%;
@@ -186,74 +231,72 @@
     </style>
 </head>
 <body>
+
+    <!-- ХЕДЕР С ЦЕНТРОМ И КНОПКАМИ ЯЗЫКА -->
     <div class="header">
-        <div class="avatar"><img id="avatarImg" src="https://i.postimg.cc/Bj4QzQYD/photo-5228734607275007909-y.jpg" alt="Avatar"></div>
-        <div class="header-info">
-            <div class="name">FunPay</div>
-            <div class="sub"></div>
+        <div class="header-top">
+            <div class="avatar"><img id="avatarImg" src="https://i.postimg.cc/Bj4QzQYD/photo-5228734607275007909-y.jpg" alt="Avatar"></div>
+            <div class="header-center">
+                <div class="name" id="brandName">FunPay Market</div>
+                <div class="sub" id="brandSub">отзывы о сделках маркета</div>
+            </div>
+            <div class="lang-buttons">
+                <button class="lang-btn active" data-lang="ru" id="langRu">RU</button>
+                <button class="lang-btn" data-lang="en" id="langEn">EN</button>
+            </div>
         </div>
     </div>
 
     <!-- Рейтинг -->
     <div class="rating-card">
-        <div class="label">Отзывы о сделках маркета</div>
+        <div class="label" id="ratingLabel">Отзывы о сделках маркета</div>
         <div class="rating-main">
             <span class="rating-number">4.9</span>
             <span class="rating-stars">★★★★★</span>
         </div>
-        <div class="rating-count"><span>44 739</span> отзывов</div>
+        <div class="rating-count"><span>44 739</span> <span id="reviewsText">отзывов</span></div>
     </div>
 
-    <!-- ТАБЛИЦА РАСПРЕДЕЛЕНИЯ -->
+    <!-- Таблица распределения -->
     <div class="rating-distribution">
         <div class="rating-row">
             <span class="rating-label">5 ★</span>
-            <div class="rating-bar-bg">
-                <div class="rating-bar-fill" style="width: 93%;"></div>
-            </div>
+            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 93%;"></div></div>
             <span class="rating-count-number">42 412</span>
             <span class="rating-percent">93%</span>
         </div>
         <div class="rating-row">
             <span class="rating-label">4 ★</span>
-            <div class="rating-bar-bg">
-                <div class="rating-bar-fill" style="width: 4%;"></div>
-            </div>
+            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 4%;"></div></div>
             <span class="rating-count-number">2 150</span>
             <span class="rating-percent">4%</span>
         </div>
         <div class="rating-row">
             <span class="rating-label">3 ★</span>
-            <div class="rating-bar-bg">
-                <div class="rating-bar-fill" style="width: 2%;"></div>
-            </div>
+            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 2%;"></div></div>
             <span class="rating-count-number">195</span>
             <span class="rating-percent">2%</span>
         </div>
         <div class="rating-row">
             <span class="rating-label">2 ★</span>
-            <div class="rating-bar-bg">
-                <div class="rating-bar-fill" style="width: 1%;"></div>
-            </div>
+            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 1%;"></div></div>
             <span class="rating-count-number">2</span>
             <span class="rating-percent">1%</span>
         </div>
         <div class="rating-row">
             <span class="rating-label">1 ★</span>
-            <div class="rating-bar-bg">
-                <div class="rating-bar-fill" style="width: 0%;"></div>
-            </div>
+            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 0%;"></div></div>
             <span class="rating-count-number">0</span>
             <span class="rating-percent">0%</span>
         </div>
     </div>
 
     <!-- Форма отзыва -->
-    <div class="section-title">Ваш отзыв</div>
-    <div class="section-sub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift">@FunPayToGift</a></div>
+    <div class="section-title" id="formTitle">Ваш отзыв</div>
+    <div class="section-sub" id="formSub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift">@FunPayToGift</a></div>
 
     <div class="form-group">
-        <label>ОЦЕНКА</label>
+        <label id="labelRating">ОЦЕНКА</label>
         <div class="stars-input" id="starsContainer">
             <span class="star" data-value="1">⭐</span>
             <span class="star" data-value="2">⭐</span>
@@ -264,17 +307,17 @@
     </div>
 
     <div class="form-group">
-        <label>НИК</label>
+        <label id="labelNick">НИК</label>
         <input class="form-control" id="nickInput" placeholder="Ваш никнейм" maxlength="30">
     </div>
 
     <div class="form-group">
-        <label>ПОДАРОК</label>
+        <label id="labelGift">ПОДАРОК</label>
         <input class="form-control" id="giftInput" placeholder="название подарка" maxlength="50">
     </div>
 
     <div class="form-group">
-        <label>ТЕКСТ</label>
+        <label id="labelText">ТЕКСТ</label>
         <textarea class="form-control" id="textInput" placeholder="как прошла передача подарка" maxlength="500"></textarea>
     </div>
 
@@ -288,6 +331,7 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
+        // ЭЛЕМЕНТЫ
         const starsContainer = document.getElementById('starsContainer');
         const nickInput = document.getElementById('nickInput');
         const giftInput = document.getElementById('giftInput');
@@ -296,6 +340,97 @@
         const toast = document.getElementById('toast');
         let selectedRating = 0;
 
+        // ЭЛЕМЕНТЫ ДЛЯ ПЕРЕВОДА
+        const brandName = document.getElementById('brandName');
+        const brandSub = document.getElementById('brandSub');
+        const ratingLabel = document.getElementById('ratingLabel');
+        const reviewsText = document.getElementById('reviewsText');
+        const formTitle = document.getElementById('formTitle');
+        const formSub = document.getElementById('formSub');
+        const labelRating = document.getElementById('labelRating');
+        const labelNick = document.getElementById('labelNick');
+        const labelGift = document.getElementById('labelGift');
+        const labelText = document.getElementById('labelText');
+
+        const langRu = document.getElementById('langRu');
+        const langEn = document.getElementById('langEn');
+
+        // ТЕКСТЫ ДЛЯ ПЕРЕВОДА
+        const translations = {
+            ru: {
+                brandName: 'FunPay Market',
+                brandSub: 'отзывы о сделках маркета',
+                ratingLabel: 'Отзывы о сделках маркета',
+                reviewsText: 'отзывов',
+                formTitle: 'Ваш отзыв',
+                formSub: 'Виден только вам · поддержка @FunPayToGift',
+                labelRating: 'ОЦЕНКА',
+                labelNick: 'НИК',
+                labelGift: 'ПОДАРОК',
+                labelText: 'ТЕКСТ',
+                placeholderNick: 'Ваш никнейм',
+                placeholderGift: 'название подарка',
+                placeholderText: 'как прошла передача подарка',
+                toast: '✅ Отзыв отправлен!',
+                toastError: '⚠️ Выберите оценку (1-5)',
+                toastErrorNick: '⚠️ Введите ник',
+                toastErrorGift: '⚠️ Введите название подарка',
+                toastErrorText: '⚠️ Напишите текст отзыва',
+                btnSubmit: '📤 Отправить отзыв'
+            },
+            en: {
+                brandName: 'FunPay Market',
+                brandSub: 'marketplace deal reviews',
+                ratingLabel: 'Marketplace deal reviews',
+                reviewsText: 'reviews',
+                formTitle: 'Your review',
+                formSub: 'Visible only to you · support @FunPayToGift',
+                labelRating: 'RATING',
+                labelNick: 'NICKNAME',
+                labelGift: 'GIFT',
+                labelText: 'TEXT',
+                placeholderNick: 'Your nickname',
+                placeholderGift: 'gift name',
+                placeholderText: 'how was the gift transfer',
+                toast: '✅ Review sent!',
+                toastError: '⚠️ Please select a rating (1-5)',
+                toastErrorNick: '⚠️ Enter your nickname',
+                toastErrorGift: '⚠️ Enter the gift name',
+                toastErrorText: '⚠️ Write your review text',
+                btnSubmit: '📤 Send review'
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            brandName.textContent = t.brandName;
+            brandSub.textContent = t.brandSub;
+            ratingLabel.textContent = t.ratingLabel;
+            reviewsText.textContent = t.reviewsText;
+            formTitle.textContent = t.formTitle;
+            formSub.innerHTML = t.formSub;
+            labelRating.textContent = t.labelRating;
+            labelNick.textContent = t.labelNick;
+            labelGift.textContent = t.labelGift;
+            labelText.textContent = t.labelText;
+            nickInput.placeholder = t.placeholderNick;
+            giftInput.placeholder = t.placeholderGift;
+            textInput.placeholder = t.placeholderText;
+            submitBtn.textContent = t.btnSubmit;
+
+            // Обновляем активную кнопку
+            langRu.classList.toggle('active', lang === 'ru');
+            langEn.classList.toggle('active', lang === 'en');
+        }
+
+        langRu.addEventListener('click', () => setLanguage('ru'));
+        langEn.addEventListener('click', () => setLanguage('en'));
+
+        // Telegram user
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
             if (user.username) {
@@ -305,6 +440,7 @@
             }
         }
 
+        // Звёзды
         const starElements = starsContainer.querySelectorAll('.star');
         starElements.forEach(star => {
             star.addEventListener('click', function() {
@@ -327,32 +463,34 @@
             });
         });
 
+        // Отправка
         submitBtn.addEventListener('click', function() {
+            const t = translations[currentLang];
             const rating = selectedRating;
             const nick = nickInput.value.trim();
             const gift = giftInput.value.trim();
             const text = textInput.value.trim();
 
             if (rating === 0) {
-                showToast('⚠️ Выберите оценку (1-5)');
+                showToast(t.toastError);
                 return;
             }
             if (!nick) {
-                showToast('⚠️ Введите ник');
+                showToast(t.toastErrorNick);
                 return;
             }
             if (!gift) {
-                showToast('⚠️ Введите название подарка');
+                showToast(t.toastErrorGift);
                 return;
             }
             if (!text) {
-                showToast('⚠️ Напишите текст отзыва');
+                showToast(t.toastErrorText);
                 return;
             }
 
             const reviewData = { rating, nick, gift, text };
             tg.sendData(JSON.stringify(reviewData));
-            showToast('✅ Отзыв отправлен!');
+            showToast(t.toast);
 
             selectedRating = 0;
             starElements.forEach(s => s.classList.remove('active'));
