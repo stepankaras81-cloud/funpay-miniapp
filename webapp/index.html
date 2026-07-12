@@ -291,37 +291,36 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        const TOTAL_REVIEWS = 44759; // ФИКСИРОВАННОЕ ЧИСЛО
+        const TOTAL_REVIEWS = 44759;
 
-        // ===== УНИКАЛЬНЫЕ НИКИ =====
+        // ===== УНИКАЛЬНЫЕ НИКИ (НОВЫЕ) =====
         const UNIQUE_NICKS = [
-            'teti|su', 'marishka', 'katya', 'pankihо', 'бетатестер3000',
-            'Вера', 'Rahul', 'Splitov', 'Вероніка', 'Аслан',
-            'аномалия.', 'LUNAROV', 'Великий', 'ЛИКОДОНОВ', 'bittersuite',
-            'Чувашия', 'Trollaccounts', 'aliaska', 'sqw111zzyy', 'Iloniks',
-            'xifuni', 'Zaken', 'Александра', 'Linushecka', 'OTORF II',
-            '119', 'Mm', 'Eric #NFT', 'auclys', 'этилов.vk',
-            'Xsess', 'изи бриджи', 'deanonist', 'Wters', 'современность',
-            'bxbsu', 'Spirid', 'jostle', 'HEADEKBAT', 'Polinaa',
-            'Миланянаа', 'Xunutu', 'POWERPOINT', 'JesterAct', 'Пиздец',
-            'pankiho', 'atreideslolly', 'lvryr', 'Далекий Нептун', 'Weztik',
-            'Momo', '9grams', 'хелсов', 'programdata', 'de la 🎄',
-            'Kay', 'Улита', 'Craiz', 'дед', 'FunPay',
-            'GiftMaster', 'ТопСеллер', 'Гарант', 'Менеджер', 'Покупатель',
-            'Продавец', 'Vice Cream Lover', 'Chill Guy', 'Snake Master',
-            'Candy Queen', 'Winter Fairy', 'Jester King', 'Pet Lover',
-            'Star Gazer', 'skywer', 'doner', 'Лиза', 'emma',
-            'эля', 'глистый', 'maonic', 'Ssss', 'zahra',
-            'ZETIK', 'Lili Alvirovna', 'Виолетта', 'derssam', 'Vkmuso',
-            'Ева', 'Керра', 'Абама', 'sdoret', 'ye',
-            'cry at me', 'Xiril', 'Ульяна', 'Vyacheslav', 'DELURTY',
-            'MARLON', 'Cyan', 'Савелий', 'Ywiii', 'mrPerignon',
-            'dotmoovs', 'Vicky', 'garixov', 'W1ar4ik', 'Півной Уникс',
-            'SOMUPA', 'Evelina', 'bottega', 'leh', 'Wayne',
-            'ILD', 's', 'faziaz', 'Livnite', 'Playerok Deals'
+            'teti|su', 'marishka', 'katya', 'kris', 'levan🤝🏻',
+            'сексі', 'евелинка', 'pankihо', 'бетатестер3000', 'Вера',
+            'Rahul', 'Splitov', 'Вероніка', 'Аслан', 'аномалия.',
+            'LUNAROV', 'Великий', 'ЛИКОДОНОВ', 'bittersuite', 'Чувашия',
+            'Trollaccounts', 'aliaska', 'sqw111zzyy', 'Iloniks', 'xifuni',
+            'Zaken', 'Александра', 'Linushecka', 'OTORF II', '119',
+            'Mm', 'Eric #NFT', 'auclys', 'этилов.vk', 'Xsess',
+            'изи бриджи', 'deanonist', 'Wters', 'современность', 'bxbsu',
+            'Spirid', 'jostle', 'HEADEKBAT', 'Polinaa', 'Миланянаа',
+            'Xunutu', 'POWERPOINT', 'JesterAct', 'Пиздец', 'pankiho',
+            'atreideslolly', 'lvryr', 'Далекий Нептун', 'Weztik', 'Momo',
+            '9grams', 'хелсов', 'programdata', 'de la 🎄', 'Kay',
+            'Улита', 'Craiz', 'дед', 'FunPay', 'GiftMaster',
+            'ТопСеллер', 'Гарант', 'Менеджер', 'Покупатель', 'Продавец',
+            'skywer', 'doner', 'Лиза', 'emma', 'эля',
+            'глистый', 'maonic', 'Ssss', 'zahra', 'ZETIK',
+            'Lili Alvirovna', 'Виолетта', 'derssam', 'Vkmuso', 'Ева',
+            'Керра', 'Абама', 'sdoret', 'ye', 'cry at me',
+            'Xiril', 'Ульяна', 'Vyacheslav', 'DELURTY', 'MARLON',
+            'Cyan', 'Савелий', 'Ywiii', 'mrPerignon', 'dotmoovs',
+            'Vicky', 'garixov', 'W1ar4ik', 'Півной Уникс', 'SOMUPA',
+            'Evelina', 'bottega', 'leh', 'Wayne', 'ILD',
+            's', 'faziaz', 'Livnite', 'Playerok Deals'
         ];
 
-        // ===== ПОДАРКИ =====
+        // ===== ПОДАРКИ (УБРАНЫ Precious Peach, Heart Locket, Magic Potion) =====
         const GIFTS = [
             'Love Potion', 'Bunny Muffin', 'Jelly Bunny', 'Sakura Flower',
             'Crystal Ball', 'Signet Ring', 'Toy Bear', 'Whip Cupcake',
@@ -330,18 +329,16 @@
             'Berry Box + Genie Lamp', 'Lunar Snake + Gem Signet',
             'Winter Wreath', 'Santa Hat + Toy Bear', 'Whip Cupcake + Heart Locket',
             'Light Sword + Berry Box', 'Love Potion + Toy Bear + Santa Hat',
-            'Top Hat + Bunny Muffin', 'Precious Peach', 'Genie Lamp',
-            'Hanging Star', 'Nail Bracelet + Hypno Lollipop', 'Lol Pop',
-            'Astral Shard', 'Evil Eye', 'Love Potion + Diamond Ring',
-            'Magic Potion + Love Potion + Santa Hat', 'Snow Globe',
-            'Precious Peach + Eternal Rose', 'Hypno Lollipop',
-            'B-Day Candle + Candy Cane', 'Nail Bracelet', 'Heart Locket',
+            'Top Hat + Bunny Muffin', 'Genie Lamp', 'Hanging Star',
+            'Nail Bracelet + Hypno Lollipop', 'Lol Pop', 'Astral Shard',
+            'Evil Eye', 'Love Potion + Diamond Ring', 'Snow Globe',
+            'Hypno Lollipop', 'B-Day Candle + Candy Cane', 'Nail Bracelet',
             'Candy Cane', 'Whip Cupcake + Love Potion', 'Tama Gadget + Spiced Wine',
-            'Jester Hat', 'Diamond Ring + Top Hat', 'Precious Peach + Gem Signet',
-            'Magic Potion + Toy Bear', 'lon Gem', 'Lunar Snake + Pet Snake + Spy Agaric',
-            'Precious Peach', 'Santa Hat', 'Trapped Heart', 'Plush Pepe',
-            'Crystal Ball + Whip Cupcake', 'Berry Box', 'Clover Pin',
-            'Cupid Charm', 'Spring Basket', 'Eternal Rose'
+            'Jester Hat', 'Diamond Ring + Top Hat', 'Toy Bear',
+            'lon Gem', 'Lunar Snake + Pet Snake + Spy Agaric', 'Santa Hat',
+            'Trapped Heart', 'Plush Pepe', 'Crystal Ball + Whip Cupcake',
+            'Berry Box', 'Clover Pin', 'Cupid Charm', 'Spring Basket',
+            'Eternal Rose', 'Light Sword', 'Snake Box', 'Chill Flame'
         ];
 
         // ===== ТЕКСТЫ =====
@@ -430,7 +427,9 @@
             'продавец зашёл в сделку оплатил я передал подарок @FunPayToGift рубли упали сразу всё ок рекомендую',
             '+rep',
             'все чётко, рекомендую',
-            'топ, всё супер'
+            'топ, всё супер',
+            'быстро закрыли, доволен',
+            'отличный сервис, всем советую'
         ];
 
         // ===== ГЕНЕРАЦИЯ УНИКАЛЬНЫХ ОТЗЫВОВ =====
@@ -465,7 +464,6 @@
                 }
             }
             
-            // Добираем до 1000+ уникальных
             while (reviews.length < 1200) {
                 const nick = UNIQUE_NICKS[reviews.length % UNIQUE_NICKS.length] + '_' + reviews.length;
                 const gift = GIFTS[reviews.length % GIFTS.length];
@@ -520,12 +518,9 @@
             `).join('');
 
             container.innerHTML += html;
-
-            const remaining = allReviews.length - end;
-            
-            // ВСЕГДА ПОКАЗЫВАЕМ 44 759
             totalDisplay.textContent = TOTAL_REVIEWS;
 
+            const remaining = allReviews.length - end;
             if (end >= allReviews.length) {
                 loadMoreBtn.classList.add('hidden');
             } else {
@@ -608,11 +603,6 @@
             document.getElementById('submitBtn').textContent = t.btnSubmit;
             document.getElementById('langRu').classList.toggle('active', lang === 'ru');
             document.getElementById('langEn').classList.toggle('active', lang === 'en');
-            
-            const remaining = allReviews.length - ((currentPage + 1) * PER_PAGE);
-            if (remaining > 0) {
-                loadMoreBtn.textContent = `${t.loadMore} (${Math.min(remaining, PER_PAGE)})`;
-            }
         }
 
         document.getElementById('langRu').addEventListener('click', () => setLanguage('ru'));
@@ -694,10 +684,9 @@
         });
 
         // ===== ЗАПУСК =====
-        // ВСЕГДА ПОКАЗЫВАЕМ 44 759
         totalDisplay.textContent = TOTAL_REVIEWS;
         renderPage(0);
-        console.log('FunPay WebApp loaded! Total reviews: ' + allReviews.length + ' | Display: ' + TOTAL_REVIEWS);
+        console.log('FunPay WebApp loaded!');
     </script>
 </body>
 </html>
