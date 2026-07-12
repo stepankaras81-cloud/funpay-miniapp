@@ -101,10 +101,7 @@
         .rating-count-number { font-size: 13px; color: #888; min-width: 50px; text-align: right; font-weight: 500; }
         .rating-percent { font-size: 12px; color: #555; min-width: 38px; text-align: right; font-weight: 400; }
 
-        /* БЛОК ОТЗЫВОВ */
-        .reviews-section {
-            margin-top: 20px;
-        }
+        .reviews-section { margin-top: 20px; }
         .review-item {
             background: #1a1a1e;
             border-radius: 16px;
@@ -119,33 +116,11 @@
             align-items: center;
             margin-bottom: 4px;
         }
-        .review-nick {
-            font-size: 16px;
-            font-weight: 600;
-            color: #fff;
-        }
-        .review-stars {
-            color: #fbbf24;
-            font-size: 14px;
-            letter-spacing: 2px;
-        }
-        .review-gift {
-            font-size: 13px;
-            color: #6c5ce7;
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-        .review-text {
-            font-size: 14px;
-            color: #aaa;
-            line-height: 1.5;
-            margin-bottom: 8px;
-        }
-        .review-date {
-            font-size: 12px;
-            color: #555;
-            text-align: right;
-        }
+        .review-nick { font-size: 16px; font-weight: 600; color: #fff; }
+        .review-stars { color: #fbbf24; font-size: 14px; letter-spacing: 2px; }
+        .review-gift { font-size: 13px; color: #6c5ce7; font-weight: 500; margin-bottom: 6px; }
+        .review-text { font-size: 14px; color: #aaa; line-height: 1.5; margin-bottom: 8px; }
+        .review-date { font-size: 12px; color: #555; text-align: right; }
 
         .section-title { font-size: 14px; font-weight: 600; color: #aaa; margin-bottom: 4px; }
         .section-sub { font-size: 13px; color: #666; margin-bottom: 16px; }
@@ -315,22 +290,48 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        // ===== ДАННЫЕ ДЛЯ ОТЗЫВОВ =====
-        const giftNames = [
-            'Sakura Flower', 'Spring Basket', 'Victory Medal', 'Artisan Brick',
-            'B-Day Candle', 'Big Year', 'Berry Box', 'Chill Flame',
-            'Clover Pin', 'Cookie Heart', 'Crystal Ball', 'Easter Egg',
-            'Cupid Charm', 'Jelly Bunny', 'Jester Hat', 'Diamond Ring',
-            'Love Potion', 'Bunny Muffin', 'Signet Ring', 'Spy Agaric',
-            'Snake Box', 'Scared Cat', 'Pet Snake', 'Genie Lamp',
-            'Flying Broom', 'Homemade Cake', 'Mad Pumpkin', 'Sharp Tongue',
-            'Santa Hat', 'Star Notepad', 'Durov\'s Cap', 'Eternal Rose',
-            'Neko Helmet', 'Vintage Cigar', 'Restless Jar', 'Lunar Snake',
-            'Trapped Heart', 'Tama Gadget', 'Jingle Bells', 'Loot Bag',
-            'Swiss Watch', 'Astral Shard', 'Hanging Star', 'Gem Signet',
-            'Toy Bear', 'Kissed Frog', 'Light Sword', 'Winter Wreath'
+        // ===== СПИСКИ ДЛЯ ГЕНЕРАЦИИ =====
+
+        // ДЕШЁВЫЕ (80-85%) — до 3 GRAM
+        const cheapGifts = [
+            'Vice Cream', 'Chill Flame', 'Xmas Stocking', 'Lunar Snake',
+            'Candy Cane', 'Snake Box', 'Instant Ramen', 'Whip Cupcake',
+            'Winter Wreath', 'Jester Hat', 'Pet Snake', 'Party Sparkler',
+            'Tama Gadget', 'Easter Egg', 'Mood Pack', 'Hypno Lollipop',
+            'Ginger Cookie', 'Jack-in-the-Box', 'Witch Hat', 'Snoop Dogg',
+            'Eternal Candle', 'Spring Basket', 'Stellar Rocket', 'Swag Bag',
+            'Moon Pendant', 'B-Day Candle', 'Input Key', 'Lush Bouquet',
+            'Sakura Flower', 'Berry Box', 'Clover Pin', 'Cookie Heart',
+            'Crystal Ball', 'Cupid Charm', 'Jelly Bunny', 'Bunny Muffin',
+            'Spy Agaric', 'Scared Cat', 'Homemade Cake', 'Mad Pumpkin',
+            'Santa Hat', 'Star Notepad', 'Neko Helmet', 'Vintage Cigar',
+            'Restless Jar', 'Toy Bear', 'Kissed Frog', 'Light Sword',
+            'Snow Mittens', 'Voodoo Doll', 'Loot Bag', 'Plush Pepe',
+            'Magic Potion', 'Love Potion', 'Heart Locket', 'Evil Eye',
+            'Candy Cane', 'Snow Globe', 'Lol Pop', 'Nail Bracelet',
+            'Diamond Ring', 'Top Hat', 'Spiced Wine', 'Precious Peach',
+            'Gem Signet', 'Whip Cupcake', 'Hypno Lollipop', 'Jester Hat'
         ];
 
+        // СРЕДНИЕ (10-15%) — 3-5 GRAM
+        const mediumGifts = [
+            'Genie Lamp', 'Flying Broom', 'Sharp Tongue', 'Trapped Heart',
+            'Lunar Snake + Pet Snake', 'Eternal Rose', 'Berry Box + Genie Lamp',
+            'Tama Gadget + Spiced Wine', 'Diamond Ring + Top Hat',
+            'Magic Potion + Love Potion', 'Crystal Ball + Whip Cupcake',
+            'B-Day Candle + Neko Helmet', 'Pet Snake + Tama Gadget',
+            'Signet Ring + Evil Eye', 'Love Potion + Diamond Ring'
+        ];
+
+        // ДОРОГИЕ (5%) — Durov's Cap, Sharp Tongue, Signet Ring, и т.д.
+        const expensiveGifts = [
+            'Durov\'s Cap', 'Sharp Tongue', 'Signet Ring', 'Astral Shard',
+            'Durov\'s Cap + Eternal Rose', 'Signet Ring + Durov\'s Cap',
+            'Sharp Tongue + Trapped Heart', 'Signet Ring + Evil Eye',
+            'Durov\'s Cap + Sharp Tongue', 'Astral Shard + Signet Ring'
+        ];
+
+        // ВСЕ ИМЕНА
         const nicknames = [
             'Аринка', 'skywer', 'doner', 'Лиза', 'emma', 'эля', 'Вера',
             'глистый', 'maonic', 'Ssss', 'zahra', 'ZETIK', 'Lili Alvirovna',
@@ -339,9 +340,21 @@
             'DELURTY', 'MARLON', 'Cyan', 'Савелий', 'Ywiii', 'mrPerignon',
             'dotmoovs', 'Vicky', 'garixov', 'W1ar4ik', 'Півной Уникс',
             'бетатестер3000', 'SOMUPA', 'Evelina', 'Splitov', 'bottega',
-            'leh', 'Wayne', 'ILD', 's', 'faziaz', 'Livnite', 'Playerok Deals'
+            'leh', 'Wayne', 'ILD', 's', 'faziaz', 'Livnite', 'Playerok Deals',
+            'xifuni', 'Вероніка', 'Аслан', 'аномалия.', 'LUNAROVY',
+            'Великий', 'Zaken', 'Александра', 'Linushecka', 'OTORF II',
+            'диджей клитор', '119', 'Mm', 'Eric #NFT', 'auclys',
+            'этилов.vk', 'Xsess', 'изи бриджи', 'deanonist', 'Wters',
+            'современность', 'bxbsu', 'Spirid', 'jostle', 'HEADEKBAT',
+            'Polinaa', 'Миланянаа', 'Xunutu', 'POWERPOINT', 'JesterAct',
+            'Пиздец', 'pankiho', 'atreideslolly', 'lvryr', 'Далекий Нептун',
+            'Weztik', 'Momo', '9grams', 'хелсов', 'programdata', 'heal',
+            'Kane As', 'Migo', 'Rahul', 'Tamir Karimov', 'beenren',
+            'Michele', 'максим', 'Kluron', 'Broker MM', 'de la 🎄',
+            'Kay', 'Улита', 'Craiz', 'Wters', 'LUNAROVY'
         ];
 
+        // ТЕКСТЫ ОТЗЫВОВ
         const reviewTexts = [
             'сделали сделку топ, закинули рубли, звезды пришли через 7м',
             'продавец оплатил моментально, скинул менеджеру, оплата на карте через минуту',
@@ -352,7 +365,6 @@
             'топ продавець рекомендую все ок',
             'звёзды пришли по-быстрому спасибо',
             'быстро закрыли доволен',
-            'зашли в сделку он внёс деньги, я передал подарок менеджеру, оплата пришла на карту в рублях',
             'думал кинут оплатил без вопросов отдал через гаранта оплата пришла на карту в рублях +реп',
             'сделка чистая рекамендую',
             'деньги на карте топ',
@@ -385,55 +397,124 @@
             'месси гогат рональдо пушка',
             'всё честно оплата прешла',
             'аж страшно было он сразу оплатил скинула @Lolz_Relayer перевод дошёл сразу всё супер обожаю ❤️',
-            'всё честно оплата пришла дякую'
+            'всё честно оплата пришла дякую',
+            'сначала стрёмно было, продавец зашёл в сделку оплатил, скинул менеджеру, перевод дошёл сразу, топ селлер',
+            'продавец оплатил моментально, скинула менеджеру, оплата на карте через минуту, мимими',
+            'сначала стрёмно было зашли в сделку он внёс деньги я передал подарок менеджеру перевод дошёл сразу топ селлер',
+            'думал кинут, зашли в сделку он внёс деньги, отдал через гаранта, оплата на карте через минуту, доволен спасибо',
+            '+реп',
+            'долго сомневался продавец оплатил моментально отдал через гаранта деньги пришли моментально',
+            'продавец не підвів гроші на карті',
+            'за звёзды спасибо всё чесно',
+            'думал кинут, он сразу оплатил, я передал подарок @Lolz_Relayer, оплата пришла на карту в рублях, без кидка советую',
+            'оплатил без вопросов я передал подарок менеджеру рубли упали сразу доволен спасибо',
+            'долго сомневался продавец зашёл в сделку оплатил скинул @Lolz_Relayer оплата пришла на карту в рублях без кидка советую',
+            'по чесноку спасибо',
+            'честно думал скам зашли в зделку он внёс деньги отдал через гаранта рубли упали сразу без кидка советую',
+            'долго сомневался, он сразу оплатил, я передал подарок менеджеру, оплата на карте через минуту, +реп',
+            'думал кинут продавец оплатил моментально я передал подарок менеджеру оплата на карте через минуту доволен спасибо',
+            'звёзды пришлом по-быстрому спасибо',
+            'зашли в сделку он внёс деньги, отдал через гаранта, оплата пришла на карту в рублях, +реп',
+            'продавец не подвёл',
+            'норм',
+            'продавец зашёл в сделку оплатил скинул менеджеру перевод дошёл сразу +реп',
+            'сначала стрёмно было, продавец зашёл в сделку оплатил, я передал подарок менеджеру, деньги пришли моментально, +реп',
+            'долго сомневался он сразо оплатил скинул менеджеру деньги пришли моментально доволен спасибо',
+            'он сразо оплатил, скинул менеджеру, деньги пришли моментально, всё ок рекомендую',
+            'продавец не подвёл',
+            'быстро закрыли доволен',
+            'продавец оплатил моментально, я передала подарок менеджеру, перевод дошёл сразу, всё няншо',
+            'продавец не подвёл',
+            'всё честно оплата пришла',
+            'все швидко чесно показала',
+            'упали сразо, топ селлер',
+            'звёзды закинул сразу всё ок',
+            'топ продавець рекамендую все ок',
+            'продавец оплатил моментально, отдал через гаранта, перевод дошёл сразо, +реп',
+            'всё честно оплата пришла',
+            'продавец зашёл в сделку оплатил я передал подарок @Lolz_Relayer рубли упали сразу всё ок рекомендую',
+            'за звёзды спасибо всё чесно',
+            'звёзды пришли по-быстрому спасибо',
+            'по чесноку спасибо',
+            'зашли в сделку он внёс деньги, я передал подарок @Lolz_Relayer, деньги пришли моментально',
+            'звёзды закинул сразу всё ок',
+            'продавец оплатил моментально я передал подарок менеджеру перевод дошёл сразу',
+            'оплатил без вопросов, я передал подарок менеджеру, перевод дошёл сразу',
+            'сначала стрёмно было зашли в сделку он внёс деньги я передал подарок менеджеру деньги пришли моментально',
+            'думал кинут, зашли в сделку он внёс деньги, я передал подарок менеджеру, оплата на карте через минуту, доволен спасибо',
+            'по чесноку спасибо',
+            '+рен',
+            'норм',
+            'честно думал скам продавец оплатил моментально отдал через гаранта перевод дошёл сразу доволен спасибо',
+            'оплатил без вопросов скинул @Lolz_Relayer оплата пришла на карту в рублях доволен спасибо',
+            'сделка чистая рекамендую',
+            'честно думал скам, зашли в сделку он внёс деньги, я передал подарок менеджеру, оплата пришла на карту в рублях, топ селлер',
+            'думав шо скам але все ок продавець оплатив гроші прийшли',
+            'думал кинут он сразу оплатил отдал через гаранта оплата на карте через минуту доволен спасибо',
+            'он сразу оплатил скинул менеджеру оплата пришла на карту в рублях топ селлер',
+            'переживала, оплатил без вопросов, я передала подарок менеджеру, рубли упали сразу',
+            'долго сомневался, продавец оплатил моментально, скинул менеджеру, деньги пришли моментально, без кидка советую'
         ];
 
         // ===== ГЕНЕРАЦИЯ ОТЗЫВОВ =====
         function generateReviews(count) {
             const reviews = [];
-            const months = ['июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-            
-            // Фиксируем даты в пределах июля 2026
-            const startDate = new Date(2026, 6, 1); // 1 июля 2026
-            const endDate = new Date(2026, 6, 31); // 31 июля 2026
+            const usedCombos = new Set();
 
             for (let i = 0; i < count; i++) {
-                // Рандомная дата
-                const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
-                const day = randomDate.getDate();
-                const month = months[randomDate.getMonth()];
-                const year = randomDate.getFullYear();
-                const dateStr = `${day} ${month} ${year} г.`;
+                let attempts = 0;
+                let gift, text, nick, dateStr, rating;
+                let unique = false;
 
-                // Рандомный ник
-                const nick = nicknames[Math.floor(Math.random() * nicknames.length)];
-                
-                // Рандомное количество подарков (1-3)
-                const giftCount = Math.floor(Math.random() * 3) + 1;
-                const selectedGifts = [];
-                const shuffled = [...giftNames].sort(() => 0.5 - Math.random());
-                for (let j = 0; j < giftCount; j++) {
-                    selectedGifts.push(shuffled[j]);
+                while (!unique && attempts < 50) {
+                    attempts++;
+
+                    // Выбор категории подарка
+                    const rand = Math.random();
+                    let giftPool;
+                    if (rand < 0.82) {
+                        giftPool = cheapGifts; // 82% дешёвые
+                    } else if (rand < 0.93) {
+                        giftPool = mediumGifts; // 11% средние
+                    } else {
+                        giftPool = expensiveGifts; // 7% дорогие
+                    }
+
+                    // Количество подарков (1-3)
+                    const giftCount = Math.floor(Math.random() * 3) + 1;
+                    const shuffled = [...giftPool].sort(() => 0.5 - Math.random());
+                    const selected = [];
+                    for (let j = 0; j < Math.min(giftCount, shuffled.length); j++) {
+                        selected.push(shuffled[j]);
+                    }
+                    gift = selected.join(' + ');
+
+                    // Рандомный ник
+                    nick = nicknames[Math.floor(Math.random() * nicknames.length)];
+
+                    // Рандомный текст
+                    text = reviewTexts[Math.floor(Math.random() * reviewTexts.length)];
+
+                    // Рандомная дата (июль 2026)
+                    const day = Math.floor(Math.random() * 28) + 1;
+                    const month = ['июля', 'августа', 'сентября'][Math.floor(Math.random() * 3)];
+                    dateStr = `${day} ${month} 2026 г.`;
+
+                    // Рейтинг (5 - 93%, 4 - 5%, 3 - 2%)
+                    const r = Math.random();
+                    if (r < 0.93) rating = 5;
+                    else if (r < 0.98) rating = 4;
+                    else if (r < 0.995) rating = 3;
+                    else rating = 2;
+
+                    const key = `${nick}|${gift}|${text}`;
+                    if (!usedCombos.has(key)) {
+                        usedCombos.add(key);
+                        unique = true;
+                    }
                 }
-                const giftStr = selectedGifts.join(' + ');
 
-                // Рандомный текст
-                const text = reviewTexts[Math.floor(Math.random() * reviewTexts.length)];
-                
-                // Рандомный рейтинг (5 - 93%, 4 - 5%, 3 - 2%)
-                let rating = 5;
-                const rand = Math.random();
-                if (rand > 0.93) rating = 4;
-                if (rand > 0.98) rating = 3;
-                if (rand > 0.995) rating = 2;
-
-                reviews.push({
-                    nick: nick,
-                    gift: giftStr,
-                    text: text,
-                    date: dateStr,
-                    rating: rating
-                });
+                reviews.push({ nick, gift, text, date: dateStr, rating });
             }
             return reviews;
         }
@@ -460,170 +541,5 @@
                 </div>
             `).join('');
 
-            if (count >= allReviews.length) {
-                loadMoreBtn.style.display = 'none';
-            } else {
-                loadMoreBtn.style.display = 'block';
-                loadMoreBtn.textContent = `Показать еще (${allReviews.length - count} осталось)`;
-            }
-        }
-
-        loadMoreBtn.addEventListener('click', () => {
-            displayedCount += 20;
-            renderReviews(displayedCount);
-        });
-
-        // ===== ПЕРЕВОД =====
-        const translations = {
-            ru: {
-                brandName: 'FunPay Market',
-                brandSub: 'отзывы о сделках маркета',
-                ratingLabel: 'Отзывы о сделках маркета',
-                reviewsText: 'отзывов',
-                formTitle: 'Ваш отзыв',
-                formSub: 'Виден только вам · поддержка @FunPayToGift',
-                labelRating: 'ОЦЕНКА',
-                labelNick: 'НИК',
-                labelGift: 'ПОДАРОК',
-                labelText: 'ТЕКСТ',
-                placeholderNick: 'Ваш никнейм',
-                placeholderGift: 'название подарка',
-                placeholderText: 'как прошла передача подарка',
-                toast: '✅ Отзыв отправлен!',
-                toastError: '⚠️ Выберите оценку (1-5)',
-                toastErrorNick: '⚠️ Введите ник',
-                toastErrorGift: '⚠️ Введите название подарка',
-                toastErrorText: '⚠️ Напишите текст отзыва',
-                btnSubmit: '📤 Отправить отзыв'
-            },
-            en: {
-                brandName: 'FunPay Market',
-                brandSub: 'marketplace deal reviews',
-                ratingLabel: 'Marketplace deal reviews',
-                reviewsText: 'reviews',
-                formTitle: 'Your review',
-                formSub: 'Visible only to you · support @FunPayToGift',
-                labelRating: 'RATING',
-                labelNick: 'NICKNAME',
-                labelGift: 'GIFT',
-                labelText: 'TEXT',
-                placeholderNick: 'Your nickname',
-                placeholderGift: 'gift name',
-                placeholderText: 'how was the gift transfer',
-                toast: '✅ Review sent!',
-                toastError: '⚠️ Please select a rating (1-5)',
-                toastErrorNick: '⚠️ Enter your nickname',
-                toastErrorGift: '⚠️ Enter the gift name',
-                toastErrorText: '⚠️ Write your review text',
-                btnSubmit: '📤 Send review'
-            }
-        };
-
-        let currentLang = 'ru';
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            const t = translations[lang];
-            document.getElementById('brandName').textContent = t.brandName;
-            document.getElementById('brandSub').textContent = t.brandSub;
-            document.getElementById('ratingLabel').textContent = t.ratingLabel;
-            document.getElementById('reviewsText').textContent = t.reviewsText;
-            document.getElementById('formTitle').textContent = t.formTitle;
-            document.getElementById('formSub').innerHTML = t.formSub;
-            document.getElementById('labelRating').textContent = t.labelRating;
-            document.getElementById('labelNick').textContent = t.labelNick;
-            document.getElementById('labelGift').textContent = t.labelGift;
-            document.getElementById('labelText').textContent = t.labelText;
-            document.getElementById('nickInput').placeholder = t.placeholderNick;
-            document.getElementById('giftInput').placeholder = t.placeholderGift;
-            document.getElementById('textInput').placeholder = t.placeholderText;
-            document.getElementById('submitBtn').textContent = t.btnSubmit;
-            document.getElementById('langRu').classList.toggle('active', lang === 'ru');
-            document.getElementById('langEn').classList.toggle('active', lang === 'en');
-            loadMoreBtn.textContent = lang === 'ru' ? `Показать еще (${allReviews.length - displayedCount} осталось)` : `Show more (${allReviews.length - displayedCount} left)`;
-        }
-
-        document.getElementById('langRu').addEventListener('click', () => setLanguage('ru'));
-        document.getElementById('langEn').addEventListener('click', () => setLanguage('en'));
-
-        // ===== ЗВЁЗДЫ ДЛЯ ОЦЕНКИ =====
-        const starsContainer = document.getElementById('starsContainer');
-        const starElements = starsContainer.querySelectorAll('.star');
-        let selectedRating = 0;
-
-        starElements.forEach(star => {
-            star.addEventListener('click', function() {
-                const value = parseInt(this.dataset.value);
-                selectedRating = value;
-                starElements.forEach(s => {
-                    s.classList.toggle('active', parseInt(s.dataset.value) <= value);
-                });
-            });
-            star.addEventListener('mouseenter', function() {
-                const value = parseInt(this.dataset.value);
-                starElements.forEach(s => {
-                    s.style.color = parseInt(s.dataset.value) <= value ? '#fbbf24' : '#333';
-                });
-            });
-            star.addEventListener('mouseleave', function() {
-                starElements.forEach(s => {
-                    s.style.color = s.classList.contains('active') ? '#fbbf24' : '#333';
-                });
-            });
-        });
-
-        // ===== ОТПРАВКА ОТЗЫВА =====
-        const nickInput = document.getElementById('nickInput');
-        const giftInput = document.getElementById('giftInput');
-        const textInput = document.getElementById('textInput');
-        const submitBtn = document.getElementById('submitBtn');
-        const toast = document.getElementById('toast');
-
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const user = tg.initDataUnsafe.user;
-            if (user.username) nickInput.value = '@' + user.username;
-            else if (user.first_name) nickInput.value = user.first_name;
-        }
-
-        submitBtn.addEventListener('click', function() {
-            const t = translations[currentLang];
-            const rating = selectedRating;
-            const nick = nickInput.value.trim();
-            const gift = giftInput.value.trim();
-            const text = textInput.value.trim();
-
-            if (rating === 0) { showToast(t.toastError); return; }
-            if (!nick) { showToast(t.toastErrorNick); return; }
-            if (!gift) { showToast(t.toastErrorGift); return; }
-            if (!text) { showToast(t.toastErrorText); return; }
-
-            const reviewData = { rating, nick, gift, text };
-            tg.sendData(JSON.stringify(reviewData));
-            showToast(t.toast);
-
-            selectedRating = 0;
-            starElements.forEach(s => s.classList.remove('active'));
-            giftInput.value = '';
-            textInput.value = '';
-        });
-
-        let toastTimeout;
-        function showToast(msg) {
-            toast.textContent = msg;
-            toast.classList.add('show');
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
-        }
-
-        tg.onEvent('viewportChanged', function() {
-            tg.expand();
-        });
-
-        // ===== ЗАПУСК =====
-        renderReviews(displayedCount);
-        console.log('FunPay WebApp loaded with 500+ reviews!');
-    </script>
-</body>
-</html>
+            const remaining = allReviews.length - count;
+            if (remaining <= 0) {
