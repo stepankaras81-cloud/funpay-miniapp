@@ -291,9 +291,9 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        // ===== ФИКСИРОВАННЫЙ СПИСОК УНИКАЛЬНЫХ ОТЗЫВОВ =====
+        // ===== ФИКСИРОВАННЫЙ СПИСОК УНИКАЛЬНЫХ ОТЗЫВОВ (НЕ ПОВТОРЯЮТСЯ) =====
         const FIXED_REVIEWS = [
-            // Новые имена
+            // Отзывы с новыми именами
             { nick: 'teti|su', gift: 'Love Potion', text: 'предложили купить через бота, оплатили сделку и передали мне, через 2 минуты после подтверждения сразу вывели, все гуд', date: '30 июля 2026 г.', rating: 5 },
             { nick: 'marishka', gift: 'Bunny Muffin', text: 'девушка-продавец предложила купить через бота, оплатила, передала менеджеру, через 2 минуты вывели на карту, спасибо', date: '29 июля 2026 г.', rating: 5 },
             { nick: 'katya', gift: 'Jelly Bunny', text: 'предложили купить через бота, я оплатила, передала подарок менеджеру, через пару минут деньги пришли, рекомендую', date: '28 июля 2026 г.', rating: 5 },
@@ -321,49 +321,14 @@
             { nick: 'marishka', gift: 'Cupid Charm', text: 'первый раз пользовалась ботом, всё объяснили, оплатила, через 2 минуты вывели, буду ещё покупать', date: '23 июля 2026 г.', rating: 5 },
             { nick: 'teti|su', gift: 'Spring Basket', text: 'продавец предложила купить через бота, я согласилась, оплатила, передала подарок, деньги пришли быстро', date: '22 июля 2026 г.', rating: 5 },
             { nick: 'katya', gift: 'Eternal Rose', text: 'всё прошло отлично, предложили купить через бота, оплатила, через минуту вывели, рекомендую', date: '21 июля 2026 г.', rating: 5 },
-            
-            // Дополнительные отзывы для заполнения
-            { nick: 'xifuni', gift: 'Hanging Star', text: 'сначала стрёмно было, продавец зашёл в сделку оплатил, скинул менеджеру, перевод дошёл сразу, топ селлер', date: '28 июня 2026 г.', rating: 5 },
-            { nick: 'Zaken', gift: 'Signet Ring', text: 'долго сомневался продавец оплатил моментально отдал через гаранта деньги пришли моментально', date: '26 июня 2026 г.', rating: 5 },
-            { nick: 'Александра', gift: 'Nail Bracelet + Hypno Lollipop', text: 'Продавец не підвів гроші на карті', date: '26 июня 2026 г.', rating: 5 },
-            { nick: 'Linushecka', gift: 'Lol Pop', text: 'думал кинут, он сразу оплатил, я передал подарок @FunPayToGift, оплата пришла на карту в рублях, без кидка советую', date: '26 июня 2026 г.', rating: 5 },
-            { nick: 'OTORF II', gift: 'Astral Shard', text: 'Оплатил без вопросов я передал подарок менеджеру рубли упали сразу доволен спасибо', date: '26 июня 2026 г.', rating: 5 },
-            { nick: '119', gift: 'Evil Eye', text: 'По чесноку спасибо', date: '25 июня 2026 г.', rating: 5 },
-            { nick: 'Mm', gift: 'Love Potion + Diamond Ring', text: 'деньги на карте топ', date: '25 июня 2026 г.', rating: 5 },
-            { nick: 'Eric #NFT', gift: 'Plush Pepe', text: 'честно думал скам зашли в зделку он внёс деньги отдал через гаранта рубли упали сразу без кидка советую', date: '25 июня 2026 г.', rating: 5 },
-            { nick: 'auclys', gift: 'Magic Potion + Love Potion + Santa Hat', text: 'Думал кинут продавец оплатил моментально я передал подарок менеджеру оплата на карте через минуту доволен спасибо', date: '25 июня 2026 г.', rating: 5 },
-            { nick: 'этилов.vk', gift: 'Lol Pop', text: 'Звёзды пришлом по-быстрому спасибо', date: '25 июня 2026 г.', rating: 5 },
-            { nick: 'Xsess', gift: 'Snow Globe', text: 'Зашли в сделку он внёс деньги, отдал через гаранта, оплата пришла на карту в рублях, +реп', date: '25 июня 2026 г.', rating: 5 },
-            { nick: 'изи бриджи', gift: 'Precious Peach + Eternal Rose', text: 'Продавец не подвёл', date: '25 июня 2026 г.', rating: 5 },
-            { nick: 'deanonist', gift: 'Hypno Lollipop', text: 'Продавец не подвёл', date: '25 июня 2026 г.', rating: 5 },
-            { nick: 'Wters', gift: 'B-Day Candle + Candy Cane', text: 'Норм', date: '24 июня 2026 г.', rating: 5 },
-            { nick: 'современность', gift: 'Evil Eye', text: 'Продавец зашёл в сделку оплатил скинул менеджеру перевод дошёл сразу +реп', date: '24 июня 2026 г.', rating: 5 },
-            { nick: 'bxbsu', gift: 'Nail Bracelet', text: 'сначала стрёмно было, продавец зашёл в сделку оплатил, я передал подарок менеджеру, деньги пришли моментально, +реп', date: '23 июня 2026 г.', rating: 5 },
-            { nick: 'Spirid', gift: 'Heart Locket', text: 'Долго сомневался он сразо оплатил скинул менеджеру деньги пришли моментально доволен спасибо', date: '23 июня 2026 г.', rating: 5 },
-            { nick: 'jostle', gift: 'Candy Cane', text: 'он сразо оплатил, скинул менеджеру, деньги пришли моментально, всё ок рекомендую', date: '23 июня 2026 г.', rating: 5 },
-            { nick: 'HEADEKBAT', gift: 'Whip Cupcake + Love Potion', text: 'Продавец не подвёл', date: '23 июня 2026 г.', rating: 5 },
-            { nick: 'Polinaa', gift: 'Tama Gadget + Spiced Wine', text: 'быстро закрыли доволен', date: '23 июня 2026 г.', rating: 5 },
-            { nick: 'Миланянаа', gift: 'Jester Hat', text: 'продавец оплатил моментально, я передала подарок менеджеру, перевод дошёл сразу, всё няншо', date: '23 июня 2026 г.', rating: 5 },
-            { nick: 'Xunutu', gift: 'Diamond Ring + Top Hat', text: 'Продавец не подвёл', date: '23 июня 2026 г.', rating: 5 },
-            { nick: 'POWERPOINT', gift: 'Precious Peach + Gem Signet', text: 'Всё честно оплата пришла', date: '22 июня 2026 г.', rating: 5 },
-            { nick: 'JesterAct', gift: 'Magic Potion + Toy Bear', text: 'все швидко чесно показала', date: '22 июня 2026 г.', rating: 5 },
-            { nick: 'Пиздец', gift: 'lon Gem', text: 'Звёзды закинул сразу всё ок', date: '21 июня 2026 г.', rating: 5 },
-            { nick: 'pankiho', gift: 'Lunar Snake + Pet Snake + Spy Agaric', text: 'Топ продавець рекамендую все ок', date: '21 июня 2026 г.', rating: 5 },
-            { nick: 'atreideslolly', gift: 'Precious Peach', text: 'продавец оплатил моментально, отдал через гаранта, перевод дошёл сразо, +реп', date: '21 июня 2026 г.', rating: 5 },
-            { nick: 'lvryr', gift: 'Santa Hat', text: 'Всё честно оплата пришла', date: '20 июня 2026 г.', rating: 5 },
-            { nick: 'Далекий Нептун', gift: 'Trapped Heart', text: 'Продавец зашёл в сделку оплатил я передал подарок @FunPayToGift рубли упали сразу всё ок рекомендую', date: '20 июня 2026 г.', rating: 5 },
-            { nick: 'Weztik', gift: 'Jelly Bunny', text: 'Звёзды пришли по-быстрому спасибо', date: '21 июня 2026 г.', rating: 5 },
-            { nick: 'Momo', gift: 'Plush Pepe', text: 'По чесноку спасибо', date: '21 июня 2026 г.', rating: 5 },
-            { nick: '9grams', gift: 'Nail Bracelet', text: 'зашли в сделку он внёс деньги, я передал подарок @FunPayToGift, деньги пришли моментально', date: '21 июня 2026 г.', rating: 5 },
-            { nick: 'хелсов', gift: 'Magic Potion + Berry Box', text: 'Звёзды закинул сразу всё ок', date: '21 июня 2026 г.', rating: 5 },
-            { nick: 'programdata', gift: 'Crystal Ball + Whip Cupcake', text: 'продавец оплатил моментально я передал подарок менеджеру перевод дошёл сразу', date: '21 июня 2026 г.', rating: 5 }
         ];
 
-        // ===== ГЕНЕРАЦИЯ =====
+        // ===== ГЕНЕРАЦИЯ ОТЗЫВОВ С УЧЁТОМ УНИКАЛЬНОСТИ =====
         function generateAllReviews() {
             const reviews = [];
             const used = new Set();
             
+            // Добавляем фиксированные отзывы
             FIXED_REVIEWS.forEach(r => {
                 const key = `${r.nick}|${r.gift}|${r.text}`;
                 if (!used.has(key)) {
@@ -383,6 +348,7 @@
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const totalDisplay = document.getElementById('totalReviewsDisplay');
 
+        // Генерируем отзывы
         allReviews = generateAllReviews();
 
         function renderPage(page) {
@@ -576,7 +542,7 @@
 
         // ===== ЗАПУСК =====
         renderPage(0);
-        console.log('FunPay WebApp loaded! Total reviews: ' + allReviews.length);
+        console.log('FunPay WebApp loaded! Fixed reviews - no duplicates!');
     </script>
 </body>
 </html>
