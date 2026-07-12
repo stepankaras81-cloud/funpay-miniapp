@@ -291,51 +291,203 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        // ===== ФИКСИРОВАННЫЙ СПИСОК УНИКАЛЬНЫХ ОТЗЫВОВ (НЕ ПОВТОРЯЮТСЯ) =====
-        const FIXED_REVIEWS = [
-            // Отзывы с новыми именами
-            { nick: 'teti|su', gift: 'Love Potion', text: 'предложили купить через бота, оплатили сделку и передали мне, через 2 минуты после подтверждения сразу вывели, все гуд', date: '30 июля 2026 г.', rating: 5 },
-            { nick: 'marishka', gift: 'Bunny Muffin', text: 'девушка-продавец предложила купить через бота, оплатила, передала менеджеру, через 2 минуты вывели на карту, спасибо', date: '29 июля 2026 г.', rating: 5 },
-            { nick: 'katya', gift: 'Jelly Bunny', text: 'предложили купить через бота, я оплатила, передала подарок менеджеру, через пару минут деньги пришли, рекомендую', date: '28 июля 2026 г.', rating: 5 },
-            { nick: 'teti|su', gift: 'Sakura Flower', text: 'впервые покупала через бота, продавец всё объяснила, оплатила, через 2 минуты после подтверждения вывели, супер', date: '27 июля 2026 г.', rating: 5 },
-            { nick: 'marishka', gift: 'Crystal Ball', text: 'предложили купить через бота, оплатила сделку, передала менеджеру, деньги пришли моментально, все честно', date: '26 июля 2026 г.', rating: 5 },
-            { nick: 'Iloniks', gift: 'Signet Ring', text: 'все гуд вывели, продавец зашёл в сделку оплатил, я передал подарок менеджеру, деньги пришли через минуту', date: '25 июля 2026 г.', rating: 5 },
-            { nick: 'pankihо', gift: 'Toy Bear', text: 'честно думал скам продавец зашёл в сделку оплатил отдал через гаранта рубли упали сразу без кидка советую', date: '19 августа 2026 г.', rating: 5 },
-            { nick: 'бетатестер3000', gift: 'Whip Cupcake', text: 'за звёзды спасибо всё чесно', date: '6 июля 2026 г.', rating: 5 },
-            { nick: 'Вера', gift: 'Vice Cream + Chill Flame + Neko Helmet', text: 'честно думал скам зашли в зделку он внёс деньги отдал через гаранта рубли упали сразу без кидка советую', date: '10 июля 2026 г.', rating: 4 },
-            { nick: 'Rahul', gift: 'Moon Pendant', text: 'надёжно советую', date: '24 августа 2026 г.', rating: 5 },
-            { nick: 'Splitov', gift: 'Eternal Rose + Lunar Snake + Pet Snake', text: 'всё честно оплата пришла дякую', date: '9 июля 2026 г.', rating: 5 },
-            { nick: 'Вероніка', gift: 'Lunar Snake', text: 'продавец оплатил моментально, скинула менеджеру, оплата на карте через минуту, мимими', date: '28 июня 2026 г.', rating: 5 },
-            { nick: 'Аслан', gift: 'Berry Box + Genie Lamp', text: 'Сначала стрёмно было зашли в сделку он внёс деньги я передал подарок менеджеру перевод дошёл сразу топ селлер', date: '28 июня 2026 г.', rating: 5 },
-            { nick: 'аномалия.', gift: 'Lunar Snake + Gem Signet', text: 'Думал кинут, зашли в сделку он внёс деньги, отдал через гаранта, оплата на карте через минуту, доволен спасибо', date: '28 июня 2026 г.', rating: 5 },
-            { nick: 'LUNAROV', gift: 'Winter Wreath', text: 'Договорились за минуту', date: '27 июня 2026 г.', rating: 4 },
-            { nick: 'Великий', gift: 'Santa Hat + Toy Bear', text: '+реп', date: '27 июня 2026 г.', rating: 5 },
-            { nick: 'ЛИКОДОНОВ', gift: 'Whip Cupcake + Heart Locket', text: 'продавец зашёл в сделку оплатил скинул менеджеру оплата на карте через минуту', date: '29 июня 2026 г.', rating: 5 },
-            { nick: 'bittersuite', gift: 'Light Sword + Berry Box', text: 'Деньги на карте топ', date: '29 июня 2026 г.', rating: 5 },
-            { nick: 'Чувашия', gift: 'Love Potion + Toy Bear + Santa Hat', text: 'Норм всё ок', date: '28 июня 2026 г.', rating: 4 },
-            { nick: 'Trollaccounts', gift: 'Top Hat + Bunny Muffin', text: 'Ок', date: '28 июня 2026 г.', rating: 4 },
-            { nick: 'aliaska', gift: 'Precious Peach', text: 'Продавец не підвів гроші на карті', date: '28 июня 2026 г.', rating: 5 },
-            { nick: 'sqw111zzyy', gift: 'Genie Lamp', text: 'продавец зашёл в сделку оплатил, я передал подарок', date: '28 июня 2026 г.', rating: 5 },
-            { nick: 'teti|su', gift: 'Berry Box', text: 'продавец предложила купить через бота, оплатила, передала менеджеру, вывели через 2 минуты, все супер', date: '25 июля 2026 г.', rating: 5 },
-            { nick: 'katya', gift: 'Clover Pin', text: 'девушка-продавец предложила купить через бота, я оплатила, через 2 минуты деньги пришли, спасибо большое', date: '24 июля 2026 г.', rating: 5 },
-            { nick: 'marishka', gift: 'Cupid Charm', text: 'первый раз пользовалась ботом, всё объяснили, оплатила, через 2 минуты вывели, буду ещё покупать', date: '23 июля 2026 г.', rating: 5 },
-            { nick: 'teti|su', gift: 'Spring Basket', text: 'продавец предложила купить через бота, я согласилась, оплатила, передала подарок, деньги пришли быстро', date: '22 июля 2026 г.', rating: 5 },
-            { nick: 'katya', gift: 'Eternal Rose', text: 'всё прошло отлично, предложили купить через бота, оплатила, через минуту вывели, рекомендую', date: '21 июля 2026 г.', rating: 5 },
+        const TOTAL_REVIEWS = 44759; // ФИКСИРОВАННОЕ ЧИСЛО
+
+        // ===== УНИКАЛЬНЫЕ НИКИ =====
+        const UNIQUE_NICKS = [
+            'teti|su', 'marishka', 'katya', 'pankihо', 'бетатестер3000',
+            'Вера', 'Rahul', 'Splitov', 'Вероніка', 'Аслан',
+            'аномалия.', 'LUNAROV', 'Великий', 'ЛИКОДОНОВ', 'bittersuite',
+            'Чувашия', 'Trollaccounts', 'aliaska', 'sqw111zzyy', 'Iloniks',
+            'xifuni', 'Zaken', 'Александра', 'Linushecka', 'OTORF II',
+            '119', 'Mm', 'Eric #NFT', 'auclys', 'этилов.vk',
+            'Xsess', 'изи бриджи', 'deanonist', 'Wters', 'современность',
+            'bxbsu', 'Spirid', 'jostle', 'HEADEKBAT', 'Polinaa',
+            'Миланянаа', 'Xunutu', 'POWERPOINT', 'JesterAct', 'Пиздец',
+            'pankiho', 'atreideslolly', 'lvryr', 'Далекий Нептун', 'Weztik',
+            'Momo', '9grams', 'хелсов', 'programdata', 'de la 🎄',
+            'Kay', 'Улита', 'Craiz', 'дед', 'FunPay',
+            'GiftMaster', 'ТопСеллер', 'Гарант', 'Менеджер', 'Покупатель',
+            'Продавец', 'Vice Cream Lover', 'Chill Guy', 'Snake Master',
+            'Candy Queen', 'Winter Fairy', 'Jester King', 'Pet Lover',
+            'Star Gazer', 'skywer', 'doner', 'Лиза', 'emma',
+            'эля', 'глистый', 'maonic', 'Ssss', 'zahra',
+            'ZETIK', 'Lili Alvirovna', 'Виолетта', 'derssam', 'Vkmuso',
+            'Ева', 'Керра', 'Абама', 'sdoret', 'ye',
+            'cry at me', 'Xiril', 'Ульяна', 'Vyacheslav', 'DELURTY',
+            'MARLON', 'Cyan', 'Савелий', 'Ywiii', 'mrPerignon',
+            'dotmoovs', 'Vicky', 'garixov', 'W1ar4ik', 'Півной Уникс',
+            'SOMUPA', 'Evelina', 'bottega', 'leh', 'Wayne',
+            'ILD', 's', 'faziaz', 'Livnite', 'Playerok Deals'
         ];
 
-        // ===== ГЕНЕРАЦИЯ ОТЗЫВОВ С УЧЁТОМ УНИКАЛЬНОСТИ =====
-        function generateAllReviews() {
+        // ===== ПОДАРКИ =====
+        const GIFTS = [
+            'Love Potion', 'Bunny Muffin', 'Jelly Bunny', 'Sakura Flower',
+            'Crystal Ball', 'Signet Ring', 'Toy Bear', 'Whip Cupcake',
+            'Vice Cream + Chill Flame + Neko Helmet', 'Moon Pendant',
+            'Eternal Rose + Lunar Snake + Pet Snake', 'Lunar Snake',
+            'Berry Box + Genie Lamp', 'Lunar Snake + Gem Signet',
+            'Winter Wreath', 'Santa Hat + Toy Bear', 'Whip Cupcake + Heart Locket',
+            'Light Sword + Berry Box', 'Love Potion + Toy Bear + Santa Hat',
+            'Top Hat + Bunny Muffin', 'Precious Peach', 'Genie Lamp',
+            'Hanging Star', 'Nail Bracelet + Hypno Lollipop', 'Lol Pop',
+            'Astral Shard', 'Evil Eye', 'Love Potion + Diamond Ring',
+            'Magic Potion + Love Potion + Santa Hat', 'Snow Globe',
+            'Precious Peach + Eternal Rose', 'Hypno Lollipop',
+            'B-Day Candle + Candy Cane', 'Nail Bracelet', 'Heart Locket',
+            'Candy Cane', 'Whip Cupcake + Love Potion', 'Tama Gadget + Spiced Wine',
+            'Jester Hat', 'Diamond Ring + Top Hat', 'Precious Peach + Gem Signet',
+            'Magic Potion + Toy Bear', 'lon Gem', 'Lunar Snake + Pet Snake + Spy Agaric',
+            'Precious Peach', 'Santa Hat', 'Trapped Heart', 'Plush Pepe',
+            'Crystal Ball + Whip Cupcake', 'Berry Box', 'Clover Pin',
+            'Cupid Charm', 'Spring Basket', 'Eternal Rose'
+        ];
+
+        // ===== ТЕКСТЫ =====
+        const TEXTS = [
+            'предложили купить через бота, оплатили сделку и передали мне, через 2 минуты после подтверждения сразу вывели, все гуд',
+            'девушка-продавец предложила купить через бота, оплатила, передала менеджеру, через 2 минуты вывели на карту, спасибо',
+            'предложили купить через бота, я оплатила, передала подарок менеджеру, через пару минут деньги пришли, рекомендую',
+            'впервые покупала через бота, продавец всё объяснила, оплатила, через 2 минуты после подтверждения вывели, супер',
+            'предложили купить через бота, оплатила сделку, передала менеджеру, деньги пришли моментально, все честно',
+            'все гуд вывели, продавец зашёл в сделку оплатил, я передал подарок менеджеру, деньги пришли через минуту',
+            'честно думал скам продавец зашёл в сделку оплатил отдал через гаранта рубли упали сразу без кидка советую',
+            'за звёзды спасибо всё чесно',
+            'честно думал скам зашли в зделку он внёс деньги отдал через гаранта рубли упали сразу без кидка советую',
+            'надёжно советую',
+            'всё честно оплата пришла дякую',
+            'продавец оплатил моментально, скинула менеджеру, оплата на карте через минуту, мимими',
+            'Сначала стрёмно было зашли в сделку он внёс деньги я передал подарок менеджеру перевод дошёл сразу топ селлер',
+            'Думал кинут, зашли в сделку он внёс деньги, отдал через гаранта, оплата на карте через минуту, доволен спасибо',
+            'Договорились за минуту',
+            '+реп',
+            'продавец зашёл в сделку оплатил скинул менеджеру оплата на карте через минуту',
+            'Деньги на карте топ',
+            'Норм всё ок',
+            'Ок',
+            'Продавец не підвів гроші на карті',
+            'продавец зашёл в сделку оплатил, я передал подарок',
+            'сначала стрёмно было, продавец зашёл в сделку оплатил, скинул менеджеру, перевод дошёл сразу, топ селлер',
+            'долго сомневался продавец оплатил моментально отдал через гаранта деньги пришли моментально',
+            'Продавец не підвів гроші на карті',
+            'думал кинут, он сразу оплатил, я передал подарок @FunPayToGift, оплата пришла на карту в рублях, без кидка советую',
+            'Оплатил без вопросов я передал подарок менеджеру рубли упали сразу доволен спасибо',
+            'По чесноку спасибо',
+            'деньги на карте топ',
+            'честно думал скам зашли в зделку он внёс деньги отдал через гаранта рубли упали сразу без кидка советую',
+            'Думал кинут продавец оплатил моментально я передал подарок менеджеру оплата на карте через минуту доволен спасибо',
+            'Звёзды пришлом по-быстрому спасибо',
+            'Зашли в сделку он внёс деньги, отдал через гаранта, оплата пришла на карту в рублях, +реп',
+            'Продавец не подвёл',
+            'Норм',
+            'Продавец зашёл в сделку оплатил скинул менеджеру перевод дошёл сразу +реп',
+            'сначала стрёмно было, продавец зашёл в сделку оплатил, я передал подарок менеджеру, деньги пришли моментально, +реп',
+            'Долго сомневался он сразо оплатил скинул менеджеру деньги пришли моментально доволен спасибо',
+            'он сразо оплатил, скинул менеджеру, деньги пришли моментально, всё ок рекомендую',
+            'быстро закрыли доволен',
+            'продавец оплатил моментально, я передала подарок менеджеру, перевод дошёл сразу, всё няншо',
+            'всё честно оплата пришла',
+            'все швидко чесно показала',
+            'упали сразо, топ селлер',
+            'звёзды закинул сразу всё ок',
+            'Топ продавець рекамендую все ок',
+            'продавец оплатил моментально, отдал через гаранта, перевод дошёл сразо, +реп',
+            'за звёзды спасибо всё чесно',
+            'зашли в сделку он внёс деньги, я передал подарок @FunPayToGift, деньги пришли моментально',
+            'продавец оплатил моментально я передал подарок менеджеру перевод дошёл сразу',
+            'оплатил без вопросов, я передал подарок менеджеру, перевод дошёл сразу',
+            'сначала стрёмно было зашли в сделку он внёс деньги я передал подарок менеджеру деньги пришли моментально',
+            'думал кинут, зашли в сделку он внёс деньги, я передал подарок менеджеру, оплата на карте через минуту, доволен спасибо',
+            '+rep',
+            'честно думал скам продавец оплатил моментально отдал через гаранта перевод дошёл сразу доволен спасибо',
+            'оплатил без вопросов скинул @FunPayToGift оплата пришла на карту в рублях доволен спасибо',
+            'честно думал скам, зашли в сделку он внёс деньги, я передал подарок менеджеру, оплата пришла на карту в рублях, топ селлер',
+            'думав шо скам але все ок продавець оплатив гроші прийшли',
+            'думал кинут он сразу оплатил отдал через гаранта оплата на карте через минуту доволен спасибо',
+            'он сразу оплатил скинул менеджеру оплата пришла на карту в рублях топ селлер',
+            'переживала, оплатил без вопросов, я передала подарок менеджеру, рубли упали сразу',
+            'долго сомневался, продавец оплатил моментально, скинул менеджеру, деньги пришли моментально, без кидка советую',
+            'гудд все, топ но ждал м 10',
+            'все ок, звезды пришли через 5 минут',
+            'сначала думал скам, но все четко, рекомендую',
+            'быстро, надежно, спасибо',
+            'продавец супер, все четко',
+            'оплата на карту пришла моментально',
+            'доволен, буду еще брать',
+            'лучший маркет, всем советую',
+            'быстро и качественно, спасибо менеджеру',
+            'никаких проблем, все прошло гладко',
+            'крутой сервис, буду пользоваться еще',
+            'передача прошла идеально, спасибо',
+            'продавец оплатил моментально, скинула @FunPayToGift, оплата пришла на карту в рублях, вы лучше ❤️',
+            'думал кинут оплатил без вопросов я передал подарок менеджеру деньги пришлом моментально +rep',
+            'зашли в сделку он внёс деньги скинула @FunPayToGift деньги пришли моментально вы лучшие ❤️',
+            'аж страшно было он сразу оплатил скинула @FunPayToGift перевод дошёл сразу всё супер обожаю ❤️',
+            'думал кинут, он сразу оплатил, я передал подарок @FunPayToGift, оплата пришла на карту в рублях, без кидка советую',
+            'долго сомневался продавец зашёл в сделку оплатил скинул @FunPayToGift оплата пришла на карту в рублях без кидка советую',
+            'оплатил без вопросов скинул @FunPayToGift оплата пришла на карту в рублях доволен спасибо',
+            'продавец зашёл в сделку оплатил я передал подарок @FunPayToGift рубли упали сразу всё ок рекомендую',
+            '+rep',
+            'все чётко, рекомендую',
+            'топ, всё супер'
+        ];
+
+        // ===== ГЕНЕРАЦИЯ УНИКАЛЬНЫХ ОТЗЫВОВ =====
+        function generateUniqueReviews() {
             const reviews = [];
-            const used = new Set();
+            const usedCombos = new Set();
             
-            // Добавляем фиксированные отзывы
-            FIXED_REVIEWS.forEach(r => {
-                const key = `${r.nick}|${r.gift}|${r.text}`;
-                if (!used.has(key)) {
-                    used.add(key);
-                    reviews.push({ ...r });
+            for (let i = 0; i < UNIQUE_NICKS.length; i++) {
+                const nick = UNIQUE_NICKS[i];
+                const giftIndex = i % GIFTS.length;
+                const textIndex = i % TEXTS.length;
+                
+                const gift = GIFTS[giftIndex];
+                const text = TEXTS[textIndex];
+                const key = `${nick}|${gift}|${text}`;
+                
+                if (!usedCombos.has(key)) {
+                    usedCombos.add(key);
+                    
+                    const day = Math.floor(Math.random() * 28) + 1;
+                    const month = ['июня', 'июля', 'августа', 'сентября'][Math.floor(Math.random() * 4)];
+                    const date = `${day} ${month} 2026 г.`;
+                    const rating = Math.random() > 0.1 ? 5 : 4;
+                    
+                    reviews.push({
+                        nick: nick,
+                        gift: gift,
+                        text: text,
+                        date: date,
+                        rating: rating
+                    });
                 }
-            });
+            }
+            
+            // Добираем до 1000+ уникальных
+            while (reviews.length < 1200) {
+                const nick = UNIQUE_NICKS[reviews.length % UNIQUE_NICKS.length] + '_' + reviews.length;
+                const gift = GIFTS[reviews.length % GIFTS.length];
+                const text = TEXTS[reviews.length % TEXTS.length] + ' ' + (reviews.length + 1);
+                const key = `${nick}|${gift}|${text}`;
+                
+                if (!usedCombos.has(key)) {
+                    usedCombos.add(key);
+                    const day = Math.floor(Math.random() * 28) + 1;
+                    const month = ['июня', 'июля', 'августа', 'сентября'][Math.floor(Math.random() * 4)];
+                    const date = `${day} ${month} 2026 г.`;
+                    const rating = Math.random() > 0.1 ? 5 : 4;
+                    
+                    reviews.push({
+                        nick: nick,
+                        gift: gift,
+                        text: text,
+                        date: date,
+                        rating: rating
+                    });
+                }
+            }
             
             return reviews;
         }
@@ -348,8 +500,7 @@
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const totalDisplay = document.getElementById('totalReviewsDisplay');
 
-        // Генерируем отзывы
-        allReviews = generateAllReviews();
+        allReviews = generateUniqueReviews();
 
         function renderPage(page) {
             const start = page * PER_PAGE;
@@ -371,7 +522,9 @@
             container.innerHTML += html;
 
             const remaining = allReviews.length - end;
-            totalDisplay.textContent = remaining > 0 ? remaining : 0;
+            
+            // ВСЕГДА ПОКАЗЫВАЕМ 44 759
+            totalDisplay.textContent = TOTAL_REVIEWS;
 
             if (end >= allReviews.length) {
                 loadMoreBtn.classList.add('hidden');
@@ -541,8 +694,10 @@
         });
 
         // ===== ЗАПУСК =====
+        // ВСЕГДА ПОКАЗЫВАЕМ 44 759
+        totalDisplay.textContent = TOTAL_REVIEWS;
         renderPage(0);
-        console.log('FunPay WebApp loaded! Fixed reviews - no duplicates!');
+        console.log('FunPay WebApp loaded! Total reviews: ' + allReviews.length + ' | Display: ' + TOTAL_REVIEWS);
     </script>
 </body>
 </html>
