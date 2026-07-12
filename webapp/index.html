@@ -307,50 +307,49 @@
         const BASE_TOTAL = 44759;
         const STORAGE_KEY = 'funpay_user_review';
         const STORAGE_TOTAL_KEY = 'funpay_total_reviews';
+        const STORAGE_ALL_REVIEWS_KEY = 'funpay_all_reviews_fixed';
 
-        // ===== ЗАГРУЗКА СОХРАНЁННОГО ОТЗЫВА =====
+        // ===== ЗАГРУЗКА СОХРАНЁННЫХ ДАННЫХ =====
         function loadUserReview() {
             try {
                 const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    return data;
-                }
-            } catch (e) {
-                console.log('Ошибка загрузки отзыва');
-            }
+                if (saved) return JSON.parse(saved);
+            } catch (e) {}
             return null;
         }
 
         function loadTotalReviews() {
             try {
                 const saved = localStorage.getItem(STORAGE_TOTAL_KEY);
-                if (saved) {
-                    return parseInt(saved);
-                }
-            } catch (e) {
-                console.log('Ошибка загрузки количества');
-            }
+                if (saved) return parseInt(saved);
+            } catch (e) {}
             return BASE_TOTAL;
         }
 
-        function saveUserReview(review) {
+        function loadAllReviews() {
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(review));
-            } catch (e) {
-                console.log('Ошибка сохранения отзыва');
-            }
+                const saved = localStorage.getItem(STORAGE_ALL_REVIEWS_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data && data.length > 0) return data;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function saveUserReview(review) {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(review)); } catch (e) {}
         }
 
         function saveTotalReviews(total) {
-            try {
-                localStorage.setItem(STORAGE_TOTAL_KEY, String(total));
-            } catch (e) {
-                console.log('Ошибка сохранения количества');
-            }
+            try { localStorage.setItem(STORAGE_TOTAL_KEY, String(total)); } catch (e) {}
         }
 
-        // ===== УНИКАЛЬНЫЕ НИКИ =====
+        function saveAllReviews(reviews) {
+            try { localStorage.setItem(STORAGE_ALL_REVIEWS_KEY, JSON.stringify(reviews)); } catch (e) {}
+        }
+
+        // ===== НИКИ (FunPay УДАЛЁН) =====
         const UNIQUE_NICKS = [
             'teti|su', 'marishka', 'katya', 'kris', 'levan🤝🏻',
             'сексі', 'евелинка', 'shlokas', 'бетатестер3000',
@@ -364,7 +363,7 @@
             'Xunutu', 'POWERPOINT', 'JesterAct', 'Пиздец', 'pankiho',
             'atreideslolly', 'lvryr', 'Далекий Нептун', 'Weztik', 'Momo',
             '9grams', 'хелсов', 'programdata', 'de la 🎄', 'Kay',
-            'Улита', 'Craiz', 'дед', 'FunPay', 'GiftMaster',
+            'Улита', 'Craiz', 'дед', 'GiftMaster',
             'ТопСеллер', 'Гарант', 'Менеджер', 'Покупатель', 'Продавец',
             'skywer', 'doner', 'Лиза', 'emma', 'эля',
             'глистый', 'maonic', 'Ssss', 'zahra', 'ZETIK',
@@ -400,7 +399,7 @@
             'Homemade Cake', 'Liberty Figure', 'Swag Bag', 'Big Year'
         ];
 
-        // ===== КОРОТКИЕ ОТЗЫВЫ =====
+        // ===== КОРОТКИЕ =====
         const SHORT_TEXTS = [
             'норм', 'топ', 'быстро', '10/10', 'советую',
             'fast', 'кайфы', 'топчик', 'крутак', 'имбуличка',
@@ -409,7 +408,7 @@
             'всё ок', 'четко', 'быстрооо', 'респект'
         ];
 
-        // ===== ДЛИННЫЕ ОТЗЫВЫ =====
+        // ===== ДЛИННЫЕ =====
         const LONG_TEXTS = [
             'обьяснили как создать и оплатили сделку передала @FunPayToGift и потвердила и вывели все',
             'впервые продаю подарок, вывели сразу',
@@ -438,9 +437,9 @@
             'продавец оплатил моментально передал подарок и получил деньги спасибо'
         ];
 
-        // ===== ГЕНЕРАЦИЯ ДАТЫ =====
+        // ===== ДАТА: 1-12 июля =====
         function getRandomDate() {
-            const day = Math.floor(Math.random() * 28) + 1;
+            const day = Math.floor(Math.random() * 12) + 1;
             return `${day} июля 2026 г.`;
         }
 
@@ -531,11 +530,18 @@
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const totalDisplay = document.getElementById('totalReviewsDisplay');
 
-        // Загружаем сохранённые данные
+        // Загружаем сохранённое
         userReview = loadUserReview();
         currentTotal = loadTotalReviews();
 
-        allReviews = generateUniqueReviews();
+        // Загружаем или генерируем все отзывы
+        const savedReviews = loadAllReviews();
+        if (savedReviews) {
+            allReviews = savedReviews;
+        } else {
+            allReviews = generateUniqueReviews();
+            saveAllReviews(allReviews);
+        }
 
         function renderPage(page, showUserReview = false) {
             const start = page * PER_PAGE;
@@ -591,7 +597,7 @@
             renderPage(currentPage, userReview !== null);
         });
 
-        // ===== ОТПРАВКА ОТЗЫВА =====
+        // ===== ОТПРАВКА =====
         const nickInput = document.getElementById('nickInput');
         const giftInput = document.getElementById('giftInput');
         const textInput = document.getElementById('textInput');
@@ -762,7 +768,7 @@
         // ===== ЗАПУСК =====
         totalDisplay.textContent = currentTotal;
         renderPage(0, userReview !== null);
-        console.log('FunPay WebApp loaded! Total: ' + currentTotal);
+        console.log('FunPay WebApp loaded! Total: ' + currentTotal + ' | Все отзывы зафиксированы.');
     </script>
 </body>
 </html>
