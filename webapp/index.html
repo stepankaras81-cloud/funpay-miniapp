@@ -18,7 +18,6 @@
             padding: 16px 16px 30px;
             overflow-x: hidden;
         }
-        /* Glow-эффект для фона */
         .bg-glow {
             position: fixed;
             top: -30%;
@@ -46,7 +45,6 @@
             margin: 0 auto;
         }
 
-        /* HEADER — стеклянный эффект */
         .header {
             background: rgba(26, 26, 30, 0.7);
             backdrop-filter: blur(20px);
@@ -124,7 +122,6 @@
         }
         .lang-btn:active { transform: scale(0.95); }
 
-        /* КАРТОЧКА РЕЙТИНГА */
         .rating-card {
             background: rgba(26, 26, 30, 0.7);
             backdrop-filter: blur(20px);
@@ -179,7 +176,6 @@
             font-weight: 700;
         }
 
-        /* РАСПРЕДЕЛЕНИЕ */
         .rating-distribution {
             background: rgba(26, 26, 30, 0.7);
             backdrop-filter: blur(20px);
@@ -233,7 +229,6 @@
             font-weight: 400;
         }
 
-        /* ФОРМА */
         .section-title {
             font-size: 15px;
             font-weight: 700;
@@ -333,7 +328,6 @@
             transform: translateY(-1px);
         }
 
-        /* ОТЗЫВЫ */
         .reviews-section { margin-top: 20px; }
         .review-item {
             background: rgba(26, 26, 30, 0.6);
@@ -402,7 +396,6 @@
             color: #fff;
         }
 
-        /* КНОПКА ЗАГРУЗКИ */
         .load-more-btn {
             width: 100%;
             padding: 14px;
@@ -425,7 +418,6 @@
         .load-more-btn:active { transform: scale(0.97); }
         .load-more-btn.hidden { display: none; }
 
-        /* TOAST */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -532,16 +524,424 @@
     </div>
 
     <script>
-        // ===== ВЕСЬ JS ОСТАЁТСЯ БЕЗ ИЗМЕНЕНИЙ (кроме мелких правок) =====
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        // ... (весь JS код из предыдущего файла с сохранением логики)
-        // Он идентичен, просто вставлю его сюда для полноты.
-        // Для краткости я оставлю ссылку на предыдущий код, но в финальном ответе дам полный файл.
-        // (в реальном ответе я вставлю весь JS)
+        const BASE_TOTAL = 44759;
+        const STORAGE_KEY = 'funpay_user_review';
+        const STORAGE_TOTAL_KEY = 'funpay_total_reviews';
+        const STORAGE_ALL_REVIEWS_KEY = 'funpay_all_reviews_fixed';
+
+        function loadUserReview() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) return JSON.parse(saved);
+            } catch (e) {}
+            return null;
+        }
+
+        function loadTotalReviews() {
+            try {
+                const saved = localStorage.getItem(STORAGE_TOTAL_KEY);
+                if (saved) return parseInt(saved);
+            } catch (e) {}
+            return BASE_TOTAL;
+        }
+
+        function loadAllReviews() {
+            try {
+                const saved = localStorage.getItem(STORAGE_ALL_REVIEWS_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data && data.length > 0) return data;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function saveUserReview(review) {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(review)); } catch (e) {}
+        }
+
+        function saveTotalReviews(total) {
+            try { localStorage.setItem(STORAGE_TOTAL_KEY, String(total)); } catch (e) {}
+        }
+
+        function saveAllReviews(reviews) {
+            try { localStorage.setItem(STORAGE_ALL_REVIEWS_KEY, JSON.stringify(reviews)); } catch (e) {}
+        }
+
+        const UNIQUE_NICKS = [
+            'teti|su', 'marishka', 'katya', 'kris', 'levan🤝🏻',
+            'сексі', 'евелинка', 'shlokas', 'бетатестер3000',
+            'Rahul', 'Splitov', '@kawrkw', 'z1rp', 'аномалия.',
+            'LUNAROV', 'Великий', 'ЛИКОДОНОВ', 'bittersuite', 'Чувашия',
+            'Trollaccounts', 'aliaska', 'sqw111zzyy', 'Iloniks', 'xifuni',
+            'Zaken', 'Александра', 'Linushecka', 'OTORF II', '119',
+            'Mm', 'Eric #NFT', 'auclys', 'этилов.vk', 'Xsess',
+            'изи бриджи', 'deanonist', 'Wters', 'современность', 'bxbsu',
+            'Spirid', 'jostle', 'HEADEKBAT', 'Polinaa', 'Миланянаа',
+            'Xunutu', 'POWERPOINT', 'JesterAct', 'Пиздец', 'pankiho',
+            'atreideslolly', 'lvryr', 'Далекий Нептун', 'Weztik', 'Momo',
+            '9grams', 'хелсов', 'programdata', 'de la 🎄', 'Kay',
+            'Улита', 'Craiz', 'дед', 'GiftMaster',
+            'ТопСеллер', 'Гарант', 'Менеджер', 'Покупатель', 'Продавец',
+            'skywer', 'doner', 'Лиза', 'emma', 'эля',
+            'глистый', 'maonic', 'Ssss', 'zahra', 'ZETIK',
+            'Lili Alvirovna', 'Виолетта', 'derssam', 'Vkmuso', 'Ева',
+            'Керра', 'Абама', 'sdoret', 'ye', 'cry at me',
+            'Xiril', 'Ульяна', 'Vyacheslav', 'DELURTY', 'MARLON',
+            'Cyan', 'Савелий', 'Ywiii', 'mrPerignon', 'dotmoovs',
+            'Vicky', 'garixov', 'W1ar4ik', 'Півной Уникс', 'SOMUPA',
+            'Evelina', 'bottega', 'leh', 'Wayne', 'ILD',
+            's', 'faziaz', 'Livnite', 'Playerok Deals', 'm-',
+            'Ifa', 'Knuazhe', 'Рвасик-маму ебал', 'KASRA'
+        ];
+
+        const GIFTS = [
+            'Love Potion', 'Bunny Muffin', 'Jelly Bunny', 'Sakura Flower',
+            'Crystal Ball', 'Signet Ring', 'Whip Cupcake',
+            'Vice Cream + Chill Flame + Neko Helmet', 'Moon Pendant',
+            'Eternal Rose + Lunar Snake + Pet Snake', 'Lunar Snake',
+            'Berry Box + Genie Lamp', 'Lunar Snake + Gem Signet',
+            'Winter Wreath', 'Santa Hat', 'Whip Cupcake + Heart Locket',
+            'Light Sword + Berry Box', 'Love Potion + Toy Bear + Santa Hat',
+            'Top Hat + Bunny Muffin', 'Genie Lamp', 'Hanging Star',
+            'Nail Bracelet + Hypno Lollipop', 'Lol Pop', 'Astral Shard',
+            'Evil Eye', 'Love Potion + Diamond Ring', 'Snow Globe',
+            'Hypno Lollipop', 'B-Day Candle + Candy Cane', 'Nail Bracelet',
+            'Candy Cane', 'Whip Cupcake + Love Potion', 'Tama Gadget + Spiced Wine',
+            'Jester Hat', 'Diamond Ring + Top Hat', 'Toy Bear',
+            'lon Gem', 'Lunar Snake + Pet Snake + Spy Agaric', 'Santa Hat',
+            'Trapped Heart', 'Crystal Ball + Whip Cupcake',
+            'Berry Box', 'Clover Pin', 'Cupid Charm', 'Spring Basket',
+            'Eternal Rose', 'Light Sword', 'Snake Box', 'Chill Flame',
+            'Homemade Cake', 'Liberty Figure', 'Swag Bag', 'Big Year'
+        ];
+
+        const SHORT_TEXTS = [
+            'норм', 'топ', 'быстро', '10/10', 'советую',
+            'fast', 'кайфы', 'топчик', 'крутак', 'имбуличка',
+            'лучшие', 'ИМБА', '<3', 'хорошо', 'отлично',
+            'супер', 'круто', 'ок', '+rep', '+реп',
+            'всё ок', 'четко', 'быстрооо', 'респект'
+        ];
+
+        const LONG_TEXTS = [
+            'обьяснили как создать и оплатили сделку передала @FunPayToGift и потвердила и вывели все',
+            'впервые продаю подарок, вывели сразу',
+            'купил чувак подарок у меня уже 2 раз делаю через их и вопросов нема',
+            'продавец оплатил моментально я передал подарок менеджеру перевод дошёл сразу доволен спасибо',
+            'сначала стрёмно было но продавец зашёл оплатил скинул менеджеру и деньги пришли',
+            'думал кинут но он сразу оплатил и я передал через гаранта всё ок',
+            'зашли в сделку оплатили передали через менеджера деньги на карте через минуту',
+            'продаю подарки уже не первый раз через этого бота всё четко и быстро',
+            'рекомендую всем кто боится скама тут всё честно и быстро выводят',
+            'сначала переживал но продавец объяснил как работает бот и я согласился всё ок',
+            'долго сомневался но продавец оплатил моментально и я передал подарок деньги пришли',
+            'всё прошло отлично продавец зашёл оплатил я передал менеджеру и получил деньги',
+            'бот супер всё объяснили помогли создать сделку и вывели деньги без проблем',
+            'первый раз пользовался ботом всё прошло идеально советую всем',
+            'продавец оплатил без вопросов я передал подарок менеджеру и всё ок',
+            'честно думал скам но всё прошло отлично деньги на карте спасибо',
+            'всё четко объяснили как делать продал подарок за 5 минут деньги на карте',
+            'бот работает отлично продал уже 3 подарка всем доволен',
+            'продавец зашёл оплатил я передал подарок через менеджера деньги пришли быстро',
+            'сначала боялся но всё прошло хорошо советую этот сервис',
+            'объяснили как создать сделку я оплатил и через минуту получил подарок',
+            'продал подарок через бота всё четко и быстро деньги на карте',
+            'доволен сделкой всё прошло гладко и без проблем спасибо менеджеру',
+            'крутой бот всё работает быстро и надежно буду еще пользоваться',
+            'продавец оплатил моментально передал подарок и получил деньги спасибо'
+        ];
+
+        function getRandomDate() {
+            const day = Math.floor(Math.random() * 12) + 1;
+            return `${day} июля 2026 г.`;
+        }
+
+        function generateUniqueReviews() {
+            const reviews = [];
+            const usedCombos = new Set();
+            let longIndex = 0;
+            let shortIndex = 0;
+            const shuffledNicks = [...UNIQUE_NICKS].sort(() => 0.5 - Math.random());
+            for (let i = 0; i < shuffledNicks.length; i++) {
+                const nick = shuffledNicks[i];
+                const giftIndex = i % GIFTS.length;
+                const gift = GIFTS[giftIndex];
+                let text;
+                if (i % 7 === 0 || i % 9 === 0 || i % 5 === 0) {
+                    text = LONG_TEXTS[longIndex % LONG_TEXTS.length];
+                    longIndex++;
+                } else {
+                    text = SHORT_TEXTS[shortIndex % SHORT_TEXTS.length];
+                    shortIndex++;
+                }
+                const key = `${nick}|${gift}|${text}`;
+                if (!usedCombos.has(key)) {
+                    usedCombos.add(key);
+                    const date = getRandomDate();
+                    const rating = Math.random() > 0.1 ? 5 : 4;
+                    reviews.push({ nick, gift, text, date, rating });
+                }
+            }
+            let counter = 0;
+            let longIndex2 = 0;
+            let shortIndex2 = 0;
+            while (reviews.length < 1000) {
+                const nick = UNIQUE_NICKS[counter % UNIQUE_NICKS.length] + '_' + counter;
+                const gift = GIFTS[counter % GIFTS.length];
+                let text;
+                if (counter % 7 === 0 || counter % 9 === 0 || counter % 5 === 0) {
+                    text = LONG_TEXTS[longIndex2 % LONG_TEXTS.length];
+                    longIndex2++;
+                } else {
+                    text = SHORT_TEXTS[shortIndex2 % SHORT_TEXTS.length];
+                    shortIndex2++;
+                }
+                const key = `${nick}|${gift}|${text}`;
+                if (!usedCombos.has(key)) {
+                    usedCombos.add(key);
+                    const date = getRandomDate();
+                    const rating = Math.random() > 0.1 ? 5 : 4;
+                    reviews.push({ nick, gift, text, date, rating });
+                }
+                counter++;
+            }
+            return reviews;
+        }
+
+        const PER_PAGE = 50;
+        let currentPage = 0;
+        let allReviews = [];
+        let userReview = null;
+        let currentTotal = BASE_TOTAL;
+        const container = document.getElementById('reviewsContainer');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const totalDisplay = document.getElementById('totalReviewsDisplay');
+
+        userReview = loadUserReview();
+        currentTotal = loadTotalReviews();
+
+        const savedReviews = loadAllReviews();
+        if (savedReviews) {
+            allReviews = savedReviews;
+        } else {
+            allReviews = generateUniqueReviews();
+            saveAllReviews(allReviews);
+        }
+
+        function renderPage(page, showUserReview = false) {
+            const start = page * PER_PAGE;
+            const end = Math.min(start + PER_PAGE, allReviews.length);
+            let pageReviews = allReviews.slice(start, end);
+            let reviewsToShow = [...pageReviews];
+            if (showUserReview && userReview && page === 0) {
+                reviewsToShow = [userReview, ...reviewsToShow];
+            }
+            const html = reviewsToShow.map(r => {
+                const isUser = r === userReview;
+                return `
+                    <div class="review-item ${isUser ? 'user-review' : ''}">
+                        <div class="review-header">
+                            <span class="review-nick">${r.nick}</span>
+                            <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                        </div>
+                        <div class="review-gift">${r.gift}</div>
+                        <div class="review-text">${r.text}</div>
+                        <div class="review-date">${r.date}</div>
+                    </div>
+                `;
+            }).join('');
+            if (page === 0) {
+                container.innerHTML = html;
+            } else {
+                container.innerHTML += html;
+            }
+            totalDisplay.textContent = currentTotal;
+            const remaining = allReviews.length - end;
+            if (end >= allReviews.length && !userReview) {
+                loadMoreBtn.classList.add('hidden');
+            } else if (end >= allReviews.length && userReview) {
+                if (page === 0) {
+                    loadMoreBtn.classList.add('hidden');
+                } else {
+                    loadMoreBtn.classList.add('hidden');
+                }
+            } else {
+                loadMoreBtn.classList.remove('hidden');
+                const remainingCount = allReviews.length - end;
+                loadMoreBtn.textContent = `Загрузить еще (${Math.min(remainingCount, PER_PAGE)})`;
+            }
+        }
+
+        loadMoreBtn.addEventListener('click', () => {
+            currentPage++;
+            renderPage(currentPage, userReview !== null);
+        });
+
+        const nickInput = document.getElementById('nickInput');
+        const giftInput = document.getElementById('giftInput');
+        const textInput = document.getElementById('textInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const toast = document.getElementById('toast');
+
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            if (user.username) nickInput.value = '@' + user.username;
+            else if (user.first_name) nickInput.value = user.first_name;
+        }
+
+        submitBtn.addEventListener('click', function() {
+            const t = translations[currentLang];
+            const rating = selectedRating;
+            const nick = nickInput.value.trim() || 'Аноним';
+            const gift = giftInput.value.trim() || 'Подарок';
+            const text = textInput.value.trim();
+            if (rating === 0) { showToast(t.toastError); return; }
+            if (!text) { showToast(t.toastErrorText); return; }
+            const now = new Date();
+            const day = now.getDate();
+            const month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'][now.getMonth()];
+            const year = now.getFullYear();
+            const dateStr = `${day} ${month} ${year} г.`;
+            userReview = {
+                nick, gift, text,
+                date: dateStr,
+                rating,
+                isUser: true
+            };
+            currentTotal = currentTotal + 1;
+            saveUserReview(userReview);
+            saveTotalReviews(currentTotal);
+            currentPage = 0;
+            container.innerHTML = '';
+            renderPage(0, true);
+            showToast(t.toast);
+            selectedRating = 0;
+            starElements.forEach(s => s.classList.remove('active'));
+            giftInput.value = '';
+            textInput.value = '';
+        });
+
+        const translations = {
+            ru: {
+                brandName: 'FunPay Market',
+                brandSub: 'отзывы о сделках маркета',
+                ratingLabel: 'Отзывы о сделках маркета',
+                reviewsText: 'отзывов',
+                formTitle: 'Ваш отзыв',
+                formSub: 'Виден только вам · поддержка @FunPayToGift',
+                labelRating: 'ОЦЕНКА',
+                labelNick: 'НИК',
+                labelGift: 'ПОДАРОК',
+                labelText: 'ТЕКСТ',
+                placeholderNick: 'Ваш никнейм',
+                placeholderGift: 'название подарка',
+                placeholderText: 'как прошла передача подарка',
+                toast: '✅ Ваш отзыв добавлен!',
+                toastError: '⚠️ Выберите оценку (1-5)',
+                toastErrorNick: '⚠️ Введите ник',
+                toastErrorGift: '⚠️ Введите название подарка',
+                toastErrorText: '⚠️ Напишите текст отзыва',
+                btnSubmit: '📤 Отправить отзыв',
+                loadMore: 'Загрузить еще'
+            },
+            en: {
+                brandName: 'FunPay Market',
+                brandSub: 'marketplace deal reviews',
+                ratingLabel: 'Marketplace deal reviews',
+                reviewsText: 'reviews',
+                formTitle: 'Your review',
+                formSub: 'Visible only to you · support @FunPayToGift',
+                labelRating: 'RATING',
+                labelNick: 'NICKNAME',
+                labelGift: 'GIFT',
+                labelText: 'TEXT',
+                placeholderNick: 'Your nickname',
+                placeholderGift: 'gift name',
+                placeholderText: 'how was the gift transfer',
+                toast: '✅ Your review has been added!',
+                toastError: '⚠️ Please select a rating (1-5)',
+                toastErrorNick: '⚠️ Enter your nickname',
+                toastErrorGift: '⚠️ Enter the gift name',
+                toastErrorText: '⚠️ Write your review text',
+                btnSubmit: '📤 Send review',
+                loadMore: 'Load more'
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            document.getElementById('brandName').textContent = t.brandName;
+            document.getElementById('brandSub').textContent = t.brandSub;
+            document.getElementById('ratingLabel').textContent = t.ratingLabel;
+            document.getElementById('reviewsText').textContent = t.reviewsText;
+            document.getElementById('formTitle').textContent = t.formTitle;
+            document.getElementById('formSub').innerHTML = t.formSub;
+            document.getElementById('labelRating').textContent = t.labelRating;
+            document.getElementById('labelNick').textContent = t.labelNick;
+            document.getElementById('labelGift').textContent = t.labelGift;
+            document.getElementById('labelText').textContent = t.labelText;
+            document.getElementById('nickInput').placeholder = t.placeholderNick;
+            document.getElementById('giftInput').placeholder = t.placeholderGift;
+            document.getElementById('textInput').placeholder = t.placeholderText;
+            document.getElementById('submitBtn').textContent = t.btnSubmit;
+            document.getElementById('langRu').classList.toggle('active', lang === 'ru');
+            document.getElementById('langEn').classList.toggle('active', lang === 'en');
+        }
+
+        document.getElementById('langRu').addEventListener('click', () => setLanguage('ru'));
+        document.getElementById('langEn').addEventListener('click', () => setLanguage('en'));
+
+        const starsContainer = document.getElementById('starsContainer');
+        const starElements = starsContainer.querySelectorAll('.star');
+        let selectedRating = 0;
+
+        starElements.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.dataset.value);
+                selectedRating = value;
+                starElements.forEach(s => {
+                    s.classList.toggle('active', parseInt(s.dataset.value) <= value);
+                });
+            });
+            star.addEventListener('mouseenter', function() {
+                const value = parseInt(this.dataset.value);
+                starElements.forEach(s => {
+                    s.style.color = parseInt(s.dataset.value) <= value ? '#fbbf24' : 'rgba(255,255,255,0.08)';
+                });
+            });
+            star.addEventListener('mouseleave', function() {
+                starElements.forEach(s => {
+                    s.style.color = s.classList.contains('active') ? '#fbbf24' : 'rgba(255,255,255,0.08)';
+                });
+            });
+        });
+
+        let toastTimeout;
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        tg.onEvent('viewportChanged', function() {
+            tg.expand();
+        });
+
+        totalDisplay.textContent = currentTotal;
+        renderPage(0, userReview !== null);
+        console.log('FunPay WebApp loaded! Total: ' + currentTotal);
     </script>
 </body>
 </html>
