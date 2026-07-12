@@ -23,6 +23,11 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            70% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -345,6 +350,8 @@
             font-size: 40px;
             user-select: none;
             padding: 4px 0;
+            flex-wrap: wrap;
+            align-items: center;
         }
         .stars-input .star {
             color: rgba(255,255,255,0.06);
@@ -363,6 +370,27 @@
             transform: scale(1.25);
             color: #fbbf24;
         }
+        .rating-selected {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            margin-left: 12px;
+            font-weight: 500;
+            animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .rating-selected.active-text {
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.08);
+            border-color: rgba(251, 191, 36, 0.15);
+        }
+        .rating-selected .emoji {
+            font-size: 18px;
+        }
+
         .form-control {
             width: 100%;
             padding: 14px 18px;
@@ -587,6 +615,7 @@
                 <span class="star" data-value="3">⭐</span>
                 <span class="star" data-value="4">⭐</span>
                 <span class="star" data-value="5">⭐</span>
+                <span class="rating-selected" id="ratingSelected">0 ✩</span>
             </div>
         </div>
 
@@ -605,7 +634,7 @@
             <textarea class="form-control" id="textInput" placeholder="Опишите сделку" maxlength="500"></textarea>
         </div>
 
-        <button class="btn-submit" id="submitBtn">📤 Отправить отзыв</button>
+        <button class="btn-submit" id="submitBtn">Отправить отзыв</button>
 
         <div class="reviews-section" id="reviewsContainer"></div>
         <button class="load-more-btn" id="loadMoreBtn">Загрузить еще 50 отзывов</button>
@@ -639,6 +668,7 @@
         const STORAGE_KEY = 'funpay_user_review';
         const STORAGE_TOTAL_KEY = 'funpay_total_reviews';
         const STORAGE_ALL_REVIEWS_KEY = 'funpay_all_reviews_fixed';
+        const RATING_SELECTED = document.getElementById('ratingSelected');
 
         function loadUserReview() {
             try { const saved = localStorage.getItem(STORAGE_KEY); if (saved) return JSON.parse(saved); } catch (e) {}
@@ -658,6 +688,17 @@
         function saveUserReview(review) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(review)); } catch (e) {} }
         function saveTotalReviews(total) { try { localStorage.setItem(STORAGE_TOTAL_KEY, String(total)); } catch (e) {} }
         function saveAllReviews(reviews) { try { localStorage.setItem(STORAGE_ALL_REVIEWS_KEY, JSON.stringify(reviews)); } catch (e) {} }
+
+        function updateRatingDisplay(value) {
+            if (value === 0) {
+                RATING_SELECTED.textContent = '0 ✩';
+                RATING_SELECTED.classList.remove('active-text');
+            } else {
+                const stars = '⭐'.repeat(value) + '✩'.repeat(5 - value);
+                RATING_SELECTED.textContent = `${value} из 5 — ${stars}`;
+                RATING_SELECTED.classList.add('active-text');
+            }
+        }
 
         const UNIQUE_NICKS = [
             'teti|su', 'marishka', 'katya', 'kris', 'levan🤝🏻', 'сексі', 'евелинка', 'shlokas', 'бетатестер3000',
@@ -851,6 +892,7 @@
             showToast(t.toast);
             selectedRating = 0;
             starElements.forEach(s => s.classList.remove('active'));
+            updateRatingDisplay(0);
             giftInput.value = '';
             textInput.value = '';
         });
@@ -875,7 +917,7 @@
                 toastErrorNick: '⚠️ Введите ник',
                 toastErrorGift: '⚠️ Введите название подарка',
                 toastErrorText: '⚠️ Напишите текст отзыва',
-                btnSubmit: '📤 Отправить отзыв',
+                btnSubmit: 'Отправить отзыв',
                 loadMore: 'Загрузить еще'
             },
             en: {
@@ -897,7 +939,7 @@
                 toastErrorNick: '⚠️ Enter your nickname',
                 toastErrorGift: '⚠️ Enter the gift name',
                 toastErrorText: '⚠️ Write your review text',
-                btnSubmit: '📤 Send review',
+                btnSubmit: 'Send review',
                 loadMore: 'Load more'
             }
         };
@@ -923,6 +965,8 @@
             document.getElementById('submitBtn').textContent = t.btnSubmit;
             document.getElementById('langRu').classList.toggle('active', lang === 'ru');
             document.getElementById('langEn').classList.toggle('active', lang === 'en');
+            // Обновляем текст выбранных звёзд при смене языка
+            updateRatingDisplay(selectedRating);
         }
 
         document.getElementById('langRu').addEventListener('click', () => setLanguage('ru'));
@@ -937,6 +981,7 @@
                 const value = parseInt(this.dataset.value);
                 selectedRating = value;
                 starElements.forEach(s => { s.classList.toggle('active', parseInt(s.dataset.value) <= value); });
+                updateRatingDisplay(value);
             });
             star.addEventListener('mouseenter', function() {
                 const value = parseInt(this.dataset.value);
@@ -962,6 +1007,7 @@
 
         totalDisplay.textContent = currentTotal;
         renderPage(0, userReview !== null);
+        updateRatingDisplay(0);
         console.log('FunPay WebApp loaded! Total: ' + currentTotal);
     </script>
 </body>
