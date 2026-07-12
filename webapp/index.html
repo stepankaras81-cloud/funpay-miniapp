@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FunPayMarket - Отзывы</title>
+    <title>FunPay - Отзывы</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,9 +40,8 @@
         }
         .avatar img { width: 100%; height: 100%; object-fit: cover; }
         .header-info { flex: 1; }
-        .header-info .name { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.2; }
-        .header-info .sub { font-size: 13px; color: #888; margin-top: 2px; }
-        .header-info .sub span { color: #6c5ce7; }
+        .header-info .name { font-size: 20px; font-weight: 700; color: #fff; line-height: 1.2; }
+        .header-info .sub { display: none; }
         .rating-card {
             background: linear-gradient(135deg, #1a1a1e, #22222a);
             border-radius: 20px;
@@ -119,8 +118,8 @@
     <div class="header">
         <div class="avatar"><img id="avatarImg" src="https://i.postimg.cc/Bj4QzQYD/photo-5228734607275007909-y.jpg" alt="Avatar"></div>
         <div class="header-info">
-            <div class="name">FunPayMarket</div>
-            <div class="sub">мини-приложение · <span>отзывы</span></div>
+            <div class="name">FunPay</div>
+            <div class="sub"></div>
         </div>
     </div>
     <div class="rating-card">
@@ -129,7 +128,7 @@
             <span class="rating-number" id="ratingValue">4.9</span>
             <span class="rating-stars" id="ratingStars">★★★★★</span>
         </div>
-        <div class="rating-count"><span id="reviewCount">2 276</span> отзывов</div>
+        <div class="rating-count"><span id="reviewCount">44 739</span> отзывов</div>
     </div>
     <div class="section-title">Ваш отзыв</div>
     <div class="section-sub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift">@FunPayToGift</a></div>
@@ -141,7 +140,6 @@
             <span class="star" data-value="3">⭐</span>
             <span class="star" data-value="4">⭐</span>
             <span class="star" data-value="5">⭐</span>
-            <span class="star" data-value="6">⭐</span>
         </div>
     </div>
     <div class="form-group">
@@ -205,7 +203,7 @@
             const gift = giftInput.value.trim();
             const text = textInput.value.trim();
             if (rating === 0) {
-                showToast('⚠️ Выберите оценку (1-6)');
+                showToast('⚠️ Выберите оценку (1-5)');
                 return;
             }
             if (!nick) {
@@ -240,7 +238,7 @@
         tg.onEvent('viewportChanged', function() {
             tg.expand();
         });
-        console.log('FunPayMarket WebApp loaded!');
+        console.log('FunPay WebApp loaded!');
     </script>
 </body>
 </html>
