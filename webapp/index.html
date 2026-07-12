@@ -14,8 +14,6 @@
             min-height: 100vh;
             padding: 16px 16px 30px;
         }
-
-        /* ХЕДЕР С ЦЕНТРИРОВАНИЕМ */
         .header {
             display: flex;
             flex-direction: column;
@@ -48,31 +46,11 @@
             overflow: hidden;
         }
         .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .header-center {
-            text-align: center;
-            flex: 1;
-        }
-        .header-center .name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1.2;
-        }
-        .header-center .sub {
-            font-size: 13px;
-            color: #888;
-            margin-top: 2px;
-        }
-        .header-center .sub span {
-            color: #6c5ce7;
-        }
-
-        /* КНОПКИ ЯЗЫКА */
-        .lang-buttons {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }
+        .header-center { text-align: center; flex: 1; }
+        .header-center .name { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.2; }
+        .header-center .sub { font-size: 13px; color: #888; margin-top: 2px; }
+        .header-center .sub span { color: #6c5ce7; }
+        .lang-buttons { display: flex; gap: 6px; flex-shrink: 0; }
         .lang-btn {
             background: transparent;
             border: 1px solid #2a2a30;
@@ -84,14 +62,8 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .lang-btn.active {
-            background: #6c5ce7;
-            border-color: #6c5ce7;
-            color: #fff;
-        }
-        .lang-btn:active {
-            transform: scale(0.95);
-        }
+        .lang-btn.active { background: #6c5ce7; border-color: #6c5ce7; color: #fff; }
+        .lang-btn:active { transform: scale(0.95); }
 
         .rating-card {
             background: linear-gradient(135deg, #1a1a1e, #22222a);
@@ -123,12 +95,7 @@
             border-bottom: 1px solid #25252b;
         }
         .rating-row:last-child { border-bottom: none; }
-        .rating-label {
-            font-size: 14px;
-            color: #aaa;
-            min-width: 45px;
-            font-weight: 500;
-        }
+        .rating-label { font-size: 14px; color: #aaa; min-width: 45px; font-weight: 500; }
         .rating-bar-bg {
             flex: 1;
             height: 6px;
@@ -143,43 +110,38 @@
             transition: width 0.6s ease;
             width: 0%;
         }
-        .rating-count-number {
-            font-size: 13px;
-            color: #888;
-            min-width: 50px;
-            text-align: right;
-            font-weight: 500;
-        }
-        .rating-percent {
-            font-size: 12px;
-            color: #555;
-            min-width: 38px;
-            text-align: right;
-            font-weight: 400;
-        }
+        .rating-count-number { font-size: 13px; color: #888; min-width: 50px; text-align: right; font-weight: 500; }
+        .rating-percent { font-size: 12px; color: #555; min-width: 38px; text-align: right; font-weight: 400; }
 
         .section-title { font-size: 14px; font-weight: 600; color: #aaa; margin-bottom: 4px; }
         .section-sub { font-size: 13px; color: #666; margin-bottom: 16px; }
         .section-sub a { color: #6c5ce7; text-decoration: none; }
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; color: #ccc; margin-bottom: 6px; }
+
+        /* ===== ЗВЁЗДЫ - КЛИКАБЕЛЬНЫЕ ===== */
         .stars-input {
             display: flex;
-            gap: 8px;
-            font-size: 36px;
-            cursor: pointer;
+            gap: 10px;
+            font-size: 40px;
             user-select: none;
             padding: 8px 0;
         }
         .stars-input .star {
             color: #333;
-            transition: color 0.15s, transform 0.15s;
             cursor: pointer;
-            font-size: 36px;
+            font-size: 40px;
             line-height: 1;
+            transition: color 0.15s, transform 0.15s;
         }
-        .stars-input .star.active { color: #fbbf24; }
-        .stars-input .star:hover { transform: scale(1.1); }
+        .stars-input .star.active {
+            color: #fbbf24;
+        }
+        .stars-input .star:hover {
+            transform: scale(1.15);
+        }
+        /* ============================== */
+
         .form-control {
             width: 100%;
             padding: 12px 16px;
@@ -232,7 +194,6 @@
 </head>
 <body>
 
-    <!-- ХЕДЕР С ЦЕНТРОМ И КНОПКАМИ ЯЗЫКА -->
     <div class="header">
         <div class="header-top">
             <div class="avatar"><img id="avatarImg" src="https://i.postimg.cc/Bj4QzQYD/photo-5228734607275007909-y.jpg" alt="Avatar"></div>
@@ -247,7 +208,6 @@
         </div>
     </div>
 
-    <!-- Рейтинг -->
     <div class="rating-card">
         <div class="label" id="ratingLabel">Отзывы о сделках маркета</div>
         <div class="rating-main">
@@ -257,41 +217,14 @@
         <div class="rating-count"><span>44 739</span> <span id="reviewsText">отзывов</span></div>
     </div>
 
-    <!-- Таблица распределения -->
     <div class="rating-distribution">
-        <div class="rating-row">
-            <span class="rating-label">5 ★</span>
-            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 93%;"></div></div>
-            <span class="rating-count-number">42 412</span>
-            <span class="rating-percent">93%</span>
-        </div>
-        <div class="rating-row">
-            <span class="rating-label">4 ★</span>
-            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 4%;"></div></div>
-            <span class="rating-count-number">2 150</span>
-            <span class="rating-percent">4%</span>
-        </div>
-        <div class="rating-row">
-            <span class="rating-label">3 ★</span>
-            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 2%;"></div></div>
-            <span class="rating-count-number">195</span>
-            <span class="rating-percent">2%</span>
-        </div>
-        <div class="rating-row">
-            <span class="rating-label">2 ★</span>
-            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 1%;"></div></div>
-            <span class="rating-count-number">2</span>
-            <span class="rating-percent">1%</span>
-        </div>
-        <div class="rating-row">
-            <span class="rating-label">1 ★</span>
-            <div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 0%;"></div></div>
-            <span class="rating-count-number">0</span>
-            <span class="rating-percent">0%</span>
-        </div>
+        <div class="rating-row"><span class="rating-label">5 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 93%;"></div></div><span class="rating-count-number">42 412</span><span class="rating-percent">93%</span></div>
+        <div class="rating-row"><span class="rating-label">4 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 4%;"></div></div><span class="rating-count-number">2 150</span><span class="rating-percent">4%</span></div>
+        <div class="rating-row"><span class="rating-label">3 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 2%;"></div></div><span class="rating-count-number">195</span><span class="rating-percent">2%</span></div>
+        <div class="rating-row"><span class="rating-label">2 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 1%;"></div></div><span class="rating-count-number">2</span><span class="rating-percent">1%</span></div>
+        <div class="rating-row"><span class="rating-label">1 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 0%;"></div></div><span class="rating-count-number">0</span><span class="rating-percent">0%</span></div>
     </div>
 
-    <!-- Форма отзыва -->
     <div class="section-title" id="formTitle">Ваш отзыв</div>
     <div class="section-sub" id="formSub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift">@FunPayToGift</a></div>
 
@@ -331,7 +264,6 @@
         tg.setBackgroundColor('#0f0f12');
         tg.setHeaderColor('#0f0f12');
 
-        // ЭЛЕМЕНТЫ
         const starsContainer = document.getElementById('starsContainer');
         const nickInput = document.getElementById('nickInput');
         const giftInput = document.getElementById('giftInput');
@@ -351,11 +283,9 @@
         const labelNick = document.getElementById('labelNick');
         const labelGift = document.getElementById('labelGift');
         const labelText = document.getElementById('labelText');
-
         const langRu = document.getElementById('langRu');
         const langEn = document.getElementById('langEn');
 
-        // ТЕКСТЫ ДЛЯ ПЕРЕВОДА
         const translations = {
             ru: {
                 brandName: 'FunPay Market',
@@ -406,7 +336,6 @@
         function setLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
-
             brandName.textContent = t.brandName;
             brandSub.textContent = t.brandSub;
             ratingLabel.textContent = t.ratingLabel;
@@ -421,8 +350,6 @@
             giftInput.placeholder = t.placeholderGift;
             textInput.placeholder = t.placeholderText;
             submitBtn.textContent = t.btnSubmit;
-
-            // Обновляем активную кнопку
             langRu.classList.toggle('active', lang === 'ru');
             langEn.classList.toggle('active', lang === 'en');
         }
@@ -430,40 +357,61 @@
         langRu.addEventListener('click', () => setLanguage('ru'));
         langEn.addEventListener('click', () => setLanguage('en'));
 
-        // Telegram user
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
-            if (user.username) {
-                nickInput.value = '@' + user.username;
-            } else if (user.first_name) {
-                nickInput.value = user.first_name;
-            }
+            if (user.username) nickInput.value = '@' + user.username;
+            else if (user.first_name) nickInput.value = user.first_name;
         }
 
-        // Звёзды
+        // =============================================
+        // ==== ЛОГИКА ДЛЯ ЗВЁЗД (РАБОТАЕТ 100%) =====
+        // =============================================
         const starElements = starsContainer.querySelectorAll('.star');
+
+        // При клике на звезду - выбираем оценку
         starElements.forEach(star => {
-            star.addEventListener('click', function() {
-                const val = parseInt(this.dataset.value);
-                selectedRating = val;
+            star.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const value = parseInt(this.dataset.value);
+                selectedRating = value;
+                
+                // Подсвечиваем все звёзды до выбранной
                 starElements.forEach(s => {
-                    s.classList.toggle('active', parseInt(s.dataset.value) <= val);
+                    const val = parseInt(s.dataset.value);
+                    if (val <= value) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
                 });
+                console.log('Выбрана оценка:', selectedRating);
             });
+
+            // При наведении - подсвечиваем
             star.addEventListener('mouseenter', function() {
-                const val = parseInt(this.dataset.value);
+                const value = parseInt(this.dataset.value);
                 starElements.forEach(s => {
-                    s.style.color = parseInt(s.dataset.value) <= val ? '#fbbf24' : '#333';
+                    const val = parseInt(s.dataset.value);
+                    s.style.color = val <= value ? '#fbbf24' : '#333';
                 });
             });
+
+            // Убираем подсветку при уходе мыши
             star.addEventListener('mouseleave', function() {
                 starElements.forEach(s => {
-                    s.style.color = s.classList.contains('active') ? '#fbbf24' : '#333';
+                    // Если звезда активна (выбрана) - оставляем жёлтой
+                    if (s.classList.contains('active')) {
+                        s.style.color = '#fbbf24';
+                    } else {
+                        s.style.color = '#333';
+                    }
                 });
             });
         });
 
-        // Отправка
+        // Дополнительно: если кликнуть вне звёзд - ничего не сбрасываем
+        // =============================================
+
         submitBtn.addEventListener('click', function() {
             const t = translations[currentLang];
             const rating = selectedRating;
@@ -471,22 +419,10 @@
             const gift = giftInput.value.trim();
             const text = textInput.value.trim();
 
-            if (rating === 0) {
-                showToast(t.toastError);
-                return;
-            }
-            if (!nick) {
-                showToast(t.toastErrorNick);
-                return;
-            }
-            if (!gift) {
-                showToast(t.toastErrorGift);
-                return;
-            }
-            if (!text) {
-                showToast(t.toastErrorText);
-                return;
-            }
+            if (rating === 0) { showToast(t.toastError); return; }
+            if (!nick) { showToast(t.toastErrorNick); return; }
+            if (!gift) { showToast(t.toastErrorGift); return; }
+            if (!text) { showToast(t.toastErrorText); return; }
 
             const reviewData = { rating, nick, gift, text };
             tg.sendData(JSON.stringify(reviewData));
