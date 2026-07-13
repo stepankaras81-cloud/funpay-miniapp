@@ -249,8 +249,6 @@
                 <p><strong>Банк:</strong> <span id="displayBank">-</span></p>
                 <p><strong>Тип карты/счета:</strong> <span id="displayType">-</span></p>
                 <p><strong>Номер:</strong> <span id="displayNumber">-</span></p>
-                <p><strong>Владелец:</strong> <span id="displayName">-</span></p>
-                <p><strong>Телефон:</strong> <span id="displayPhone">-</span></p>
                 <button class="btn-submit btn-danger" id="deleteBtn">🗑 Удалить реквизиты</button>
             </div>
 
@@ -282,15 +280,7 @@
                     <label>Номер карты / счёта</label>
                     <input class="form-control" id="numberInput" placeholder="Введите номер" maxlength="30">
                 </div>
-                <div class="form-group">
-                    <label>Имя и фамилия владельца</label>
-                    <input class="form-control" id="nameInput" placeholder="Иван Иванов" maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label>Контактный телефон</label>
-                    <input class="form-control" id="phoneInput" placeholder="+380 99 123 45 67" maxlength="20">
-                </div>
-                <button class="btn-submit" id="saveBtn">💾 Сохранить реквизиты</button>
+                <button class="btn-submit" id="saveBtn">Сохранить реквизиты</button>
             </div>
         </div>
 
@@ -308,8 +298,6 @@
         const bankSelect = document.getElementById('bankSelect');
         const cardTypeSelect = document.getElementById('cardTypeSelect');
         const numberInput = document.getElementById('numberInput');
-        const nameInput = document.getElementById('nameInput');
-        const phoneInput = document.getElementById('phoneInput');
         const saveBtn = document.getElementById('saveBtn');
         const deleteBtn = document.getElementById('deleteBtn');
         const savedInfo = document.getElementById('savedInfo');
@@ -317,8 +305,6 @@
         const displayBank = document.getElementById('displayBank');
         const displayType = document.getElementById('displayType');
         const displayNumber = document.getElementById('displayNumber');
-        const displayName = document.getElementById('displayName');
-        const displayPhone = document.getElementById('displayPhone');
         const toast = document.getElementById('toast');
 
         function loadData() {
@@ -328,14 +314,10 @@
                     bankSelect.value = data.bank || 'monobank';
                     cardTypeSelect.value = data.cardType || 'card';
                     numberInput.value = data.number || '';
-                    nameInput.value = data.name || '';
-                    phoneInput.value = data.phone || '';
 
                     displayBank.textContent = bankSelect.options[bankSelect.selectedIndex]?.text || '-';
                     displayType.textContent = cardTypeSelect.options[cardTypeSelect.selectedIndex]?.text || '-';
                     displayNumber.textContent = data.number || '-';
-                    displayName.textContent = data.name || '-';
-                    displayPhone.textContent = data.phone || '-';
                     savedInfo.style.display = 'block';
                     formWrapper.style.display = 'none';
                 } else {
@@ -352,23 +334,19 @@
             const bank = bankSelect.value;
             const cardType = cardTypeSelect.value;
             const number = numberInput.value.trim();
-            const name = nameInput.value.trim();
-            const phone = phoneInput.value.trim();
 
-            if (!number || !name) {
-                showToast('⚠️ Заполните номер и имя владельца');
+            if (!number) {
+                showToast('⚠️ Введите номер карты/счёта');
                 return;
             }
 
-            const data = { bank, cardType, number, name, phone };
+            const data = { bank, cardType, number };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
             showToast('✅ Реквизиты сохранены!');
 
             displayBank.textContent = bankSelect.options[bankSelect.selectedIndex]?.text || '-';
             displayType.textContent = cardTypeSelect.options[cardTypeSelect.selectedIndex]?.text || '-';
             displayNumber.textContent = number || '-';
-            displayName.textContent = name || '-';
-            displayPhone.textContent = phone || '-';
             savedInfo.style.display = 'block';
             formWrapper.style.display = 'none';
 
@@ -382,8 +360,6 @@
                 formWrapper.style.display = 'block';
                 showToast('🗑 Реквизиты удалены');
                 numberInput.value = '';
-                nameInput.value = '';
-                phoneInput.value = '';
                 bankSelect.value = 'monobank';
                 cardTypeSelect.value = 'card';
             }
@@ -404,12 +380,7 @@
 
         loadData();
 
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const user = tg.initDataUnsafe.user;
-            if (user.first_name && !nameInput.value) {
-                nameInput.value = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-            }
-        }
+        // Автозаполнение имени из Telegram (убрано, так как поле удалено)
 
         console.log('FunPay Rekvizity loaded!');
     </script>
