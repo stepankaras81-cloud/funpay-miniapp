@@ -44,7 +44,6 @@
             max-width: 500px;
             margin: 0 auto;
         }
-
         .header {
             background: rgba(26, 26, 30, 0.7);
             backdrop-filter: blur(20px);
@@ -121,7 +120,6 @@
             box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
         }
         .lang-btn:active { transform: scale(0.95); }
-
         .rating-card {
             background: rgba(26, 26, 30, 0.7);
             backdrop-filter: blur(20px);
@@ -175,7 +173,6 @@
             color: #a29bfe;
             font-weight: 700;
         }
-
         .rating-distribution {
             background: rgba(26, 26, 30, 0.7);
             backdrop-filter: blur(20px);
@@ -228,7 +225,6 @@
             text-align: right;
             font-weight: 400;
         }
-
         .section-title {
             font-size: 15px;
             font-weight: 700;
@@ -258,7 +254,6 @@
             box-shadow: 0 0 25px rgba(108, 92, 231, 0.2);
             transform: scale(1.03);
         }
-
         .form-group {
             margin-bottom: 16px;
         }
@@ -310,7 +305,6 @@
             background: rgba(251, 191, 36, 0.08);
             border-color: rgba(251, 191, 36, 0.15);
         }
-
         .form-control {
             width: 100%;
             padding: 14px 16px;
@@ -334,7 +328,6 @@
             min-height: 80px;
             font-family: 'Inter', sans-serif;
         }
-
         .btn-submit {
             width: 100%;
             padding: 16px;
@@ -358,7 +351,6 @@
             box-shadow: 0 8px 30px rgba(108, 92, 231, 0.4);
             transform: translateY(-1px);
         }
-
         .reviews-section { margin-top: 20px; }
         .review-item {
             background: rgba(26, 26, 30, 0.6);
@@ -426,7 +418,6 @@
         .review-item.user-review .review-text {
             color: #fff;
         }
-
         .load-more-btn {
             width: 100%;
             padding: 14px;
@@ -448,7 +439,6 @@
         }
         .load-more-btn:active { transform: scale(0.97); }
         .load-more-btn.hidden { display: none; }
-
         .toast {
             position: fixed;
             bottom: 30px;
@@ -481,7 +471,6 @@
     <div class="bg-glow-2"></div>
     <div class="container">
 
-        <!-- ХЕДЕР -->
         <div class="header">
             <div class="header-top">
                 <div class="avatar"><img id="avatarImg" src="https://i.postimg.cc/Bj4QzQYD/photo-5228734607275007909-y.jpg" alt="Avatar"></div>
@@ -496,7 +485,6 @@
             </div>
         </div>
 
-        <!-- РЕЙТИНГ -->
         <div class="rating-card">
             <div class="label" id="ratingLabel">Отзывы о сделках маркета</div>
             <div class="rating-main">
@@ -506,7 +494,6 @@
             <div class="rating-count"><span id="totalReviewsDisplay">44 759</span> <span id="reviewsText">отзывов</span></div>
         </div>
 
-        <!-- РАСПРЕДЕЛЕНИЕ -->
         <div class="rating-distribution">
             <div class="rating-row"><span class="rating-label">5 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 93%;"></div></div><span class="rating-count-number">42 412</span><span class="rating-percent">93%</span></div>
             <div class="rating-row"><span class="rating-label">4 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 4%;"></div></div><span class="rating-count-number">2 150</span><span class="rating-percent">4%</span></div>
@@ -515,7 +502,6 @@
             <div class="rating-row"><span class="rating-label">1 ★</span><div class="rating-bar-bg"><div class="rating-bar-fill" style="width: 0%;"></div></div><span class="rating-count-number">0</span><span class="rating-percent">0%</span></div>
         </div>
 
-        <!-- ФОРМА -->
         <div class="section-title" id="formTitle">Ваш отзыв</div>
         <div class="section-sub" id="formSub">Виден только вам · поддержка <a href="https://t.me/FunPayToGift" target="_blank">@FunPayToGift</a></div>
 
@@ -548,7 +534,6 @@
 
         <button class="btn-submit" id="submitBtn">Отправить отзыв</button>
 
-        <!-- ОТЗЫВЫ -->
         <div class="reviews-section" id="reviewsContainer"></div>
         <button class="load-more-btn" id="loadMoreBtn">Загрузить еще 50 отзывов</button>
 
@@ -556,6 +541,17 @@
     </div>
 
     <script>
+        // ===== ПРИНУДИТЕЛЬНЫЙ СБРОС =====
+        const CURRENT_VERSION = 'v4';
+        const STORAGE_VERSION_KEY = 'funpay_version';
+        if (localStorage.getItem(STORAGE_VERSION_KEY) !== CURRENT_VERSION) {
+            localStorage.removeItem('funpay_all_reviews_fixed');
+            localStorage.removeItem('funpay_user_review');
+            localStorage.removeItem('funpay_total_reviews');
+            localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_VERSION);
+            console.log('🔄 Данные обновлены до версии ' + CURRENT_VERSION);
+        }
+
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.setBackgroundColor('#0f0f12');
@@ -597,8 +593,16 @@
             }
         }
 
-        // ===== УНИКАЛЬНЫЕ НИКИ (БЕЗ ЦИФР!) =====
+        // ===== НОВЫЕ НИКИ (ВСЕ ТВОИ) =====
         const UNIQUE_NICKS = [
+            't ★', 'k', 'трамадол', 'скрепочка🌷', 'Zte.x1wc🪽',
+            'софка🍵', 'GiftUp', 'кирилл', '. 𓆩°｡˚ Kell|Martin ˚｡𓆪',
+            'fadl', 'Theimpulse', 'pinkman Chat', 'ТЕМЩИК З НУЛЯ!!!',
+            'M 🗺️', '227', 'Пиджак 90\'', 'lenny( ͡° ͜ʖ ͡°) 💩',
+            'Den4k', 'matchaa', 'FrøzzýXx', '馬利亞為我🐼', 'pnai',
+            '#𓆩 c 𓆪 o 𓆩 h 𓆪 e 𓆪 *шмор...', 'deadsun', 'HELLO☁️🦅⬜⛄',
+            'cryptogoii', 'Aida', 'DOM—✝️', 'S ★', 'dddd🤍',
+            'whaif645🐶', 'романтизация', 'варюшааа', 'Trlwxzxcsd', 'AVET',
             'teti|su', 'marishka', 'katya', 'kris', 'levan🤝🏻',
             'сексі', 'евелинка', 'shlokas', 'jostle', 'бетатестер3000',
             'Rahul', 'Splitov', '@kawrkw', 'z1rp', 'аномалия.',
@@ -607,7 +611,7 @@
             'Zaken', 'Александра', 'Linushecka', 'OTORF II', '119',
             'Mm', 'Eric #NFT', 'auclys', 'этилов.vk', 'Xsess',
             'изи бриджи', 'deanonist', 'Wters', 'современность', 'bxbsu',
-            'Spirid', 'jostle', 'HEADEKBAT', 'Polinaa', 'Миланянаа',
+            'Spirid', 'HEADEKBAT', 'Polinaa', 'Миланянаа',
             'Xunutu', 'POWERPOINT', 'JesterAct', 'Пиздец', 'pankiho',
             'atreideslolly', 'lvryr', 'Далекий Нептун', 'Weztik', 'Momo',
             '9grams', 'хелсов', 'programdata', 'de la 🎄', 'Kay',
@@ -625,13 +629,14 @@
             'Ifa', 'Knuazhe', 'Рвасик-маму ебал', 'KASRA'
         ];
 
+        // ===== ПОДАРКИ (Heart Locket УДАЛЁН) =====
         const GIFTS = [
             'Love Potion', 'Bunny Muffin', 'Jelly Bunny', 'Sakura Flower',
             'Crystal Ball', 'Signet Ring', 'Whip Cupcake',
             'Vice Cream + Chill Flame + Neko Helmet', 'Moon Pendant',
             'Eternal Rose + Lunar Snake + Pet Snake', 'Lunar Snake',
             'Berry Box + Genie Lamp', 'Lunar Snake + Gem Signet',
-            'Winter Wreath', 'Santa Hat', 'Whip Cupcake + Heart Locket',
+            'Winter Wreath', 'Santa Hat',
             'Light Sword + Berry Box', 'Love Potion + Toy Bear + Santa Hat',
             'Top Hat + Bunny Muffin', 'Genie Lamp', 'Hanging Star',
             'Nail Bracelet + Hypno Lollipop', 'Lol Pop', 'Astral Shard',
@@ -646,14 +651,17 @@
             'Homemade Cake', 'Liberty Figure', 'Swag Bag', 'Big Year'
         ];
 
+        // ===== КОРОТКИЕ ОТЗЫВЫ (только +реп и т.д.) =====
         const SHORT_TEXTS = [
-            'норм', 'топ', 'быстро', '10/10', 'советую',
+            '+реп', '+rep', 'вывели @FunPayToGift', 'реп фанпею',
+            '+ реп', '+++', 'топ', 'быстро', '10/10', 'советую',
             'fast', 'кайфы', 'топчик', 'крутак', 'имбуличка',
             'лучшие', 'ИМБА', '<3', 'хорошо', 'отлично',
             'супер', 'круто', 'ок', '+rep', '+реп',
             'всё ок', 'четко', 'быстрооо', 'респект'
         ];
 
+        // ===== ДЛИННЫЕ ОТЗЫВЫ (без "зашли в сделку") =====
         const LONG_TEXTS = [
             'обьяснили как создать и оплатили сделку передала @FunPayToGift и потвердила и вывели все',
             'впервые продаю подарок, вывели сразу',
@@ -661,7 +669,6 @@
             'продавец оплатил моментально я передал подарок менеджеру перевод дошёл сразу доволен спасибо',
             'сначала стрёмно было но продавец зашёл оплатил скинул менеджеру и деньги пришли',
             'думал кинут но он сразу оплатил и я передал через гаранта всё ок',
-            'зашли в сделку оплатили передали через менеджера деньги на карте через минуту',
             'продаю подарки уже не первый раз через этого бота всё четко и быстро',
             'рекомендую всем кто боится скама тут всё честно и быстро выводят',
             'сначала переживал но продавец объяснил как работает бот и я согласился всё ок',
