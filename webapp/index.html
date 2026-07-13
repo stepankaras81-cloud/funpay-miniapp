@@ -241,7 +241,6 @@
             color: rgba(255,255,255,0.3);
             margin-bottom: 16px;
         }
-        /* ===== КЛИКАБЕЛЬНАЯ ССЫЛКА С ОБВОДКОЙ ===== */
         .section-sub a {
             color: #a29bfe;
             text-decoration: none;
@@ -598,9 +597,10 @@
             }
         }
 
+        // ===== УНИКАЛЬНЫЕ НИКИ (БЕЗ ЦИФР) =====
         const UNIQUE_NICKS = [
             'teti|su', 'marishka', 'katya', 'kris', 'levan🤝🏻',
-            'сексі', 'евелинка', 'shlokas', 'бетатестер3000',
+            'сексі', 'евелинка', 'shlokas', 'jostle', 'бетатестер3000',
             'Rahul', 'Splitov', '@kawrkw', 'z1rp', 'аномалия.',
             'LUNAROV', 'Великий', 'ЛИКОДОНОВ', 'bittersuite', 'Чувашия',
             'Trollaccounts', 'aliaska', 'sqw111zzyy', 'Iloniks', 'xifuni',
@@ -717,7 +717,9 @@
             let longIndex2 = 0;
             let shortIndex2 = 0;
             while (reviews.length < 1000) {
-                const nick = UNIQUE_NICKS[counter % UNIQUE_NICKS.length] + '_' + counter;
+                // Генерируем уникальный ник без цифр
+                const baseNick = UNIQUE_NICKS[counter % UNIQUE_NICKS.length];
+                const nick = baseNick; // Без цифр!
                 const gift = GIFTS[counter % GIFTS.length];
                 let text;
                 if (counter % 7 === 0 || counter % 9 === 0 || counter % 5 === 0) {
